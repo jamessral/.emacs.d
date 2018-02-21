@@ -162,6 +162,9 @@ header. The first line of the configuration is as follows:
     cmake-ide
     seeing-is-believing
     elpy
+    jedi
+    racer
+    company-racer
     ))
 
 (when (memq window-system '(mac ns x))
@@ -397,6 +400,8 @@ header. The first line of the configuration is as follows:
 
 ** Navigation
 #+BEGIN_SRC emacs-lisp
+(require 'window-numbering)
+(window-numbering-mode 1)
 ;; These customizations make it easier for you to navigate files,
 ;; switch buffers, and choose options from the minibuffer.
 
@@ -589,8 +594,8 @@ header. The first line of the configuration is as follows:
 
 ;; Use Ligatures
 ;; (global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font"))
-(set-face-attribute 'default nil :height 110)
+(when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font Mono"))
+(set-face-attribute 'default nil :height 90)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
