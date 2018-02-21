@@ -162,6 +162,14 @@ header. The first line of the configuration is as follows:
     cmake-ide
     seeing-is-believing
     elpy
+    window-numbering
+    fiplr
+    jedi
+    racer
+    flycheck-rust
+    flow-minor-mode
+    emmet
+    yaml
     ))
 
 (when (memq window-system '(mac ns x))
