@@ -590,15 +590,17 @@ header. The first line of the configuration is as follows:
 
 (defun load-dark ()
   (interactive)
-  (set-cursor-color "#1bc7f7")
-  (load-theme 'gruvbox-dark-hard t))
+  (load-theme 'gruvbox-dark-hard t)
+  (set-cursor-color 'Cyan)
+)
 
 (defun load-light ()
   (interactive)
-  (set-cursor-color "#1bc7f7")
-  (load-theme 'sanityinc-solarized-light t))
+  (load-theme 'sanityinc-solarized-light t)
+  (set-cursor-color 'Cyan)
+)
 
-(set-cursor-color "#1bc7f7")
+(set-cursor-color 'Cyan)
 
 (global-set-key (kbd "C-c SPC l") 'load-light)
 (global-set-key (kbd "C-c SPC d") 'load-dark)
@@ -730,15 +732,15 @@ header. The first line of the configuration is as follows:
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 
 ;; Use regular JS2-mode for test files to help test runner
-(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.test.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.test.js\\'" . rjsx-mode))
 
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . css-mode))
 (add-hook 'css-mode-hook (lambda ()
                            (set (make-local-variable 'company-backends) '(company-css))))
 
 ;; Better imenu
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
 (require 'js2-refactor)
@@ -771,7 +773,7 @@ header. The first line of the configuration is as follows:
 ;;             (set (make-local-variable 'testing-command)
 ;;                  (test-javascript))))
 
-(define-derived-mode react-mode web-mode "React")
+;;(define-derived-mode react-mode web-mode "React")
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.react.js\\'" . rjsx-mode))
@@ -784,35 +786,35 @@ header. The first line of the configuration is as follows:
 (add-to-list 'magic-mode-alist '(".*import React" . rjsx-mode))
 (add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
 
-(provide 'react-mode)
+;;(provide 'react-mode)
 
-(add-hook 'react-mode-hook (lambda ()
-                             (emmet-mode 0)
-                             ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-                             (setq-local emmet-expand-jsx-className? t)
-                             ;; Enable js-mode
-                             (yas-activate-extra-mode 'js-mode)
-                             ;; Force jsx content type
-                             (web-mode-set-content-type "jsx")
-                             ;;(aggressive-indent-mode -1)
-                             ;;(global-aggressive-indent-mode -1)
-                             (local-set-key (kbd "C-c C-i") 'aggressive-indent-mode)
-                             ;; Don't auto-quote attribute values
-                             (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-                             (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
-                             (setq-local web-mode-enable-auto-quoting nil)))
+;; (add-hook 'react-mode-hook (lambda ()
+;;                              (emmet-mode 0)
+;;                              ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+;;                              (setq-local emmet-expand-jsx-className? t)
+;;                              ;; Enable js-mode
+;;                              (yas-activate-extra-mode 'js-mode)
+;;                              ;; Force jsx content type
+;;                              (web-mode-set-content-type "jsx")
+;;                              ;;(aggressive-indent-mode -1)
+;;                              ;;(global-aggressive-indent-mode -1)
+;;                              (local-set-key (kbd "C-c C-i") 'aggressive-indent-mode)
+;;                              ;; Don't auto-quote attribute values
+;;                              (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
+;;                              (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
+;;                              (setq-local web-mode-enable-auto-quoting nil)))
 
-(flycheck-add-mode 'javascript-eslint 'react-mode)
+;;(flycheck-add-mode 'javascript-eslint 'react-mode)
 
 ;; Turn off aggressive-indent-mode for jsx until I figure out how to fix it
 (add-hook 'rjsx-mode-hook (lambda ()
-                             (emmet-mode 0)
-                             (flow-minor-mode t)
-                             ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-                             (setq-local emmet-expand-jsx-className? t)
+                            (emmet-mode 0)
+                            (flow-minor-mode t)
+                            ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+                            (setq-local emmet-expand-jsx-className? t)
                             (aggressive-indent-mode -1))
-                            (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-                             (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file))
+          (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
+          (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file))
 )
 (add-hook 'react-mode (lambda ()
                             (my/setup-react-mode))))
