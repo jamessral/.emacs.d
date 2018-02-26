@@ -829,7 +829,8 @@ header. The first line of the configuration is as follows:
 ** OrgMode
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook (lambda ()
-  (setq org-src-fontify-natively t)))
+  (setq org-src-fontify-natively t))
+  (org-bullet-mode t))
 #+END_SRC
 
 ** Jest (JS)

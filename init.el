@@ -749,7 +749,8 @@
 (setq js2-mode-show-strict-warnings nil)
 
 (add-hook 'org-mode-hook (lambda ()
-  (setq org-src-fontify-natively t)))
+  (setq org-src-fontify-natively t))
+  (org-bullet-mode t))
 
 ;;; Setup for using Mocha el to run Jest tests
 
