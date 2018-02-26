@@ -506,8 +506,6 @@
 ;;(require 'powerline)
 ;;(powerline-default-theme)
 
-
-(set-cursor-color "#1bc7f7")
 (defadvice load-theme
     ;; Make sure to disable current colors before switching
     (before theme-dont-propagate activate)
@@ -520,11 +518,15 @@
 
 (defun load-dark ()
   (interactive)
+  (set-cursor-color "#1bc7f7")
   (load-theme 'gruvbox-dark-hard t))
 
 (defun load-light ()
   (interactive)
+  (set-cursor-color "#1bc7f7")
   (load-theme 'sanityinc-solarized-light t))
+
+(set-cursor-color "#1bc7f7")
 
 (global-set-key (kbd "C-c SPC l") 'load-light)
 (global-set-key (kbd "C-c SPC d") 'load-dark)
