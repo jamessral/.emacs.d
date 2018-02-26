@@ -803,6 +803,7 @@ header. The first line of the configuration is as follows:
 ;; Turn off aggressive-indent-mode for jsx until I figure out how to fix it
 (add-hook 'rjsx-mode-hook (lambda ()
                              (emmet-mode 0)
+                             (flow-minor-mode t)
                              ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
                              (setq-local emmet-expand-jsx-className? t)
                             (aggressive-indent-mode -1))
