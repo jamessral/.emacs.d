@@ -826,6 +826,12 @@ header. The first line of the configuration is as follows:
 #+END_SRC
 
 
+** OrgMode
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook (lambda ()
+  (setq org-src-fontify-natively t)))
+#+END_SRC
+
 ** Jest (JS)
 #+BEGIN_SRC emacs-lisp
 ;;; Setup for using Mocha el to run Jest tests

@@ -748,6 +748,9 @@
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
 
+(add-hook 'org-mode-hook (lambda ()
+  (setq org-src-fontify-natively t)))
+
 ;;; Setup for using Mocha el to run Jest tests
 
 (use-package mocha
