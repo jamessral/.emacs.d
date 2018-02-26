@@ -506,6 +506,8 @@
 ;;(require 'powerline)
 ;;(powerline-default-theme)
 
+
+(set-cursor-color "#1bc7f7")
 (defadvice load-theme
     ;; Make sure to disable current colors before switching
     (before theme-dont-propagate activate)
@@ -516,19 +518,19 @@
 (add-to-list 'load-path "~/.emacs.d/themes")
 (load-theme 'gruvbox-dark-hard t)
 
-(defun load-one-dark ()
+(defun load-dark ()
   (interactive)
   (load-theme 'gruvbox-dark-hard t))
 
-(defun load-solarized-light ()
+(defun load-light ()
   (interactive)
   (load-theme 'sanityinc-solarized-light t))
 
-(global-set-key (kbd "C-c SPC l") 'load-solarized-light)
-(global-set-key (kbd "C-c SPC d") 'load-one-dark)
+(global-set-key (kbd "C-c SPC l") 'load-light)
+(global-set-key (kbd "C-c SPC d") 'load-dark)
 
 ;; Use Ligatures
-;; (global-prettify-symbols-mode)
+(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font"))
 (set-face-attribute 'default nil :height 100)
 
