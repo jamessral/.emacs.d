@@ -72,7 +72,7 @@ header. The first line of the configuration is as follows:
 #+END_SRC
 
 
-** Packages and Setup
+``** Packages and Setup
 #+BEGIN_SRC emacs-lisp
 
 ;; Turn off mouse interface early in startup to avoid momentary display
@@ -120,8 +120,11 @@ header. The first line of the configuration is as follows:
 ;; Add in your own as you wish:
 (defvar my-packages
   '(ruby-mode
+    rinari
+    bundler
     js2-mode
     js2-refactor
+    rjsx-mode
     elpy
     web-mode
     autopair
@@ -154,6 +157,7 @@ header. The first line of the configuration is as follows:
     yafolding
     counsel
     swiper
+    ag
     xref-js2
     mocha
     rust-mode
@@ -168,8 +172,8 @@ header. The first line of the configuration is as follows:
     racer
     flycheck-rust
     flow-minor-mode
-    emmet
-    yaml
+    yaml-mode
+    emmet-mode
     ))
 
 (when (memq window-system '(mac ns x))
@@ -422,7 +426,7 @@ header. The first line of the configuration is as follows:
 
 ;; Use windmove keys to use shift+arrows for switching windows
 (windmove-default-keybindings)
-
+(window-numbering-mode 1)
 ;; Turn on recent file mode so that you can more easily switch to
 ;; recently edited files when you first start emacs
 (setq recentf-save-file (concat user-emacs-directory ".recentf"))
@@ -555,7 +559,7 @@ header. The first line of the configuration is as follows:
 (display-time-mode 1)
 
 ;; Show line numbers if activated manually
-(global-linum-mode -1)
+(global-linum-mode 1)
 (global-set-key (kbd "C-c SPC n") 'global-linum-mode)
 
 (setq linum-format "%d ")
@@ -582,11 +586,11 @@ header. The first line of the configuration is as follows:
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-(load-theme 'atom-one-dark t)
+(load-theme 'gruvbox-dark-hard t)
 
 (defun load-one-dark ()
   (interactive)
-  (load-theme 'atom-one-dark t))
+  (load-theme 'gruvbox-dark-hard t))
 
 (defun load-solarized-light ()
   (interactive)
@@ -598,7 +602,7 @@ header. The first line of the configuration is as follows:
 ;; Use Ligatures
 ;; (global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font"))
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 100)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -742,7 +746,6 @@ header. The first line of the configuration is as follows:
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
                            (aggressive-indent-mode -1)
-                           (global-aggressive-indent-mode -1)
                            (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
                            (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)))
 
@@ -765,16 +768,17 @@ header. The first line of the configuration is as follows:
 ;;                  (test-javascript))))
 
 (define-derived-mode react-mode web-mode "React")
-(add-to-list 'auto-mode-alist '("\\.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.react.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\index.android.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . react-mode))
-(add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . react-mode))
-(add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . react-mode))
-(add-to-list 'magic-mode-alist '(".*import React" . react-mode))
-(add-to-list 'magic-mode-alist '("^import React" . react-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.react.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.test.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\index.android.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . rjsx-mode))
+(add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . rjsx-mode))
+(add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . rjsx-mode))
+(add-to-list 'magic-mode-alist '(".*import React" . rjsx-mode))
+(add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
 
 (provide 'react-mode)
 
@@ -786,8 +790,8 @@ header. The first line of the configuration is as follows:
                              (yas-activate-extra-mode 'js-mode)
                              ;; Force jsx content type
                              (web-mode-set-content-type "jsx")
-                             (aggressive-indent-mode -1)
-                             (global-aggressive-indent-mode -1)
+                             ;;(aggressive-indent-mode -1)
+                             ;;(global-aggressive-indent-mode -1)
                              (local-set-key (kbd "C-c C-i") 'aggressive-indent-mode)
                              ;; Don't auto-quote attribute values
                              (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
@@ -798,9 +802,15 @@ header. The first line of the configuration is as follows:
 
 ;; Turn off aggressive-indent-mode for jsx until I figure out how to fix it
 (add-hook 'rjsx-mode-hook (lambda ()
+                             (emmet-mode 0)
+                             ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+                             (setq-local emmet-expand-jsx-className? t)
                             (aggressive-indent-mode -1))
-          (add-hook 'react-mode (lambda ()
-                                  (my/setup-react-mode))))
+                            (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
+                             (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file))
+)
+(add-hook 'react-mode (lambda ()
+                            (my/setup-react-mode))))
 
 ;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
 ;; this also affects rjsx mode (yay!)
@@ -950,6 +960,7 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 (require 'ruby-test-mode)
 (add-hook 'ruby-mode-hook 'ruby-test-mode)
+(add-hook 'ruby-mode-hook 'rinari-minor-mode)
 #+END_SRC
 
 
