@@ -83,6 +83,9 @@
     ivy
     avy
     slime
+    clojure-mode
+    clojure-mode-extra-font-locking
+    cider
     multiple-cursors
     expand-region
     ido-ubiquitous
@@ -150,6 +153,9 @@
 ;; Key binding to use "hippie expand" for text autocompletion
 ;; http://www.emacswiki.org/emacs/HippieExpand
 
+
+;; Fix Org Mode syntax stuff
+(setq org-src-fontify-natively t)
 ;; Use Asci for compile mode (running tests)
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
@@ -515,6 +521,7 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 (load-theme 'gruvbox-dark-hard t)
+(set-cursor-color 'Cyan)
 
 (defun load-dark ()
   (interactive)
@@ -527,8 +534,6 @@
   (load-theme 'sanityinc-solarized-light t)
   (set-cursor-color 'Cyan)
 )
-
-(set-cursor-color 'Cyan)
 
 (global-set-key (kbd "C-c SPC l") 'load-light)
 (global-set-key (kbd "C-c SPC d") 'load-dark)
@@ -576,7 +581,6 @@
 (setq ring-bell-function 'ignore)
 
 ;;; Javascript stuff
-
 (require 'web-mode)
 
 ;; Flow Type
@@ -739,9 +743,8 @@
                             (aggressive-indent-mode -1))
           (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
           (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file))
-)
-(add-hook 'react-mode (lambda ()
-                            (my/setup-react-mode))))
+;;(add-hook 'react-mode (lambda ()
+;;                            (my/setup-react-mode))))
 
 ;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
 ;; this also affects rjsx mode (yay!)
@@ -749,8 +752,7 @@
 (setq js2-mode-show-strict-warnings nil)
 
 (add-hook 'org-mode-hook (lambda ()
-  (setq org-src-fontify-natively t))
-  (org-bullet-mode t))
+  (org-bullet-mode)))
 
 ;;; Setup for using Mocha el to run Jest tests
 
@@ -815,6 +817,85 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (setq inferior-lisp-program "/usr/local/bin/sbcl")
 
 (add-hook 'slime-repl-mode-hook (lambda () (linum-mode -1)))
+
+;; Enable paredit for Clojure
+(add-hook 'clojure-mode-hook 'enable-paredit-mode)
+
+;; This is useful for working with camel-case tokens, like names of
+;; Java classes (e.g. JavaClassName)
+(add-hook 'clojure-mode-hook 'subword-mode)
+
+;; A little more syntax highlighting
+(require 'clojure-mode-extra-font-locking)
+
+;; syntax hilighting for midje
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (setq inferior-lisp-program "lein repl")
+            (font-lock-add-keywords
+             nil
+             '(("(\\(facts?\\)"
+                (1 font-lock-keyword-face))
+               ("(\\(background?\\)"
+                (1 font-lock-keyword-face))))
+            (define-clojure-indent (fact 1))
+            (define-clojure-indent (facts 1))))
+
+;;;;
+;; Cider
+;;;;
+
+;; provides minibuffer documentation for the code you're typing into the repl
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+
+;; go right to the REPL buffer when it's finished connecting
+(setq cider-repl-pop-to-buffer-on-connect t)
+
+;; When there's a cider error, show its buffer and switch to it
+(setq cider-show-error-buffer t)
+(setq cider-auto-select-error-buffer t)
+
+;; Where to store the cider history.
+(setq cider-repl-history-file "~/.emacs.d/cider-history")
+
+;; Wrap when navigating history.
+(setq cider-repl-wrap-history t)
+
+;; enable paredit in your REPL
+(add-hook 'cider-repl-mode-hook 'paredit-mode)
+
+;; Use clojure mode for other extensions
+(add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.boot$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.cljs.*$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("lein-env" . enh-ruby-mode))
+
+
+;; key bindings
+;; these help me out with the way I usually develop web apps
+(defun cider-start-http-server ()
+  (interactive)
+  (cider-load-current-buffer)
+  (let ((ns (cider-current-ns)))
+    (cider-repl-set-ns ns)
+    (cider-interactive-eval (format "(println '(def server (%s/start))) (println 'server)" ns))
+    (cider-interactive-eval (format "(def server (%s/start)) (println server)" ns))))
+
+
+(defun cider-refresh ()
+  (interactive)
+  (cider-interactive-eval (format "(user/reset)")))
+
+(defun cider-user-ns ()
+  (interactive)
+  (cider-repl-set-ns "user"))
+
+(eval-after-load 'cider
+  '(progn
+     (define-key clojure-mode-map (kbd "C-c C-v") 'cider-start-http-server)
+     (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
+     (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns)
+     (define-key cider-mode-map (kbd "C-c u") 'cider-user-ns)))
 
 ;;; Haskell Config
 (require 'intero)
