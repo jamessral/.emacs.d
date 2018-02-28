@@ -72,7 +72,7 @@ header. The first line of the configuration is as follows:
 #+END_SRC
 
 
-** Packages and Setup
+``** Packages and Setup
 #+BEGIN_SRC emacs-lisp
 
 ;; Turn off mouse interface early in startup to avoid momentary display
@@ -120,8 +120,11 @@ header. The first line of the configuration is as follows:
 ;; Add in your own as you wish:
 (defvar my-packages
   '(ruby-mode
+    rinari
+    bundler
     js2-mode
     js2-refactor
+    rjsx-mode
     elpy
     web-mode
     autopair
@@ -135,6 +138,9 @@ header. The first line of the configuration is as follows:
     ivy
     avy
     slime
+    clojure-mode
+    clojure-mode-extra-font-locking
+    cider
     multiple-cursors
     expand-region
     ido-ubiquitous
@@ -154,6 +160,7 @@ header. The first line of the configuration is as follows:
     yafolding
     counsel
     swiper
+    ag
     xref-js2
     mocha
     rust-mode
@@ -163,8 +170,14 @@ header. The first line of the configuration is as follows:
     seeing-is-believing
     elpy
     jedi
-    racer
     company-racer
+    window-numbering
+    fiplr
+    racer
+    flycheck-rust
+    flow-minor-mode
+    yaml-mode
+    emmet-mode
     ))
 
 (when (memq window-system '(mac ns x))
@@ -205,6 +218,9 @@ header. The first line of the configuration is as follows:
 ;; Key binding to use "hippie expand" for text autocompletion
 ;; http://www.emacswiki.org/emacs/HippieExpand
 
+
+;; Fix Org Mode syntax stuff
+(setq org-src-fontify-natively t)
 ;; Use Asci for compile mode (running tests)
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
@@ -419,7 +435,7 @@ header. The first line of the configuration is as follows:
 
 ;; Use windmove keys to use shift+arrows for switching windows
 (windmove-default-keybindings)
-
+(window-numbering-mode 1)
 ;; Turn on recent file mode so that you can more easily switch to
 ;; recently edited files when you first start emacs
 (setq recentf-save-file (concat user-emacs-directory ".recentf"))
@@ -552,7 +568,7 @@ header. The first line of the configuration is as follows:
 (display-time-mode 1)
 
 ;; Show line numbers if activated manually
-(global-linum-mode -1)
+(global-linum-mode 1)
 (global-set-key (kbd "C-c SPC n") 'global-linum-mode)
 
 (setq linum-format "%d ")
@@ -579,23 +595,28 @@ header. The first line of the configuration is as follows:
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-(load-theme 'atom-one-dark t)
+(load-theme 'gruvbox-dark-hard t)
+(set-cursor-color 'Cyan)
 
-(defun load-one-dark ()
+(defun load-dark ()
   (interactive)
-  (load-theme 'atom-one-dark t))
+  (load-theme 'gruvbox-dark-hard t)
+  (set-cursor-color 'Cyan)
+)
 
-(defun load-solarized-light ()
+(defun load-light ()
   (interactive)
-  (load-theme 'sanityinc-solarized-light t))
+  (load-theme 'sanityinc-solarized-light t)
+  (set-cursor-color 'Cyan)
+)
 
-(global-set-key (kbd "C-c SPC l") 'load-solarized-light)
-(global-set-key (kbd "C-c SPC d") 'load-one-dark)
+(global-set-key (kbd "C-c SPC l") 'load-light)
+(global-set-key (kbd "C-c SPC d") 'load-dark)
 
 ;; Use Ligatures
-;; (global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font Mono"))
-(set-face-attribute 'default nil :height 90)
+(global-prettify-symbols-mode)
+(when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font"))
+(set-face-attribute 'default nil :height 100)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -639,7 +660,6 @@ header. The first line of the configuration is as follows:
 ** Javascript
 #+BEGIN_SRC emacs-lisp
 ;;; Javascript stuff
-
 (require 'web-mode)
 
 ;; Flow Type
@@ -719,15 +739,15 @@ header. The first line of the configuration is as follows:
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 
 ;; Use regular JS2-mode for test files to help test runner
-(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.test.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.test.js\\'" . rjsx-mode))
 
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . css-mode))
 (add-hook 'css-mode-hook (lambda ()
                            (set (make-local-variable 'company-backends) '(company-css))))
 
 ;; Better imenu
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
 (require 'js2-refactor)
@@ -739,7 +759,6 @@ header. The first line of the configuration is as follows:
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
                            (aggressive-indent-mode -1)
-                           (global-aggressive-indent-mode -1)
                            (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
                            (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)))
 
@@ -761,48 +780,62 @@ header. The first line of the configuration is as follows:
 ;;             (set (make-local-variable 'testing-command)
 ;;                  (test-javascript))))
 
-(define-derived-mode react-mode web-mode "React")
-(add-to-list 'auto-mode-alist '("\\.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.react.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\index.android.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . react-mode))
-(add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . react-mode))
-(add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . react-mode))
-(add-to-list 'magic-mode-alist '(".*import React" . react-mode))
-(add-to-list 'magic-mode-alist '("^import React" . react-mode))
+;;(define-derived-mode react-mode web-mode "React")
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.react.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.test.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\index.android.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . rjsx-mode))
+(add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . rjsx-mode))
+(add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . rjsx-mode))
+(add-to-list 'magic-mode-alist '(".*import React" . rjsx-mode))
+(add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
 
-(provide 'react-mode)
+;;(provide 'react-mode)
 
-(add-hook 'react-mode-hook (lambda ()
-                             (emmet-mode 0)
-                             ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-                             (setq-local emmet-expand-jsx-className? t)
-                             ;; Enable js-mode
-                             (yas-activate-extra-mode 'js-mode)
-                             ;; Force jsx content type
-                             (web-mode-set-content-type "jsx")
-                             (aggressive-indent-mode -1)
-                             (global-aggressive-indent-mode -1)
-                             (local-set-key (kbd "C-c C-i") 'aggressive-indent-mode)
-                             ;; Don't auto-quote attribute values
-                             (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-                             (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
-                             (setq-local web-mode-enable-auto-quoting nil)))
+;; (add-hook 'react-mode-hook (lambda ()
+;;                              (emmet-mode 0)
+;;                              ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+;;                              (setq-local emmet-expand-jsx-className? t)
+;;                              ;; Enable js-mode
+;;                              (yas-activate-extra-mode 'js-mode)
+;;                              ;; Force jsx content type
+;;                              (web-mode-set-content-type "jsx")
+;;                              ;;(aggressive-indent-mode -1)
+;;                              ;;(global-aggressive-indent-mode -1)
+;;                              (local-set-key (kbd "C-c C-i") 'aggressive-indent-mode)
+;;                              ;; Don't auto-quote attribute values
+;;                              (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
+;;                              (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
+;;                              (setq-local web-mode-enable-auto-quoting nil)))
 
-(flycheck-add-mode 'javascript-eslint 'react-mode)
+;;(flycheck-add-mode 'javascript-eslint 'react-mode)
 
 ;; Turn off aggressive-indent-mode for jsx until I figure out how to fix it
 (add-hook 'rjsx-mode-hook (lambda ()
+                            (emmet-mode 0)
+                            (flow-minor-mode t)
+                            ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+                            (setq-local emmet-expand-jsx-className? t)
                             (aggressive-indent-mode -1))
-          (add-hook 'react-mode (lambda ()
-                                  (my/setup-react-mode))))
+          (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
+          (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file))
+;;(add-hook 'react-mode (lambda ()
+;;                            (my/setup-react-mode))))
 
 ;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
 ;; this also affects rjsx mode (yay!)
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
+#+END_SRC
+
+
+** OrgMode
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook (lambda ()
+  (org-bullet-mode)))
 #+END_SRC
 
 
@@ -878,6 +911,89 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 #+END_SRC
 
 
+** Clojure
+#+BEGIN_SRC emacs-lisp
+;; Enable paredit for Clojure
+(add-hook 'clojure-mode-hook 'enable-paredit-mode)
+
+;; This is useful for working with camel-case tokens, like names of
+;; Java classes (e.g. JavaClassName)
+(add-hook 'clojure-mode-hook 'subword-mode)
+
+;; A little more syntax highlighting
+(require 'clojure-mode-extra-font-locking)
+
+;; syntax hilighting for midje
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (setq inferior-lisp-program "lein repl")
+            (font-lock-add-keywords
+             nil
+             '(("(\\(facts?\\)"
+                (1 font-lock-keyword-face))
+               ("(\\(background?\\)"
+                (1 font-lock-keyword-face))))
+            (define-clojure-indent (fact 1))
+            (define-clojure-indent (facts 1))))
+
+;;;;
+;; Cider
+;;;;
+
+;; provides minibuffer documentation for the code you're typing into the repl
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+
+;; go right to the REPL buffer when it's finished connecting
+(setq cider-repl-pop-to-buffer-on-connect t)
+
+;; When there's a cider error, show its buffer and switch to it
+(setq cider-show-error-buffer t)
+(setq cider-auto-select-error-buffer t)
+
+;; Where to store the cider history.
+(setq cider-repl-history-file "~/.emacs.d/cider-history")
+
+;; Wrap when navigating history.
+(setq cider-repl-wrap-history t)
+
+;; enable paredit in your REPL
+(add-hook 'cider-repl-mode-hook 'paredit-mode)
+
+;; Use clojure mode for other extensions
+(add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.boot$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.cljs.*$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("lein-env" . enh-ruby-mode))
+
+
+;; key bindings
+;; these help me out with the way I usually develop web apps
+(defun cider-start-http-server ()
+  (interactive)
+  (cider-load-current-buffer)
+  (let ((ns (cider-current-ns)))
+    (cider-repl-set-ns ns)
+    (cider-interactive-eval (format "(println '(def server (%s/start))) (println 'server)" ns))
+    (cider-interactive-eval (format "(def server (%s/start)) (println server)" ns))))
+
+
+(defun cider-refresh ()
+  (interactive)
+  (cider-interactive-eval (format "(user/reset)")))
+
+(defun cider-user-ns ()
+  (interactive)
+  (cider-repl-set-ns "user"))
+
+(eval-after-load 'cider
+  '(progn
+     (define-key clojure-mode-map (kbd "C-c C-v") 'cider-start-http-server)
+     (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
+     (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns)
+     (define-key cider-mode-map (kbd "C-c u") 'cider-user-ns)))
+#+END_SRC
+
+
 ** Haskell
 #+BEGIN_SRC emacs-lisp
 ;;; Haskell Config
@@ -947,6 +1063,7 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 (require 'ruby-test-mode)
 (add-hook 'ruby-mode-hook 'ruby-test-mode)
+(add-hook 'ruby-mode-hook 'rinari-minor-mode)
 #+END_SRC
 
 

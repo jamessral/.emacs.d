@@ -1,0 +1,24 @@
+
+;; ----- smex-history -----
+(
+ intero-repl
+ multi-term
+ cd
+ ansi-term
+ magit-init
+ make-directory
+ package-install
+)
+
+;; ----- smex-data -----
+(
+ (package-install . 5)
+ (window-numbering-mode . 1)
+ (global-aggressive-indent-mode . 2)
+ (make-directory . 2)
+ (cd . 2)
+ (magit-init . 1)
+ (ansi-term . 1)
+ (intero-repl . 2)
+ (multi-term . 1)
+)

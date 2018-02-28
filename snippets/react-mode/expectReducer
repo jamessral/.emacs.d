@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: expectReducer
+# key: expred
+# --
+expect(reducer({$1}, action)).toEqual({
+  $0
+})
