@@ -664,6 +664,12 @@ header. The first line of the configuration is as follows:
 
 ;; no bell
 (setq ring-bell-function 'ignore)
+
+;; Git Gutter
+(use-package git-gutter
+  :ensure t
+  :init
+  (global-git-gutter-mode t))
 #+END_SRC
 
 
