@@ -91,8 +91,9 @@ header. The first line of the configuration is as follows:
              '("tromey" . "http://tromey.com/elpa/") t)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+(add-to-list 'package-archives
+             '("gnu" . "http://elpa.gnu.org/packages/") t)
+;; (setq package-archives '(
 ;;                          ("marmalade" . "http://marmalade-repo.org/packages/")
 ;;                          ("melpa" . "http://melpa-stable.milkbox.net/packages/")))
 
@@ -171,7 +172,6 @@ header. The first line of the configuration is as follows:
     elpy
     jedi
     company-racer
-    window-numbering
     fiplr
     racer
     flycheck-rust
@@ -417,8 +417,12 @@ header. The first line of the configuration is as follows:
 
 ** Navigation
 #+BEGIN_SRC emacs-lisp
-(require 'window-numbering)
-(window-numbering-mode 1)
+(use-package windmove
+  :ensure t
+  :config
+  (when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings)))
+
 ;; These customizations make it easier for you to navigate files,
 ;; switch buffers, and choose options from the minibuffer.
 
@@ -434,9 +438,6 @@ header. The first line of the configuration is as follows:
 (setq uniquify-buffer-name-style 'forward)
 
 
-;; Use windmove keys to use shift+arrows for switching windows
-(windmove-default-keybindings)
-(window-numbering-mode 1)
 ;; Turn on recent file mode so that you can more easily switch to
 ;; recently edited files when you first start emacs
 (setq recentf-save-file (concat user-emacs-directory ".recentf"))
@@ -829,8 +830,8 @@ header. The first line of the configuration is as follows:
                             ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
                             (setq-local emmet-expand-jsx-className? t)
                             (aggressive-indent-mode -1))
-          (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-          (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file))
+          (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
+          (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file))
 ;;(add-hook 'react-mode (lambda ()
 ;;                            (my/setup-react-mode))))
 
