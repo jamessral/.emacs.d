@@ -569,7 +569,7 @@ header. The first line of the configuration is as follows:
 
 ;; Show line numbers if activated manually
 (global-linum-mode 1)
-(global-set-key (kbd "C-c SPC n") 'global-linum-mode)
+(global-set-key (kbd "C-c C-' n") 'global-linum-mode)
 
 (setq linum-format "%d ")
 ;; Don't show native OS scroll bars for buffers because they're redundant
@@ -596,27 +596,27 @@ header. The first line of the configuration is as follows:
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 (load-theme 'gruvbox-dark-hard t)
-(set-cursor-color 'Cyan)
+(set-cursor-color "#00FFFF")
 
 (defun load-dark ()
   (interactive)
   (load-theme 'gruvbox-dark-hard t)
-  (set-cursor-color 'Cyan)
+  (set-cursor-color "#00FFFF")
 )
 
 (defun load-light ()
   (interactive)
   (load-theme 'sanityinc-solarized-light t)
-  (set-cursor-color 'Cyan)
+  (set-cursor-color "#00AAAA")
 )
 
-(global-set-key (kbd "C-c SPC l") 'load-light)
-(global-set-key (kbd "C-c SPC d") 'load-dark)
+(global-set-key (kbd "C-c C-' l") 'load-light)
+(global-set-key (kbd "C-c C-' d") 'load-dark)
 
 ;; Use Ligatures
 (global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font"))
-(set-face-attribute 'default nil :height 100)
+(when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font Mono"))
+(set-face-attribute 'default nil :height 90)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -759,8 +759,8 @@ header. The first line of the configuration is as follows:
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
                            (aggressive-indent-mode -1)
-                           (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-                           (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)))
+                           (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
+                           (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file)))
 
 (js2r-add-keybindings-with-prefix "C-c C-r")
 (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
@@ -820,8 +820,8 @@ header. The first line of the configuration is as follows:
                             ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
                             (setq-local emmet-expand-jsx-className? t)
                             (aggressive-indent-mode -1))
-          (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-          (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file))
+          (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
+          (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file))
 ;;(add-hook 'react-mode (lambda ()
 ;;                            (my/setup-react-mode))))
 
@@ -1102,6 +1102,7 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (setq inhibit-startup-message t)
 
 ;; Magit
+(require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
 
