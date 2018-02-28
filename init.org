@@ -714,6 +714,16 @@ header. The first line of the configuration is as follows:
             (message rc-path)
           (setq flycheck-eslintrc rc-path)))))
 
+(defun codefalling/reset-eslint-js ()
+    (let ((rc-path (if (projectile-project-p)
+                       (concat (projectile-project-root) ".eslintrc.js"))))
+      (if (file-exists-p rc-path)
+          (progn
+            (message rc-path)
+          (setq flycheck-eslintrc rc-path)))))
+
+;;(add-hook 'flycheck-mode-hook 'codefalling/reset-eslint-rc)
+;;(add-hook 'flycheck-mode-hook 'codefalling/reset-eslint-js)
 (add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
 
 
@@ -774,7 +784,7 @@ header. The first line of the configuration is as follows:
 (require 'mocha)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
-                           (aggressive-indent-mode -1)
+                          (aggressive-indent-mode -1)
                            (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
                            (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file)))
 
@@ -1032,10 +1042,11 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 (setq rust-racer-src-path "~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src")
 
-(add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'rust-mode-hook #'flycheck-rust-setup)
 (add-hook 'racer-mode-hook #'eldoc-mode)
 (add-hook 'racer-mode-hook #'company-mode)
+(add-hook 'rust-mode-hook (lambda ()
+  (add-to-list 'company-backends 'company-racer)))
 
 (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
 (setq company-tooltip-align-annotations t)
