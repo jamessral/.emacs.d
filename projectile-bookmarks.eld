@@ -1,0 +1,1 @@
+("~/.stack/global-project/" "~/.emacs.d/")

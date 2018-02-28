@@ -169,9 +169,10 @@ header. The first line of the configuration is as follows:
     cmake-ide
     seeing-is-believing
     elpy
+    jedi
+    company-racer
     window-numbering
     fiplr
-    jedi
     racer
     flycheck-rust
     flow-minor-mode
@@ -416,6 +417,8 @@ header. The first line of the configuration is as follows:
 
 ** Navigation
 #+BEGIN_SRC emacs-lisp
+(require 'window-numbering)
+(window-numbering-mode 1)
 ;; These customizations make it easier for you to navigate files,
 ;; switch buffers, and choose options from the minibuffer.
 
