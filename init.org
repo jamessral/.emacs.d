@@ -222,6 +222,11 @@ header. The first line of the configuration is as follows:
 ;; http://www.emacswiki.org/emacs/HippieExpand
 
 
+;; Get something like the vim '.' repeat
+(use-package dot-mode
+  :ensure t)
+(add-hook 'find-file-hooks 'dot-mode-on)
+
 ;; Use subword mode
 (global-subword-mode)
 ;; Fix Org Mode syntax stuff
