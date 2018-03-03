@@ -601,13 +601,13 @@ header. The first line of the configuration is as follows:
 (defun load-dark ()
   (interactive)
   (load-theme 'gruvbox-dark-hard t)
-  (set-cursor-color "#00FFFF")
+  (set-cursor-color 'Cyan)
 )
 
 (defun load-light ()
   (interactive)
   (load-theme 'sanityinc-solarized-light t)
-  (set-cursor-color "#00AAAA")
+  (set-cursor-color 'SeaGreen)
 )
 
 (global-set-key (kbd "C-c C-' l") 'load-light)
@@ -616,7 +616,7 @@ header. The first line of the configuration is as follows:
 ;; Use Ligatures
 (global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font Mono"))
-(set-face-attribute 'default nil :height 90)
+(set-face-attribute 'default nil :height 80)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -1085,6 +1085,18 @@ IF TESTNAME is specified run jest with a pattern for just that test."
       (error "main.lua not found"))))
 #+END_SRC
 
+
+** Feeds
+#+BEGIN_SRC emacs-lisp
+(use-package elfeed
+  :ensure t)
+
+;;(use-package elfeed-org
+;;  :ensure t
+;;  :config
+;;  (elfeed-org)
+;;  (setq rmh-elfeed-org-files (list "/home/jsral/.emacs.d/feeds/elfeed.org")))
+#+END_SRC
 
 ** Misc
 #+BEGIN_SRC emacs-lisp
