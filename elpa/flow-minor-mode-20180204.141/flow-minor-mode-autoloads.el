@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "flow-minor-mode" "flow-minor-mode.el" (23181
-;;;;;;  34604 164169 415000))
+;;;### (autoloads nil "flow-minor-mode" "flow-minor-mode.el" (23195
+;;;;;;  2121 302042 89000))
 ;;; Generated autoloads from flow-minor-mode.el
 
 (autoload 'flow-minor-mode "flow-minor-mode" "\

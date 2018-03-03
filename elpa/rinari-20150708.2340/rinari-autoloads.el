@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "rinari" "rinari.el" (23181 60289 318718 925000))
+;;;### (autoloads nil "rinari" "rinari.el" (23195 2031 48038 891000))
 ;;; Generated autoloads from rinari.el
 
 (autoload 'rinari-rake "rinari" "\

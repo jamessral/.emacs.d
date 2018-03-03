@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "autothemer" "autothemer.el" (23188 5864 745004
-;;;;;;  167000))
+;;;### (autoloads nil "autothemer" "autothemer.el" (23195 2633 510700
+;;;;;;  14000))
 ;;; Generated autoloads from autothemer.el
 
 (autoload 'autothemer-deftheme "autothemer" "\

@@ -1,4 +1,4 @@
-:#+TITLE: Emacs configuration file
+#+TITLE: Emacs configuration file
 #+AUTHOR: James Sral
 #+BABEL: :cache yes
 #+LATEX_HEADER: \usepackage{parskip}
@@ -116,90 +116,24 @@ header. The first line of the configuration is as follows:
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; The packages you want installed. You can also install these
-;; manually with M-x package-install
-;; Add in your own as you wish:
-(defvar my-packages
-  '(ruby-mode
-    rinari
-    bundler
-    js2-mode
-    js2-refactor
-    rjsx-mode
-    elpy
-    web-mode
-    autopair
-    company
-    git
-    flycheck
-    ;;smartparens
-    multi-term
-    ;; go-mode
-    paredit
-    ivy
-    avy
-    slime
-    clojure-mode
-    clojure-mode-extra-font-locking
-    cider
-    multiple-cursors
-    expand-region
-    ido-ubiquitous
-    smex
-    projectile
-    rainbow-delimiters
-    tagedit
-    magit
-    exec-path-from-shell
-    aggressive-indent
-    color-theme-sanityinc-solarized
-    atom-one-dark-theme
-    dashboard
-    company-quickhelp
-    smartparens
-    key-chord
-    yafolding
-    counsel
-    swiper
-    ag
-    xref-js2
-    mocha
-    rust-mode
-    irony
-    rtags
-    cmake-ide
-    seeing-is-believing
-    elpy
-    jedi
-    company-racer
-    fiplr
-    racer
-    flycheck-rust
-    flow-minor-mode
-    yaml-mode
-    emmet-mode
-    ))
-
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-copy-env "GOPATH")
   (exec-path-from-shell-copy-env "NPM_TOKEN")
   (exec-path-from-shell-initialize))
 
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
-
 ;; Don't wrap lines
 (setq-default truncate-lines 1)
 
-(require 'flycheck)
-;; turn on flychecking globally
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(use-package flycheck
+  :ensure t)
 
-;; Add rust nice and early
-(add-hook 'rust-mode-hook #'flycheck-rust-setup)
+(add-hook 'flycheck-hook #'global-flycheck-mode)
 
-(require 'git)
+(use-package ag
+  :ensure t)
+
+(use-package git
+  :ensure t)
 (add-to-list 'load-path "~/.emacs.d/vendor")
 #+END_SRC
 
@@ -208,7 +142,8 @@ header. The first line of the configuration is as follows:
 #+BEGIN_SRC emacs-lisp
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
-
+(use-package exec-path-from-shell
+  :ensure t)
 ;; Show tabs as 4 spaces
 (setq tab-width 4)
 
@@ -221,6 +156,8 @@ header. The first line of the configuration is as follows:
 ;; Key binding to use "hippie expand" for text autocompletion
 ;; http://www.emacswiki.org/emacs/HippieExpand
 
+(use-package flymake
+  :ensure t)
 
 ;; Get something like the vim '.' repeat
 (use-package dot-mode
@@ -232,17 +169,13 @@ header. The first line of the configuration is as follows:
 ;; Fix Org Mode syntax stuff
 (setq org-src-fontify-natively t)
 ;; Use Asci for compile mode (running tests)
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region compilation-filter-start (point))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
-(global-set-key (kbd "C-<tab>") 'company-complete)
-
+(use-package company
+  :ensure t
+  :init
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-set-key (kbd "C-<tab>") 'company-complete)
+)
 
 (global-set-key (kbd "M-/") 'hippie-expand)
 
@@ -252,16 +185,25 @@ header. The first line of the configuration is as follows:
 (global-set-key (kbd "C-)") 'paredit-forward-slurp-sexp)
 
 ;; Expand Region
-(require 'expand-region)
-(global-set-key (kbd "C-@") 'er/expand-region)
+(use-package expand-region
+  :ensure t
+  :config
+  (global-set-key (kbd "C-@") 'er/expand-region)
+)
+
 
 ;; Case sensitive company mode
 (setq company-dabbrev-downcase nil)
 
+(use-package aggressive-indent
+  :ensure t)
+
 (global-aggressive-indent-mode)
 
 ;; Snippets
-(require 'yasnippet)
+(use-package yasnippet
+  :ensure t)
+
 (yas-global-mode 1)
 
 ;; global key to get suggestions for snippets
@@ -298,8 +240,11 @@ header. The first line of the configuration is as follows:
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
 
-(require 'smartparens)
-(require 'smartparens-config)
+(use-package smartparens
+  :ensure t)
+
+;;(use-package smartparens-config
+;;q  :ensure t)
 (smartparens-global-mode 1)
 (electric-pair-mode 1)
 
@@ -308,11 +253,16 @@ header. The first line of the configuration is as follows:
 
 
 ;; Use Key Chords
-(require 'key-chord)
-(key-chord-mode 1)
+(use-package key-chord
+  :ensure t
+  :init
+  (key-chord-mode 1)
+)
 
 ;; Multiple Cursors
-(require 'multiple-cursors)
+(use-package multiple-cursors
+  :ensure t)
+
 (global-set-key (kbd "C-c C-l") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -320,8 +270,12 @@ header. The first line of the configuration is as follows:
 (global-set-key (kbd "C-c C-<") 'mc/mark-previous-like-this-word)
 
 ;; Folding
-(require 'yafolding)
+(use-package yafolding
+  :ensure t)
+
 (yafolding-mode 1)
+
+
 
 ;; Add yasnippet support for all company backends
 ;; https://github.com/syl20bnr/spacemacs/pull/179
@@ -357,7 +311,8 @@ header. The first line of the configuration is as follows:
 ;; When you visit a file, point goes to the last place where it
 ;; was when you previously visited the same file.
 ;; http://www.emacswiki.org/emacs/SavePlace
-(require 'saveplace)
+(use-package saveplace
+  :ensure t)
 (setq-default save-place t)
 ;; keep track of saved places in ~/.emacs.d/places
 (setq save-place-file (concat user-emacs-directory "places"))
@@ -442,15 +397,20 @@ header. The first line of the configuration is as follows:
 ;; The forward naming method includes part of the file's directory
 ;; name at the beginning of the buffer name
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
-(require 'uniquify)
+;;(use-package uniquify
+;;  :ensure t)
 (setq uniquify-buffer-name-style 'forward)
 
 
 ;; Turn on recent file mode so that you can more easily switch to
 ;; recently edited files when you first start emacs
 (setq recentf-save-file (concat user-emacs-directory ".recentf"))
-(require 'recentf)
+(use-package recentf
+  :ensure t)
+
 (recentf-mode 1)
+
+
 (setq recentf-max-menu-items 40)
 
 ;; Use the super fast FZF
@@ -483,11 +443,14 @@ header. The first line of the configuration is as follows:
 ;;(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 ;; Avy mode (vim easymotion-esque)
-(require 'avy)
-(global-set-key (kbd "C-:") 'avy-goto-char)
-(global-set-key (kbd "C-'") 'avy-goto-char-2)
-(global-set-key (kbd "M-g f") 'avy-goto-line)
-(global-set-key (kbd "M-g w") 'avy-goto-word-1)
+(use-package avy
+  :ensure t
+  :config
+  (global-set-key (kbd "C-:") 'avy-goto-char)
+  (global-set-key (kbd "C-'") 'avy-goto-char-2)
+  (global-set-key (kbd "M-g f") 'avy-goto-line)
+  (global-set-key (kbd "M-g w") 'avy-goto-word-1)
+)
 
 ;; This enables ido in all contexts where it could be useful, not just
 ;; for selecting buffer and file names
@@ -552,12 +515,11 @@ header. The first line of the configuration is as follows:
 
 
 ;; Show dashboard on startup
-(require 'dashboard)
-(dashboard-setup-startup-hook)
-;; Or if you use use-package
 (use-package dashboard
-  :config
-  (dashboard-setup-startup-hook))
+  :ensure t
+  :init
+  (dashboard-setup-startup-hook)
+)
 
 (setq dashboard-items '((bookmarks . 5)
                         (projects . 5)))
@@ -604,6 +566,9 @@ header. The first line of the configuration is as follows:
 
 ;;(require 'powerline)
 ;;(powerline-default-theme)
+
+(use-package gruvbox-theme
+  :ensure t)
 
 (defadvice load-theme
     ;; Make sure to disable current colors before switching
@@ -684,22 +649,23 @@ header. The first line of the configuration is as follows:
 ** Javascript
 #+BEGIN_SRC emacs-lisp
 ;;; Javascript stuff
-(require 'web-mode)
+(use-package web-mode
+  :ensure t)
 
 ;; Flow Type
 (add-hook 'web-mode-hook 'flow-minor-enable-automatically)
 
 
 ;; disable jshint since we prefer eslint checking
-(setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-    '(javascript-jshint)))
+;;(setq-default flycheck-disabled-checkers
+;;  (append flycheck-disabled-checkers
+;;    '(javascript-jshint)))
 
 ;; customize flycheck temp file prefix
 (setq-default flycheck-temp-prefix ".flycheck")
 
-(flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-(flycheck-add-mode 'javascript-eslint 'web-mode)
+;;(flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+;;(flycheck-add-mode 'javascript-eslint 'web-mode)
 
 
 ;; use local eslint from node_modules before global
@@ -731,7 +697,7 @@ header. The first line of the configuration is as follows:
           (setq flycheck-eslintrc rc-path)))))
 
 ;;(add-hook 'flycheck-mode-hook 'codefalling/reset-eslint-rc)
-;;(add-hook 'flycheck-mode-hook 'codefalling/reset-eslint-js)
+(add-hook 'flycheck-mode-hook 'codefalling/reset-eslint-js)
 (add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
 
 
@@ -784,12 +750,15 @@ header. The first line of the configuration is as follows:
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
-(require 'js2-refactor)
+(use-package js2-refactor
+  :ensure t)
 
-(require 'xref-js2)
+(use-package xref-js2
+  :ensure t)
 
 ;; Add keybindings to run jest tests
-(require 'mocha)
+(use-package mocha
+  :ensure t)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
                           (aggressive-indent-mode -1)
@@ -805,8 +774,6 @@ header. The first line of the configuration is as follows:
 
 (add-hook 'js2-mode-hook (lambda ()
                            (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
-
-(add-hook 'js2-mode 'emmet-mode)
 
 ;; JS test runner
 ;; (add-hook 'js2-mode-hook
@@ -849,13 +816,11 @@ header. The first line of the configuration is as follows:
 
 ;; Turn off aggressive-indent-mode for jsx until I figure out how to fix it
 (add-hook 'rjsx-mode-hook (lambda ()
-                            (emmet-mode 0)
                             (flow-minor-mode t)
-                            ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-                            (setq-local emmet-expand-jsx-className? t)
                             (aggressive-indent-mode -1))
           (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
           (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file))
+
 ;;(add-hook 'react-mode (lambda ()
 ;;                            (my/setup-react-mode))))
 
@@ -868,10 +833,11 @@ header. The first line of the configuration is as follows:
 
 ** OrgMode
 #+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :ensure t)
 (add-hook 'org-mode-hook (lambda ()
   (org-bullets-mode 1)))
 #+END_SRC
-
 
 ** Jest (JS)
 #+BEGIN_SRC emacs-lisp
@@ -956,7 +922,8 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (add-hook 'clojure-mode-hook 'cider-mode)
 
 ;; A little more syntax highlighting
-(require 'clojure-mode-extra-font-locking)
+(use-package clojure-mode-extra-font-locking
+  :ensure t)
 
 ;; syntax hilighting for midje
 (add-hook 'clojure-mode-hook
@@ -1035,11 +1002,19 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 ** Haskell
 #+BEGIN_SRC emacs-lisp
-;;; Haskell Config
-(require 'intero)
-(intero-global-mode 1)
+;; Haskell Config
+(use-package intero
+  :ensure t
+  :init
+  (intero-global-mode 1)
+)
+
 #+END_SRC
 
+** Ocaml
+#+BEGIN_SRC emacs-lisp
+(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
+#+END_SRC
 
 ** Rust
 #+BEGIN_SRC emacs-lisp
@@ -1047,10 +1022,11 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (use-package racer
   :ensure t)
 ;; run rustfmt on save
-(require 'rust-mode)
+(use-package rust-mode
+  :ensure t)
 (setq rust-format-on-save t)
 
-(setq rust-racer-src-path "~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src")
+(setq rust-racer-src-path "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src")
 
 (add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)
@@ -1070,12 +1046,16 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (use-package company-go
   :ensure t)
 
+(use-package go-autocomplete
+  :ensure t)
+
+(use-package company-go
+  :ensure t)
+
 (use-package go-mode
   :ensure t
   :init
   ; Use goimports instead of go-fmt
-  (require 'go-autocomplete)
-  (require 'company-go)
   (setq gofmt-command "goimports")
   (setq tab-width 4)
   ; Call Gofmt before saving
@@ -1095,8 +1075,11 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 ** C/C++
 #+BEGIN_SRC emacs-lisp
 ;;; C/C++ config stuffs
-(require 'irony)
-(require 'rtags)
+(use-package irony
+  :ensure t)
+
+(use-package rtags
+  :ensure t)
 (defun my-irony-mode-on ()
   ;; avoid enabling irony-mode in modes that inherits c-mode, e.g: php-mode
   (when (member major-mode irony-supported-major-modes)
@@ -1112,6 +1095,8 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 ** Python
 #+BEGIN_SRC emacs-lisp
+(use-package elpy
+  :ensure t)
 (elpy-enable)
 
 (defun my/python-mode-hook ()
@@ -1124,17 +1109,21 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 ** Ruby
 #+BEGIN_SRC emacs-lisp
-(require 'seeing-is-believing)
+(use-package seeing-is-believing
+  :ensure t
+  :config
+  (setq seeing-is-believing-prefix "C-.")
+  :init
+  (add-hook 'ruby-mode-hook 'seeing-is-believing)
+)
 
-(setq seeing-is-believing-prefix "C-.")
-(add-hook 'ruby-mode-hook 'seeing-is-believing)
+(use-package ruby-test-mode
+  :ensure t
+  :init
+  (add-hook 'ruby-mode-hook 'ruby-test-mode)
+  (add-hook 'ruby-mode-hook 'rinari-minor-mode)
+)
 
-(autoload 'inf-ruby-minor-mode "inf-ruby" "Run an inferior Ruby process" t)
-(add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
-
-(require 'ruby-test-mode)
-(add-hook 'ruby-mode-hook 'ruby-test-mode)
-(add-hook 'ruby-mode-hook 'rinari-minor-mode)
 #+END_SRC
 
 
@@ -1185,7 +1174,8 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (setq inhibit-startup-message t)
 
 ;; Magit
-(require 'magit)
+(use-package magit
+  :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 
 
@@ -1219,91 +1209,16 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 ** Godot
 #+BEGIN_SRC emacs-lisp
-(require 'godot-gdscript)
-(require 'company-godot-gdscript)
+;;(require 'godot-gdscript)
+;;(require 'company-godot-gdscript)
 
 ;; Company mode completions
-(add-hook 'godot-gdscript-mode-hook
-          (lambda ()
-            (make-local-variable 'company-backends)
-            (add-to-list 'company-backends 'company-godot-gdscript)
-            (setq-local company-minimum-prefix-length 1)
-            (setq-local company-async-timeout 10)
-            (setq-local company-idle-delay 0.2)
-            (company-mode)))
-#+END_SRC
-
-
-** Administrative setup
-#+BEGIN_SRC emacs-lisp
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   ["#272822" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
- '(beacon-color "#d54e53")
- '(coffee-tab-width 2)
- '(custom-safe-themes
-   (quote
-    ("a7e7804313dbf827a441c86a8109ef5b64b03011383322cbdbf646eb02692f76" "0be964eabe93f09be5a943679ced8d98e08fe7a92b01bf24478e56eee7b6b21d" "840db7f67ce92c39deb38f38fbc5a990b8f89b0f47b77b96d98e4bf400ee590a" "7c49651e62ee04b5f6d8fca78bca6f31730d982901fc1e1c651e464fa0ecfea4" "fd24b2c570dbd976e17a63ba515967600acb7d2f9390793859cb82f6a2d5dacd" "c63a789fa2c6597da31f73d62b8e7fad52c9420784e6ec34701ae8e8f00071f6" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "25c06a000382b6239999582dfa2b81cc0649f3897b394a75ad5a670329600b45" "c614d2423075491e6b7f38a4b7ea1c68f31764b9b815e35c9741e9490119efc0" "0961d780bd14561c505986166d167606239af3e2c3117265c9377e9b8204bf96" "15348febfa2266c4def59a08ef2846f6032c0797f001d7b9148f30ace0d08bcf" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "8ed752276957903a270c797c4ab52931199806ccd9f0c3bb77f6f4b9e71b9272" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" "2e1d19424153d41462ad31144549efa41f55dacda9b76571f73904612b15fd0a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "6ee6f99dc6219b65f67e04149c79ea316ca4bcd769a9e904030d38908fd7ccf9" "3629b62a41f2e5f84006ff14a2247e679745896b5eaa1d5bcfbc904a3441b0cd" "f6a935e77513ba40014aa8467c35961fdb1fc936fa48407ed437083a7ad932de" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "611e38c2deae6dcda8c5ac9dd903a356c5de5b62477469133c89b2785eb7a14d" "6f11ad991da959fa8de046f7f8271b22d3a97ee7b6eca62c81d5a917790a45d9" "365d9553de0e0d658af60cff7b8f891ca185a2d7ba3fc6d29aadba69f5194c7f" "4182c491b5cc235ba5f27d3c1804fc9f11f51bf56fb6d961f94788be034179ad" "b81bfd85aed18e4341dbf4d461ed42d75ec78820a60ce86730fc17fc949389b2" "98cc377af705c0f2133bb6d340bf0becd08944a588804ee655809da5d8140de6" "7f3ef7724515515443f961ef87fee655750512473b1f5bf890e2dc7e065f240c" "86e2d09ebcfff3b7ec95543bce5a163384579a2bf2e2a81bfba8908b7a0c44df" "2d16a5d1921feb826a6a9b344837c1ab3910f9636022fa6dc1577948694b7d84" "a4c9e536d86666d4494ef7f43c84807162d9bd29b0dfd39bdf2c3d845dcc7b2e" "5310b88333fc64c0cb34a27f42fa55ce371438a55f02ac7a4b93519d148bd03d" "3b0a350918ee819dca209cec62d867678d7dac74f6195f5e3799aa206358a983" "b571f92c9bfaf4a28cb64ae4b4cdbda95241cd62cf07d942be44dc8f46c491f4" "0e0c37ee89f0213ce31205e9ae8bce1f93c9bcd81b1bcda0233061bb02c357a8" "f2057733672d3b119791f5b7d1a778bf8880121f22ea122a21d221b45081f49e" "0eef522d30756a80b28333f05c7eed5721f2ba9b3eaaff244ea4c6f6a1b8ac62" "5673c365c8679addfb44f3d91d6b880c3266766b605c99f2d9b00745202e75f6" "8d3c5e9ba9dcd05020ccebb3cc615e40e7623b267b69314bdb70fe473dd9c7a8" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "84f35ac02435aa65aef82f510756ab21f173624fcb332dd81e3c9f2adaf6b85b" "9b349c5c09056c292d635725cecf587b44780e061c3d2477383d7eb25d4cdd68" "6b1e6953a08acf12843973ec25d69dbfa1a53d869f649dc991a56fbdf0d7eb9e" "363de9fd1194546e7461bdb766793b1442c222376faa8254b8eafaf25afe48dc" "4b3c24a1b13f29c6c6926c194eb8aa76e4ddab7a487cd171043b88ac1f3b4481" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "c7a9a68bd07e38620a5508fef62ec079d274475c8f92d75ed0c33c45fbe306bc" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "74278d14b7d5cf691c4d846a4bbf6e62d32104986f104c1e61f718f9669ec04b" "8b30636c9a903a9fa38c7dcf779da0724a37959967b6e4c714fdc3b3fe0b8653" "5999e12c8070b9090a2a1bbcd02ec28906e150bb2cdce5ace4f965c76cf30476" "770181eda0f652ef9293e8db103a7e5ca629c516ca33dfa4709e2c8a0e7120f3" "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "3fd0fda6c3842e59f3a307d01f105cce74e1981c6670bb17588557b4cebfe1a7" "003a9aa9e4acb50001a006cfde61a6c3012d373c4763b48ceb9d523ceba66829" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "32e3693cd7610599c59997fee36a68e7dd34f21db312a13ff8c7e738675b6dfc" "5ee12d8250b0952deefc88814cf0672327d7ee70b16344372db9460e9a0e3ffc" "52588047a0fe3727e3cd8a90e76d7f078c9bd62c0b246324e557dfa5112e0d0c" "557c283f4f9d461f897b8cac5329f1f39fac785aa684b78949ff329c33f947ec" "9e54a6ac0051987b4296e9276eecc5dfb67fdcd620191ee553f40a9b6d943e78" "7f1263c969f04a8e58f9441f4ba4d7fb1302243355cb9faecb55aec878a06ee9" "1157a4055504672be1df1232bed784ba575c60ab44d8e6c7b3800ae76b42f8bd" "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" default)))
- '(debug-on-error nil)
- '(fci-rule-color "#eee8d5")
- '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
- '(frame-background-mode nil)
- '(gdscript-tab-width 4)
- '(gdscript-tabs-mode nil)
- '(global-aggressive-indent-mode t)
- '(intero-global-mode t nil (intero))
- '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
- '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
- '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
- '(js-indent-level 2)
- '(js-switch-indent-offset 2)
- '(magit-use-overlays nil)
- '(neo-theme (quote nerd) t)
- '(neo-window-width 45)
- '(org-fontify-done-headline t)
- '(org-fontify-quote-and-verse-blocks t)
- '(org-fontify-whole-heading-line t)
- '(package-selected-packages
-   (quote
-    (dashboard yaml-mode emmet-mode mocha doom ansi darkroom json-mode company-lua company-web fill-column-indicator column-marker recompile-on-save auto-compile zen-mode evil-collection all-the-icons-ivy rtags cmake-ide dante flycheck-elm elm-yasnippets irony-eldoc css-eldoc eldoc-overlay eldoc-extension go-eldoc avy-flycheck toml-mode color-theme-cobalt common-lisp-snippets base16-theme doremi-cmd doremi-mac icicles flatui-theme spacemacs-theme rjsx-mode ag darkokai-theme helm-themes sublime-themes solarized-theme js-doc indium yarn-mode php-eldoc php-auto-yasnippets php-mode elixir-yasnippets material-theme company-quickhelp nodejs-repl xref-js2 smex ido-ubiquitous paredit company-ghc cargo intero racer flycheck-irony company-irony irony go-snippets zerodark-theme pacmacs spotify smartparens company-jedi avy fzf eyebrowse flow-minor-mode wrap-region mu4e-alert rinari ruby-test-mode seeing-is-believing psc-ide flycheck-purescript purescript-mode flymake-ruby atom-one-dark-theme company-racer restclient railscasts-theme molokai-theme key-chord multiple-cursors expand-region yafolding slack utop yasnippet-bundle magit gited git company-go go-autocomplete flymake-rust flymake-lua luarocks lua-mode tao-theme all-the-icons-dired haxe-imports haxe-mode gruvbox-theme meghanada typescript tide stack-mode company-cmake company-c-headers alchemist haskell-tab-indent haskell-emacs xkcd w3m company-erlang window-numbering elpy multi-term elm-mode doom-themes slime use-package fiplr flycheck-rust flycheck-ycmd flycheck-ocaml flycheck-clojure markdown-mode+ god-mode color-theme-sanityinc-solarized evil-leader haskell-mode company-tern relative-line-numbers clojurescript-mode racket-mode omnisharp haml-mode company-flow eslint-fix autopair yasnippet web-mode tagedit scss-mode rustfmt rust-mode ruby-tools ruby-end ruby-dev ruby-block ruby-additional rubocop rsense robe rbenv rainbow-mode rainbow-delimiters projectile powerline popup neotree monokai-theme macrostep jsx-mode javascript highlight-indentation go-mode exec-path-from-shell epc enh-ruby-mode doremi company-inf-ruby color-theme-solarized color-theme-sanityinc-tomorrow color-theme-monokai clojure-mode-extra-font-locking cider)))
- '(server-mode t)
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#dc322f")
-     (40 . "#cb4b16")
-     (60 . "#b58900")
-     (80 . "#859900")
-     (100 . "#2aa198")
-     (120 . "#268bd2")
-     (140 . "#d33682")
-     (160 . "#6c71c4")
-     (180 . "#dc322f")
-     (200 . "#cb4b16")
-     (220 . "#b58900")
-     (240 . "#859900")
-     (260 . "#2aa198")
-     (280 . "#268bd2")
-     (300 . "#d33682")
-     (320 . "#6c71c4")
-     (340 . "#dc322f")
-     (360 . "#cb4b16"))))
- '(vc-annotate-very-old-color nil)
- '(yas-global-mode t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:background nil))))
- '(makefile-space ((t nil))))
-;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
-;; ## end of OPAM user-setup addition for emacs / base ## keep this line
+;;(add-hook 'godot-gdscript-mode-hook
+;;          (lambda ()
+;;            (make-local-variable 'company-backends)
+;;            (add-to-list 'company-backends 'company-godot-gdscript)
+;;            (setq-local company-minimum-prefix-length 1)
+;;            (setq-local company-async-timeout 10)
+;;            (setq-local company-idle-delay 0.2)
+;;            (company-mode)))
 #+END_SRC

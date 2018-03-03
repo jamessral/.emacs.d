@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "fiplr" "fiplr.el" (23181 33886 947781 399000))
+;;;### (autoloads nil "fiplr" "fiplr.el" (23195 2119 802025 415000))
 ;;; Generated autoloads from fiplr.el
 
 (autoload 'fiplr-find-file "fiplr" "\
@@ -53,7 +53,7 @@ Clears the internal caches used by fiplr so the project is searched again.
 
 ;;;***
 
-;;;### (autoloads nil nil ("fiplr-pkg.el") (23181 33886 949292 365000))
+;;;### (autoloads nil nil ("fiplr-pkg.el") (23195 2119 838025 815000))
 
 ;;;***
 

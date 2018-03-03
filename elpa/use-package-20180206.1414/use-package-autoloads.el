@@ -4,7 +4,7 @@
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
 ;;;### (autoloads nil "use-package-bind-key" "use-package-bind-key.el"
-;;;;;;  (23180 56401 344130 497000))
+;;;;;;  (23195 2485 197065 11000))
 ;;; Generated autoloads from use-package-bind-key.el
 
 (autoload 'use-package-autoload-keymap "use-package-bind-key" "\
@@ -55,8 +55,8 @@ deferred until the prefix key sequence is pressed.
 
 ;;;***
 
-;;;### (autoloads nil "use-package-core" "use-package-core.el" (23180
-;;;;;;  56401 313161 103000))
+;;;### (autoloads nil "use-package-core" "use-package-core.el" (23195
+;;;;;;  2484 810060 747000))
 ;;; Generated autoloads from use-package-core.el
 
 (autoload 'use-package "use-package-core" "\
@@ -121,7 +121,7 @@ this file.  Usage:
 ;;;***
 
 ;;;### (autoloads nil "use-package-delight" "use-package-delight.el"
-;;;;;;  (23180 56401 330642 162000))
+;;;;;;  (23195 2484 920061 958000))
 ;;; Generated autoloads from use-package-delight.el
 
 (autoload 'use-package-normalize/:delight "use-package-delight" "\
@@ -137,7 +137,7 @@ Normalize arguments to delight.
 ;;;***
 
 ;;;### (autoloads nil "use-package-diminish" "use-package-diminish.el"
-;;;;;;  (23180 56401 338513 534000))
+;;;;;;  (23195 2485 79063 710000))
 ;;; Generated autoloads from use-package-diminish.el
 
 (autoload 'use-package-normalize/:diminish "use-package-diminish" "\
@@ -153,7 +153,7 @@ Normalize arguments to delight.
 ;;;***
 
 ;;;### (autoloads nil "use-package-ensure" "use-package-ensure.el"
-;;;;;;  (23180 56401 328411 738000))
+;;;;;;  (23195 2484 887061 595000))
 ;;; Generated autoloads from use-package-ensure.el
 
 (autoload 'use-package-normalize/:ensure "use-package-ensure" "\
@@ -168,8 +168,8 @@ Normalize arguments to delight.
 
 ;;;***
 
-;;;### (autoloads nil "use-package-jump" "use-package-jump.el" (23180
-;;;;;;  56401 342294 543000))
+;;;### (autoloads nil "use-package-jump" "use-package-jump.el" (23195
+;;;;;;  2485 155064 548000))
 ;;; Generated autoloads from use-package-jump.el
 
 (autoload 'use-package-jump-to-package-form "use-package-jump" "\
@@ -183,8 +183,8 @@ instead.
 
 ;;;***
 
-;;;### (autoloads nil "use-package-lint" "use-package-lint.el" (23180
-;;;;;;  56401 333249 128000))
+;;;### (autoloads nil "use-package-lint" "use-package-lint.el" (23195
+;;;;;;  2484 954062 333000))
 ;;; Generated autoloads from use-package-lint.el
 
 (autoload 'use-package-lint "use-package-lint" "\
@@ -197,7 +197,7 @@ with the specified `:load-path' the module cannot be found.
 ;;;***
 
 ;;;### (autoloads nil nil ("use-package-pkg.el" "use-package.el")
-;;;;;;  (23180 56401 340427 123000))
+;;;;;;  (23195 2485 121064 173000))
 
 ;;;***
 

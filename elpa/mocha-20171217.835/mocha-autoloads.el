@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "mocha" "mocha.el" (23180 56599 271316 664000))
+;;;### (autoloads nil "mocha" "mocha.el" (23195 2103 632845 691000))
 ;;; Generated autoloads from mocha.el
 
 (autoload 'mocha-test-project "mocha" "\

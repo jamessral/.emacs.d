@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "inflections" "inflections.el" (23181 60286
-;;;;;;  836330 775000))
+;;;### (autoloads nil "inflections" "inflections.el" (23195 2029
+;;;;;;  19016 342000))
 ;;; Generated autoloads from inflections.el
 
 (autoload 'inflection-singularize-string "inflections" "\

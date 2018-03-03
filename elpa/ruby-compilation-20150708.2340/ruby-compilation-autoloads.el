@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "ruby-compilation" "ruby-compilation.el" (23181
-;;;;;;  60288 773082 343000))
+;;;### (autoloads nil "ruby-compilation" "ruby-compilation.el" (23195
+;;;;;;  2030 601033 933000))
 ;;; Generated autoloads from ruby-compilation.el
 
 (eval-after-load 'ruby-mode '(progn (define-key ruby-mode-map (kbd "C-x t") 'ruby-compilation-this-buffer) (define-key ruby-mode-map (kbd "C-x T") 'ruby-compilation-this-test)))

@@ -3,13 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-<<<<<<< HEAD
-;;;### (autoloads nil "auto-complete" "auto-complete.el" (23180 60218
-;;;;;;  879485 863000))
-=======
-;;;### (autoloads nil "auto-complete" "auto-complete.el" (23181 45168
-;;;;;;  23731 531000))
->>>>>>> b39d0218fae6f6e1096f577baf6c61a0073cae73
+;;;### (autoloads nil "auto-complete" "auto-complete.el" (23195 2110
+;;;;;;  949927 23000))
 ;;; Generated autoloads from auto-complete.el
 
 (autoload 'auto-complete "auto-complete" "\
@@ -47,11 +42,7 @@ See `auto-complete-mode' for more information on Auto-Complete mode.
 ;;;***
 
 ;;;### (autoloads nil "auto-complete-config" "auto-complete-config.el"
-<<<<<<< HEAD
-;;;;;;  (23180 60220 92499 736000))
-=======
-;;;;;;  (23181 45168 80626 90000))
->>>>>>> b39d0218fae6f6e1096f577baf6c61a0073cae73
+;;;;;;  (23195 2112 797947 564000))
 ;;; Generated autoloads from auto-complete-config.el
 
 (autoload 'ac-config-default "auto-complete-config" "\
@@ -61,13 +52,8 @@ See `auto-complete-mode' for more information on Auto-Complete mode.
 
 ;;;***
 
-<<<<<<< HEAD
-;;;### (autoloads nil nil ("auto-complete-pkg.el") (23180 60218 845485
-;;;;;;  474000))
-=======
-;;;### (autoloads nil nil ("auto-complete-pkg.el") (23181 45168 20364
-;;;;;;  386000))
->>>>>>> b39d0218fae6f6e1096f577baf6c61a0073cae73
+;;;### (autoloads nil nil ("auto-complete-pkg.el") (23195 2110 905926
+;;;;;;  533000))
 
 ;;;***
 

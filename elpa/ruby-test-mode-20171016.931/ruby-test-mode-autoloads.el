@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "ruby-test-mode" "ruby-test-mode.el" (23180
-;;;;;;  57027 361491 998000))
+;;;### (autoloads nil "ruby-test-mode" "ruby-test-mode.el" (23195
+;;;;;;  2538 427651 825000))
 ;;; Generated autoloads from ruby-test-mode.el
 
 (autoload 'ruby-test-mode "ruby-test-mode" "\
