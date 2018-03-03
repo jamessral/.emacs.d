@@ -538,6 +538,7 @@ header. The first line of the configuration is as follows:
   (enable-command 'widen)
 #+END_SRC
 
+
 ** UI
 #+BEGIN_SRC emacs-lisp
 ;; These customizations change the way emacs looks and disable/enable
@@ -610,7 +611,6 @@ header. The first line of the configuration is as follows:
     (before theme-dont-propagate activate)
   (mapc #'disable-theme custom-enabled-themes))
 
-
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 (load-theme 'gruvbox-dark-hard t)
@@ -624,8 +624,8 @@ header. The first line of the configuration is as follows:
 
 (defun load-light ()
   (interactive)
-  (load-theme 'gruvbox-light-hard t)
-  (set-cursor-color 'DarkCyan)
+  (load-theme 'leuven t)
+  (set-cursor-color 'SeaGreen)
 )
 
 (global-set-key (kbd "C-c C-' l") 'load-light)
@@ -701,6 +701,12 @@ header. The first line of the configuration is as follows:
 (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 
+;; Use prettier for formatting
+(use-package prettier-js
+  :ensure t
+  :config
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode))
 
 ;; use local eslint from node_modules before global
 ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
@@ -1143,6 +1149,18 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (add-hook 'term-mode-hook (lambda () (linum-mode -1)))
 #+END_SRC
 
+
+** Lua
+#+BEGIN_SRC emacs-lisp
+  (use-package lua-mode
+    :ensure t)
+
+  (use-package company-lua
+    :ensure t
+    :config
+    (add-hook 'lua-mode-hook (lambda ()
+       (add-to-list 'company-backends 'company-lua))))
+#+END_SRC
 
 ** Love2D
 #+BEGIN_SRC emacs-lisp
