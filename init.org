@@ -1,4 +1,4 @@
-#+TITLE: Emacs configuration file
+:#+TITLE: Emacs configuration file
 #+AUTHOR: James Sral
 #+BABEL: :cache yes
 #+LATEX_HEADER: \usepackage{parskip}
@@ -91,8 +91,9 @@ header. The first line of the configuration is as follows:
              '("tromey" . "http://tromey.com/elpa/") t)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+(add-to-list 'package-archives
+             '("gnu" . "http://elpa.gnu.org/packages/") t)
+;; (setq package-archives '(
 ;;                          ("marmalade" . "http://marmalade-repo.org/packages/")
 ;;                          ("melpa" . "http://melpa-stable.milkbox.net/packages/")))
 
@@ -171,7 +172,6 @@ header. The first line of the configuration is as follows:
     elpy
     jedi
     company-racer
-    window-numbering
     fiplr
     racer
     flycheck-rust
@@ -196,6 +196,9 @@ header. The first line of the configuration is as follows:
 ;; turn on flychecking globally
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+;; Add rust nice and early
+(add-hook 'rust-mode-hook #'flycheck-rust-setup)
+
 (require 'git)
 (add-to-list 'load-path "~/.emacs.d/vendor")
 #+END_SRC
@@ -219,6 +222,13 @@ header. The first line of the configuration is as follows:
 ;; http://www.emacswiki.org/emacs/HippieExpand
 
 
+;; Get something like the vim '.' repeat
+(use-package dot-mode
+  :ensure t)
+(add-hook 'find-file-hooks 'dot-mode-on)
+
+;; Use subword mode
+(global-subword-mode)
 ;; Fix Org Mode syntax stuff
 (setq org-src-fontify-natively t)
 ;; Use Asci for compile mode (running tests)
@@ -294,7 +304,6 @@ header. The first line of the configuration is as follows:
 (electric-pair-mode 1)
 
 ;; Highlight current line
-;;(global-linum-mode t)
 (when (window-system) global-hl-line-mode 1)
 
 
@@ -416,8 +425,12 @@ header. The first line of the configuration is as follows:
 
 ** Navigation
 #+BEGIN_SRC emacs-lisp
-(require 'window-numbering)
-(window-numbering-mode 1)
+(use-package windmove
+  :ensure t
+  :config
+  (when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings)))
+
 ;; These customizations make it easier for you to navigate files,
 ;; switch buffers, and choose options from the minibuffer.
 
@@ -433,9 +446,6 @@ header. The first line of the configuration is as follows:
 (setq uniquify-buffer-name-style 'forward)
 
 
-;; Use windmove keys to use shift+arrows for switching windows
-(windmove-default-keybindings)
-(window-numbering-mode 1)
 ;; Turn on recent file mode so that you can more easily switch to
 ;; recently edited files when you first start emacs
 (setq recentf-save-file (concat user-emacs-directory ".recentf"))
@@ -520,6 +530,14 @@ header. The first line of the configuration is as follows:
 #+END_SRC
 
 
+** Narrowing/Widening
+#+BEGIN_SRC emacs-lisp
+  (enable-command 'narrow-to-region)
+  (enable-command 'narrow-to-defun)
+  (enable-command 'narrow-to-page)
+  (enable-command 'widen)
+#+END_SRC
+
 ** UI
 #+BEGIN_SRC emacs-lisp
 ;; These customizations change the way emacs looks and disable/enable
@@ -568,7 +586,7 @@ header. The first line of the configuration is as follows:
 (display-time-mode 1)
 
 ;; Show line numbers if activated manually
-(global-linum-mode 1)
+(global-linum-mode 0)
 (global-set-key (kbd "C-c C-' n") 'global-linum-mode)
 
 (setq linum-format "%d ")
@@ -606,8 +624,8 @@ header. The first line of the configuration is as follows:
 
 (defun load-light ()
   (interactive)
-  (load-theme 'sanityinc-solarized-light t)
-  (set-cursor-color 'SeaGreen)
+  (load-theme 'gruvbox-light-hard t)
+  (set-cursor-color 'DarkCyan)
 )
 
 (global-set-key (kbd "C-c C-' l") 'load-light)
@@ -654,6 +672,12 @@ header. The first line of the configuration is as follows:
 
 ;; no bell
 (setq ring-bell-function 'ignore)
+
+;; Git Gutter
+(use-package git-gutter
+  :ensure t
+  :init
+  (global-git-gutter-mode t))
 #+END_SRC
 
 
@@ -698,6 +722,16 @@ header. The first line of the configuration is as follows:
             (message rc-path)
           (setq flycheck-eslintrc rc-path)))))
 
+(defun codefalling/reset-eslint-js ()
+    (let ((rc-path (if (projectile-project-p)
+                       (concat (projectile-project-root) ".eslintrc.js"))))
+      (if (file-exists-p rc-path)
+          (progn
+            (message rc-path)
+          (setq flycheck-eslintrc rc-path)))))
+
+;;(add-hook 'flycheck-mode-hook 'codefalling/reset-eslint-rc)
+;;(add-hook 'flycheck-mode-hook 'codefalling/reset-eslint-js)
 (add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
 
 
@@ -758,7 +792,7 @@ header. The first line of the configuration is as follows:
 (require 'mocha)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
-                           (aggressive-indent-mode -1)
+                          (aggressive-indent-mode -1)
                            (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
                            (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file)))
 
@@ -835,7 +869,7 @@ header. The first line of the configuration is as follows:
 ** OrgMode
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook (lambda ()
-  (org-bullet-mode)))
+  (org-bullets-mode 1)))
 #+END_SRC
 
 
@@ -919,6 +953,7 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 ;; This is useful for working with camel-case tokens, like names of
 ;; Java classes (e.g. JavaClassName)
 (add-hook 'clojure-mode-hook 'subword-mode)
+(add-hook 'clojure-mode-hook 'cider-mode)
 
 ;; A little more syntax highlighting
 (require 'clojure-mode-extra-font-locking)
@@ -939,7 +974,11 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 ;;;;
 ;; Cider
 ;;;;
-
+(defun cider-turn-on-eldoc-mode ()
+  "Turn on eldoc mode in the current buffer."
+  (setq-local eldoc-documentation-function 'cider-eldoc)
+  (apply 'eldoc-add-command cider-extra-eldoc-commands)
+  (eldoc-mode +1))
 ;; provides minibuffer documentation for the code you're typing into the repl
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 
@@ -1005,6 +1044,8 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 ** Rust
 #+BEGIN_SRC emacs-lisp
 ;;; Rust config
+(use-package racer
+  :ensure t)
 ;; run rustfmt on save
 (require 'rust-mode)
 (setq rust-format-on-save t)
@@ -1012,15 +1053,45 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (setq rust-racer-src-path "~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src")
 
 (add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'rust-mode-hook #'flycheck-rust-setup)
 (add-hook 'racer-mode-hook #'eldoc-mode)
-(add-hook 'racer-mode-hook #'company-mode)
+(add-hook 'rust-mode-hook #'company-mode)
+(add-hook 'rust-mode-hook (lambda ()
+  (add-to-list 'company-backends 'company-racer)))
 
 (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
 (setq company-tooltip-align-annotations t)
 #+END_SRC
 
+** Golang
+#+BEGIN_SRC emacs-lisp
+(use-package go-autocomplete
+  :ensure t)
 
+(use-package company-go
+  :ensure t)
+
+(use-package go-mode
+  :ensure t
+  :init
+  ; Use goimports instead of go-fmt
+  (require 'go-autocomplete)
+  (require 'company-go)
+  (setq gofmt-command "goimports")
+  (setq tab-width 4)
+  ; Call Gofmt before saving
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  ; Customize compile command to run go build
+ (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go generate && go build -v && go test -v && go vet"))
+  ; Godef jump key binding
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-*") 'pop-tag-mark)
+  (lambda ()
+    (set (make-local-variable 'company-backends) '(company-go))
+    (company-mode))
+)
+#+END_SRC
 ** C/C++
 #+BEGIN_SRC emacs-lisp
 ;;; C/C++ config stuffs
