@@ -788,11 +788,16 @@ header. The first line of the configuration is as follows:
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 
+;; Vue Support
+(use-package vue-mode
+  :ensure t)
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+
 ;; Use regular JS2-mode for test files to help test runner
 (add-to-list 'auto-mode-alist '("\\.jest.js\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.test.js\\'" . rjsx-mode))
 
-(add-to-list 'auto-mode-alist '("\\.scss\\'" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
 (add-hook 'css-mode-hook (lambda ()
                            (set (make-local-variable 'company-backends) '(company-css))))
 
