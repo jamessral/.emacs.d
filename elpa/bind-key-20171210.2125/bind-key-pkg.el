@@ -1,2 +1,2 @@
 ;;; -*- no-byte-compile: t -*-
-(define-package "bind-key" "20171210.2125" "A simple way to manage personal keybindings" 'nil :commit "6af4b6caf67f5fbd63429d27fa54a92933df966a" :url "https://github.com/jwiegley/use-package" :keywords '("keys" "keybinding" "config" "dotemacs"))
+(define-package "bind-key" "20171210.2125" "A simple way to manage personal keybindings" 'nil :commit "512aa50b025018cb8574498d868814f73c02bb9b" :keywords '("keys" "keybinding" "config" "dotemacs") :url "https://github.com/jwiegley/use-package")
