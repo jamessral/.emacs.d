@@ -278,7 +278,7 @@ header. The first line of the configuration is as follows:
 (electric-pair-mode 1)
 
 ;; Highlight current line
-(when (window-system) global-hl-line-mode 1)
+(global-hl-line-mode 1)
 
 
 ;; Use Key Chords
@@ -415,6 +415,10 @@ header. The first line of the configuration is as follows:
   (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings)))
 
+(use-package window-numbering
+  :ensure t)
+(window-numbering-mode 1)
+
 ;; These customizations make it easier for you to navigate files,
 ;; switch buffers, and choose options from the minibuffer.
 
@@ -504,6 +508,9 @@ header. The first line of the configuration is as follows:
 
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+(use-package fiplr
+  :ensure t)
 
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
 
