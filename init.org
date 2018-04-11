@@ -160,9 +160,9 @@ header. The first line of the configuration is as follows:
   :ensure t)
 
 ;; Get something like the vim '.' repeat
-(use-package dot-mode
-  :ensure t)
-(add-hook 'find-file-hooks 'dot-mode-on)
+;;(use-package dot-mode
+;;  :ensure t)
+;;(add-hook 'find-file-hooks 'dot-mode-on)
 
 ;; Use subword mode
 (global-subword-mode)
@@ -570,6 +570,9 @@ header. The first line of the configuration is as follows:
 (use-package gruvbox-theme
   :ensure t)
 
+(use-package sublime-themes
+  :ensure t)
+
 (defadvice load-theme
     ;; Make sure to disable current colors before switching
     (before theme-dont-propagate activate)
@@ -578,19 +581,16 @@ header. The first line of the configuration is as follows:
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-(load-theme 'gruvbox-dark-hard t)
-(set-cursor-color "#00FFFF")
+(load-theme 'spolsky t)
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'gruvbox-dark-hard t)
-  (set-cursor-color 'Cyan)
+  (load-theme 'spolsky t)
 )
 
 (defun load-light ()
   (interactive)
-  (load-theme 'gruvbox-light-hard t)
-  (set-cursor-color 'DarkCyan)
+  (load-theme 'leuven t)
 )
 
 (global-set-key (kbd "C-c C-' l") 'load-light)
@@ -738,11 +738,10 @@ header. The first line of the configuration is as follows:
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 
-;; Use regular JS2-mode for test files to help test runner
-(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.test.js\\'" . rjsx-mode))
 
-(add-to-list 'auto-mode-alist '("\\.scss\\'" . css-mode))
+(use-package scss-mode
+  :ensure t)
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 (add-hook 'css-mode-hook (lambda ()
                            (set (make-local-variable 'company-backends) '(company-css))))
 
@@ -781,38 +780,40 @@ header. The first line of the configuration is as follows:
 ;;             (set (make-local-variable 'testing-command)
 ;;                  (test-javascript))))
 
-;;(define-derived-mode react-mode web-mode "React")
-(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.react.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.test.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\index.android.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . rjsx-mode))
-(add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . rjsx-mode))
-(add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . rjsx-mode))
-(add-to-list 'magic-mode-alist '(".*import React" . rjsx-mode))
-(add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . react-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . react-mode))
+(add-to-list 'auto-mode-alist '("\\.react.js\\'" . react-mode))
+(add-to-list 'auto-mode-alist '("\\.test.js\\'" . react-mode))
+(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . react-mode))
+(add-to-list 'auto-mode-alist '("\\index.android.js\\'" . react-mode))
+(add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . react-mode))
+(add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . react-mode))
+(add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . react-mode))
+(add-to-list 'magic-mode-alist '(".*import React" . react-mode))
+(add-to-list 'magic-mode-alist '("^import React" . react-mode))
 
-;;(provide 'react-mode)
+(define-derived-mode react-mode rjsx-mode "React")
 
-;; (add-hook 'react-mode-hook (lambda ()
-;;                              (emmet-mode 0)
-;;                              ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-;;                              (setq-local emmet-expand-jsx-className? t)
-;;                              ;; Enable js-mode
-;;                              (yas-activate-extra-mode 'js-mode)
-;;                              ;; Force jsx content type
-;;                              (web-mode-set-content-type "jsx")
-;;                              ;;(aggressive-indent-mode -1)
-;;                              ;;(global-aggressive-indent-mode -1)
-;;                              (local-set-key (kbd "C-c C-i") 'aggressive-indent-mode)
-;;                              ;; Don't auto-quote attribute values
-;;                              (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-;;                              (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
-;;                              (setq-local web-mode-enable-auto-quoting nil)))
 
-;;(flycheck-add-mode 'javascript-eslint 'react-mode)
+(provide 'react-mode)
+
+(add-hook 'react-mode-hook (lambda ()
+                             (emmet-mode 0)
+                             ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+                             (setq-local emmet-expand-jsx-className? t)
+                             ;; Enable js-mode
+                             (yas-activate-extra-mode 'js-mode)
+                             ;; Force jsx content type
+                             (web-mode-set-content-type "jsx")
+                             ;;(aggressive-indent-mode -1)
+                             ;;(global-aggressive-indent-mode -1)
+                             (local-set-key (kbd "C-c C-i") 'aggressive-indent-mode)
+                             ;; Don't auto-quote attribute values
+                             (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
+                             (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
+                             (setq-local web-mode-enable-auto-quoting nil)))
+
+(flycheck-add-mode 'javascript-eslint 'react-mode)
 
 ;; Turn off aggressive-indent-mode for jsx until I figure out how to fix it
 (add-hook 'rjsx-mode-hook (lambda ()
