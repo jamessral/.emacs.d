@@ -521,6 +521,10 @@ header. The first line of the configuration is as follows:
 (setq smex-save-file (concat user-emacs-directory ".smex-items"))
 (smex-initialize)
 
+;; All the Icons
+(use-package all-the-icons
+  :ensure t)
+
 ;; projectile everywhere!
 (use-package projectile
   :ensure t)
@@ -530,7 +534,7 @@ header. The first line of the configuration is as follows:
 (use-package neotree
   :ensure t)
 (global-set-key (kbd "C-, C-n") 'neotree-toggle)
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow 'nerd))
+(setq neo-theme (if (display-graphic-p) 'icons 'nerd))
 #+END_SRC
 
 
@@ -614,6 +618,9 @@ header. The first line of the configuration is as follows:
 (use-package gruvbox-theme
   :ensure t)
 
+(use-package sublime-themes
+  :ensure t)
+
 (use-package color-theme-sanityinc-solarized
   :ensure t)
 
@@ -627,11 +634,11 @@ header. The first line of the configuration is as follows:
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-(load-theme 'sanityinc-tomorrow-bright t)
+(load-theme 'spolsky t)
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-bright t)
+  (load-theme 'spolsky t)
 )
 
 (defun load-light ()
@@ -1180,6 +1187,23 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 #+END_SRC
 
 
+** PHP
+#+BEGIN_SRC emacs-lisp
+  (use-package company-php
+    :ensure t)
+
+  (use-package phpunit
+    :ensure t)
+
+  (use-package php-mode
+    :ensure t
+    :init
+    (make-local-variable 'company-backends)
+    (add-to-list 'company-backends '(company-php))
+    (add-to-list 'auto-mode-alist '("\\.php$'" . phpunit-mode))
+    :config
+    (company-mode 1))
+#+END_SRC
 ** Terminal
 #+BEGIN_SRC emacs-lisp
 (add-hook 'term-mode-hook (lambda () (linum-mode -1)))
