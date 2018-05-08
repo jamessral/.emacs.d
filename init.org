@@ -634,11 +634,11 @@ header. The first line of the configuration is as follows:
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-(load-theme 'spolsky t)
+(load-theme 'tango-dark t)
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'spolsky t)
+  (load-theme 'tango-dark t)
 )
 
 (defun load-light ()
@@ -701,203 +701,215 @@ header. The first line of the configuration is as follows:
 
 ** Javascript
 #+BEGIN_SRC emacs-lisp
-;;; Javascript stuff
-(use-package web-mode
-  :ensure t
-)
+  ;;; Javascript stuff
+  (use-package web-mode
+    :ensure t
+  )
 
-(use-package rjsx-mode
-  :ensure t
-)
+  (use-package rjsx-mode
+    :ensure t
+  )
 
-;; Flow Type
-(add-hook 'web-mode-hook 'flow-minor-enable-automatically)
-
-
-;; disable jshint since we prefer eslint checking
-;;(setq-default flycheck-disabled-checkers
-;;  (append flycheck-disabled-checkers
-;;    '(javascript-jshint)))
-
-;; customize flycheck temp file prefix
-(setq-default flycheck-temp-prefix ".flycheck")
-
-;;(flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-(flycheck-add-mode 'javascript-eslint 'web-mode)
-
-;; use local eslint from node_modules before global
-;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
-(defun my/use-eslint-from-node-modules ()
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
-
-(defun codefalling/reset-eslint-rc ()
-    (let ((rc-path (if (projectile-project-p)
-                       (concat (projectile-project-root) ".eslintrc"))))
-      (if (file-exists-p rc-path)
-          (progn
-            (message rc-path)
-          (setq flycheck-eslintrc rc-path)))))
-
-(add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
+  ;; Flow Type
+  (add-hook 'web-mode-hook 'flow-minor-enable-automatically)
 
 
-(defun my/set-web-mode-indent ()
-  (interactive)
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  ;; Don't let web mode try to line things up strangely in js
-  (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
-  (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
-  (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
-  (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
-)
+  ;; disable jshint since we prefer eslint checking
+  ;;(setq-default flycheck-disabled-checkers
+  ;;  (append flycheck-disabled-checkers
+  ;;    '(javascript-jshint)))
 
-(add-hook 'web-mode-hook 'my/set-web-mode-indent)
+  ;; customize flycheck temp file prefix
+  (setq-default flycheck-temp-prefix ".flycheck")
 
-(setq css-indent-offset 2)
+  ;;(flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
 
-;; always use jsx mode for JS
-(setq web-mode-content-types-alist '(("jsx"  . "\\.js[x]?\\'")))
+  ;; use local eslint from node_modules before global
+  ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+  (defun my/use-eslint-from-node-modules ()
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
+      (when (and eslint (file-executable-p eslint))
+        (setq-local flycheck-javascript-eslint-executable eslint))))
 
-;; Fix rjsx-mode indentation
-(defun js-jsx-indent-line-align-closing-bracket ()
-  "Workaround sgml-mode and align closing bracket with opening bracket"
-  (save-excursion
-    (beginning-of-line)
-    (when (looking-at-p "^ +\/?> *$")
-      (delete-char sgml-basic-offset))))
-(advice-add #'js-jsx-indent-line :after #'js-jsx-indent-line-align-closing-bracket)
+  (defun codefalling/reset-eslint-rc ()
+      (let ((rc-path (if (projectile-project-p)
+                         (concat (projectile-project-root) ".eslintrc"))))
+        (if (file-exists-p rc-path)
+            (progn
+              (message rc-path)
+            (setq flycheck-eslintrc rc-path)))))
 
-
-(use-package json-mode
-  :ensure t
-)
-
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
 
 
-;;; JS-mode and derivatives
-;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
-;; this also affects rjsx mode (yay!)
-(setq js2-mode-show-parse-errors nil)
-(setq js2-mode-show-strict-warnings nil)
-(setq js2-basic-offset 2)
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-(add-hook 'js2-mode-hook (lambda ()
-                          (aggressive-indent-mode -1)
-                           (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
-                           (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file)))
+  (defun my/set-web-mode-indent ()
+    (interactive)
+    (setq web-mode-markup-indent-offset 2)
+    (setq web-mode-code-indent-offset 2)
+    (setq web-mode-css-indent-offset 2)
+    ;; Don't let web mode try to line things up strangely in js
+    (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+    (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+    (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+    (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
+  )
 
-(js2r-add-keybindings-with-prefix "C-c C-r")
-(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+  (add-hook 'web-mode-hook 'my/set-web-mode-indent)
 
-;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
-;; unbind it.
-(define-key js-mode-map (kbd "M-.") nil)
+  (setq css-indent-offset 2)
 
-(add-hook 'js2-mode-hook (lambda ()
-                           (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+  ;; always use jsx mode for JS
+  (setq web-mode-content-types-alist '(("jsx"  . "\\.js[x]?\\'")))
 
-;; Turn off aggressive-indent-mode for jsx until I figure out how to fix it
-(add-hook 'rjsx-mode-hook (lambda ()
-                            (flow-minor-mode t)
-                            ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-                            (aggressive-indent-mode -1))
-          (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
-          (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file))
-
-(define-derived-mode react-mode
-  rjsx-mode "React"
-)
-
-(provide 'react-mode)
+  ;; Fix rjsx-mode indentation
+  (defun js-jsx-indent-line-align-closing-bracket ()
+    "Workaround sgml-mode and align closing bracket with opening bracket"
+    (save-excursion
+      (beginning-of-line)
+      (when (looking-at-p "^ +\/?> *$")
+        (delete-char sgml-basic-offset))))
+  (advice-add #'js-jsx-indent-line :after #'js-jsx-indent-line-align-closing-bracket)
 
 
-(use-package flow-minor-mode
-  :ensure t
-)
+  (use-package json-mode
+    :ensure t
+  )
 
-(add-hook 'react-mode-hook (lambda ()
-   ;;(flow-minor-mode)
-   (eldoc-mode -1)
-   (aggressive-indent-mode -1)
-   ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-   (setq-local emmet-expand-jsx-className? t)
-   ;; Enable js-mode
-   ;;(yas-activate-extra-mode 'js-mode)
-   ;; Force jsx content type
-   (web-mode-set-content-type "jsx")
-   ;;(aggressive-indent-mode -1)
-   ;;(global-aggressive-indent-mode -1)
-   (local-set-key (kbd "C-c C-' C-i") 'aggressive-indent-mode)
-   ;; Don't auto-quote attribute values
-   (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-   (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
-   (setq-local web-mode-enable-auto-quoting nil)))
+  (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 
-(flycheck-add-mode 'javascript-eslint 'react-mode)
-(add-hook 'react-mode-hook 'flow-minor-enable-automatically)
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.react.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.test.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\index.android.js\\'" . react-mode))
-(add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . react-mode))
-(add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . react-mode))
-(add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . react-mode))
-(add-to-list 'magic-mode-alist '(".*import React" . react-mode))
-(add-to-list 'magic-mode-alist '("^import React" . react-mode))
 
-;; Vue Support
-(use-package vue-mode
-  :ensure t)
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+  ;;; JS-mode and derivatives
+  ;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
+  ;; this also affects rjsx mode (yay!)
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil)
+  (setq js2-basic-offset 2)
+  (add-hook 'js2-mode-hook #'js2-refactor-mode)
+  (add-hook 'js2-mode-hook (lambda ()
+                            (aggressive-indent-mode -1)
+                             (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
+                             (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file)))
 
-(use-package scss-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
-  (setq scss-compile-at-save nil)
-  (add-hook 'scss-mode-hook (lambda ()
-      (set (make-local-variable 'company-backends) '(company-css)))))
+  (js2r-add-keybindings-with-prefix "C-c C-r")
+  (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
 
-;; Better imenu
-;;(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
-(add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+  ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
+  ;; unbind it.
+  (define-key js-mode-map (kbd "M-.") nil)
 
-(use-package js2-refactor
-  :ensure t
-)
+  (add-hook 'js2-mode-hook (lambda ()
+                             (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
-(use-package xref-js2
-  :ensure t
-)
+  ;; Turn off aggressive-indent-mode for jsx until I figure out how to fix it
+  (add-hook 'rjsx-mode-hook (lambda ()
+    ;;(flow-minor-mode t)
+    ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+    (eldoc-mode -1)
+    (aggressive-indent-mode -1)
+    ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+    (setq-local emmet-expand-jsx-className? t)
+    ;; Enable js-mode
+    ;;(yas-activate-extra-mode 'js-mode)
+    ;; Force jsx content type
+    ;;(web-mode-set-content-type "jsx")
+    ;;(aggressive-indent-mode -1)
+    ;;(global-aggressive-indent-mode -1)
+    (local-set-key (kbd "C-c C-' C-i") 'aggressive-indent-mode)
+    ;; Don't auto-quote attribute values
+    (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
+    (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
+    (setq-local web-mode-enable-auto-quoting nil))
+  )
 
-;; Add keybindings to run jest tests
-(use-package mocha
-  :ensure t
-)
-;;(add-hook 'react-mode (lambda ()
-;;                            (my/setup-react-mode))))
+  (define-derived-mode react-mode rjsx-mode
+    "React"
+    (add-hook 'react-mode-hook (lambda ()
+       ;;(flow-minor-mode)
+       (eldoc-mode -1)
+       (aggressive-indent-mode -1)
+       ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
+       (setq-local emmet-expand-jsx-className? t)
+       ;; Enable js-mode
+       ;;(yas-activate-extra-mode 'js-mode)
+       ;; Force jsx content type
+       ;;(web-mode-set-content-type "jsx")
+       ;;(aggressive-indent-mode -1)
+       ;;(global-aggressive-indent-mode -1)
+       (local-set-key (kbd "C-c C-' C-i") 'aggressive-indent-mode)
+       ;; Don't auto-quote attribute values
+       (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
+       (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
+       (setq-local web-mode-enable-auto-quoting nil)))
+  )
+
+  (provide 'react-mode)
+
+
+  (use-package flow-minor-mode
+    :ensure t
+  )
+
+  (flycheck-add-mode 'javascript-eslint 'react-mode)
+  (add-hook 'react-mode-hook 'flow-minor-enable-automatically)
+
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\.rjsx.js\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\.test.js\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\.jest.js\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\index.android.js\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . rjsx-mode))
+  (add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . rjsx-mode))
+  (add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . rjsx-mode))
+  (add-to-list 'magic-mode-alist '(".*import Rreact" . rjsx-mode))
+  (add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
+
+  ;; Vue Support
+  (use-package vue-mode
+    :ensure t)
+  (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+
+  (use-package scss-mode
+    :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+    (setq scss-compile-at-save nil)
+    (add-hook 'scss-mode-hook (lambda ()
+        (set (make-local-variable 'company-backends) '(company-css)))))
+
+  ;; Better imenu
+  ;;(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+
+  (use-package js2-refactor
+    :ensure t
+  )
+
+  (use-package xref-js2
+    :ensure t
+  )
+
+  ;; Add keybindings to run jest tests
+  (use-package mocha
+    :ensure t
+  )
+  ;;(add-hook 'react-mode (lambda ()
+  ;;                            (my/setup-react-mode))))
 #+END_SRC
 
 
