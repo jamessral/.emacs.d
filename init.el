@@ -1,80 +1,4 @@
-#+TITLE: Emacs configuration file
-#+AUTHOR: James Sral
-#+BABEL: :cache yes
-#+LATEX_HEADER: \usepackage{parskip}
-#+LATEX_HEADER: \usepackage{inconsolata}
-#+LATEX_HEADER: \usepackage[utf8]{inputenc}
-#+PROPERTY: header-args :tangle yes
-
-* About
-  This is my emacs config file in org mode with some infrastructure that's been borrowed
-  from Lars Tveito
-
-
-* Configurations
-  Make all changes in =init.org=, not =init.el= as the former will be overwritten by the
-  latter.
-
-** Meta
-#+BEGIN_SRC emacs-lisp :tangle no
-;; This file replaces itself with the actual configuration at first run.
-
-;; We can't tangle without org!
-(require 'org)
-;; Open the configuration
-(find-file (concat user-emacs-directory "init.org"))
-;; tangle it
-(org-babel-tangle)
-;; load it
-(load-file (concat user-emacs-directory "init.el"))
-;; finally byte-compile it
-(byte-compile-file (concat user-emacs-directory "init.el"))
-#+END_SRC
-
-It tangles the org-file, so that this file is overwritten with the actual
-configuration.
-
-There is no reason to track the =init.el= that is generated; by running
-the following command =git= will not bother tracking it:
-
-#+BEGIN_SRC sh :tangle no
-git update-index --assume-unchanged init.el
-#+END_SRC
-
-I want lexical scoping for the init-file, which can be specified in the
-header. The first line of the configuration is as follows:
-
-#+BEGIN_SRC emacs-lisp
-   ;;; -*- lexical-binding: t -*-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(defun tangle-init ()
-  "If the current buffer is 'init.org' the code-blocks are
-   tangled, and the tangled file is compiled."
-  (when (equal (buffer-file-name)
-           (expand-file-name (concat user-emacs-directory "init.org")))
-  ;; Avoid running hooks when tangling.
-  (let ((prog-mode-hook nil))
-     (org-babel-tangle)
-     (byte-compile-file (concat user-emacs-directory "init.el")))))
-
-(add-hook 'after-save-hook 'tangle-init)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(add-hook
-  'after-init-hook
-  (lambda ()
-    (let ((private-file (concat user-emacs-directory "private.el")))
-      (when (file-exists-p private-file)
-        (load-file private-file)))))
-#+END_SRC
-
-
-``** Packages and Setup
-#+BEGIN_SRC emacs-lisp
-
+;; Packages and Setup
 ;; Turn off mouse interface early in startup to avoid momentary display
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -135,11 +59,8 @@ header. The first line of the configuration is as follows:
 (use-package git
   :ensure t)
 (add-to-list 'load-path "~/.emacs.d/vendor")
-#+END_SRC
 
-
-** Basics
-#+BEGIN_SRC emacs-lisp
+;;; Basics
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
 (use-package exec-path-from-shell
@@ -147,11 +68,8 @@ header. The first line of the configuration is as follows:
 ;; Show tabs as 4 spaces
 (setq tab-width 4)
 
-#+END_SRC
 
-
-** Editing
-#+BEGIN_SRC emacs-lisp
+;;; Editing
 ;; Customizations relating to editing a buffer.
 ;; Key binding to use "hippie expand" for text autocompletion
 ;; http://www.emacswiki.org/emacs/HippieExpand
@@ -375,17 +293,19 @@ header. The first line of the configuration is as follows:
 	  (if this-win-2nd (other-window 1))))))
 
 (define-key ctl-x-4-map "t" 'toggle-window-split)
-#+END_SRC
 
 
-** Navigation
-#+BEGIN_SRC emacs-lisp
+;;; Navigation
 (use-package windmove
   :ensure t
   :config
   (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings)))
 
+
+(use-package window-numbering
+  :ensure t)
+(window-numbering-mode 1)
 ;; These customizations make it easier for you to navigate files,
 ;; switch buffers, and choose options from the minibuffer.
 
@@ -490,19 +410,15 @@ header. The first line of the configuration is as follows:
 ;; Neotree
 (global-set-key (kbd "C-, C-n") 'neotree-toggle)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow 'nerd))
-#+END_SRC
 
 
-** Narrowing/Widening
-#+BEGIN_SRC emacs-lisp
+;;; Narrowing/Widening
   (enable-command 'narrow-to-region)
   (enable-command 'narrow-to-defun)
   (enable-command 'narrow-to-page)
   (enable-command 'widen)
-#+END_SRC
 
-** UI
-#+BEGIN_SRC emacs-lisp
+;;; UI
 ;; These customizations change the way emacs looks and disable/enable
 ;; some user interface elements. Some useful customizations are
 ;; commented out, and begin with the line "CUSTOMIZE". These are more
@@ -599,7 +515,7 @@ header. The first line of the configuration is as follows:
 ;; Use Ligatures
 (global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font Mono"))
-(set-face-attribute 'default nil :height 80)
+(set-face-attribute 'default nil :height 100)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -643,11 +559,9 @@ header. The first line of the configuration is as follows:
   :ensure t
   :init
   (global-git-gutter-mode t))
-#+END_SRC
 
 
-** Javascript
-#+BEGIN_SRC emacs-lisp
+;;; Javascript
 ;;; Javascript stuff
 (use-package web-mode
   :ensure t)
@@ -774,11 +688,12 @@ header. The first line of the configuration is as follows:
 (add-hook 'js2-mode-hook (lambda ()
                            (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
-;; JS test runner
-;; (add-hook 'js2-mode-hook
-;;           (lambda ()
-;;             (set (make-local-variable 'testing-command)
-;;                  (test-javascript))))
+
+;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
+;; this also affects rjsx mode (yay!)
+(setq js2-mode-show-parse-errors nil)
+(setq js2-mode-show-strict-warnings nil)
+(setq js2-basic-offset 2)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . react-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . react-mode))
@@ -825,23 +740,14 @@ header. The first line of the configuration is as follows:
 ;;(add-hook 'react-mode (lambda ()
 ;;                            (my/setup-react-mode))))
 
-;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
-;; this also affects rjsx mode (yay!)
-(setq js2-mode-show-parse-errors nil)
-(setq js2-mode-show-strict-warnings nil)
-#+END_SRC
 
-
-** OrgMode
-#+BEGIN_SRC emacs-lisp
+;;; OrgMode
 (use-package org-bullets
   :ensure t)
 (add-hook 'org-mode-hook (lambda ()
   (org-bullets-mode 1)))
-#+END_SRC
 
-** Jest (JS)
-#+BEGIN_SRC emacs-lisp
+;;; Jest (JS)
 ;;; Setup for using Mocha el to run Jest tests
 
 (use-package mocha
@@ -899,21 +805,17 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
   (advice-add 'mocha-generate-command
               :override 'mocha-generate-command--jest-command))
-#+END_SRC
 
 
-** SLIME (Lisp)
-#+BEGIN_SRC emacs-lisp
+;;; SLIME (Lisp)
 ;;; Borrowed from Portacle
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
 (setq inferior-lisp-program "/usr/local/bin/sbcl")
 
 (add-hook 'slime-repl-mode-hook (lambda () (linum-mode -1)))
-#+END_SRC
 
 
-** Clojure
-#+BEGIN_SRC emacs-lisp
+;;; Clojure
 ;; Enable paredit for Clojure
 (add-hook 'clojure-mode-hook 'enable-paredit-mode)
 
@@ -998,11 +900,9 @@ IF TESTNAME is specified run jest with a pattern for just that test."
      (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
      (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns)
      (define-key cider-mode-map (kbd "C-c u") 'cider-user-ns)))
-#+END_SRC
 
 
-** Haskell
-#+BEGIN_SRC emacs-lisp
+;;; Haskell
 ;; Haskell Config
 (use-package intero
   :ensure t
@@ -1010,15 +910,11 @@ IF TESTNAME is specified run jest with a pattern for just that test."
   (intero-global-mode 1)
 )
 
-#+END_SRC
 
-** Ocaml
-#+BEGIN_SRC emacs-lisp
+;;; Ocaml
 (require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
-#+END_SRC
 
-** Rust
-#+BEGIN_SRC emacs-lisp
+;;; Rust
 ;;; Rust config
 (use-package racer
   :ensure t)
@@ -1037,10 +933,8 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
 (setq company-tooltip-align-annotations t)
-#+END_SRC
 
-** Golang
-#+BEGIN_SRC emacs-lisp
+;;; Golang
 (use-package go-autocomplete
   :ensure t)
 
@@ -1072,9 +966,7 @@ IF TESTNAME is specified run jest with a pattern for just that test."
     (set (make-local-variable 'company-backends) '(company-go))
     (company-mode))
 )
-#+END_SRC
-** C/C++
-#+BEGIN_SRC emacs-lisp
+;;; C/C++
 ;;; C/C++ config stuffs
 (use-package irony
   :ensure t)
@@ -1091,11 +983,9 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
 (cmake-ide-setup)
-#+END_SRC
 
 
-** Python
-#+BEGIN_SRC emacs-lisp
+;;; Python
 (use-package elpy
   :ensure t)
 (elpy-enable)
@@ -1105,11 +995,9 @@ IF TESTNAME is specified run jest with a pattern for just that test."
   (jedi:setup))
 
 (add-hook 'python-mode-hook 'my/python-mode-hook)
-#+END_SRC
 
 
-** Ruby
-#+BEGIN_SRC emacs-lisp
+;;; Ruby
 (use-package seeing-is-believing
   :ensure t
   :config
@@ -1125,17 +1013,16 @@ IF TESTNAME is specified run jest with a pattern for just that test."
   (add-hook 'ruby-mode-hook 'rinari-minor-mode)
 )
 
-#+END_SRC
 
 
-** Terminal
-#+BEGIN_SRC emacs-lisp
+;;; Terminal
+
 (add-hook 'term-mode-hook (lambda () (linum-mode -1)))
-#+END_SRC
 
 
-** Love2D
-#+BEGIN_SRC emacs-lisp
+
+;;; Love2D
+
 (defvar love2d-program "/Applications/love.app/Contents/MacOS/love")
 
 (defun love2d-launch-current ()
@@ -1144,11 +1031,11 @@ IF TESTNAME is specified run jest with a pattern for just that test."
     (if app-root
         (shell-command (format "%s %s &" love2d-program app-root))
       (error "main.lua not found"))))
-#+END_SRC
 
 
-** Feeds
-#+BEGIN_SRC emacs-lisp
+
+;;; Feeds
+
 (use-package elfeed
   :ensure t)
 
@@ -1157,10 +1044,10 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 ;;  :config
 ;;  (elfeed-org)
 ;;  (setq rmh-elfeed-org-files (list "/home/jsral/.emacs.d/feeds/elfeed.org")))
-#+END_SRC
 
-** Misc
-#+BEGIN_SRC emacs-lisp
+
+;;; Misc
+
 ;; Changes all yes/no questions to y/n type
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -1185,11 +1072,11 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 ;; Turn of linum mode for games
 (add-hook 'tetris-mode-hook (lambda () (linum-mode -1)))
-#+END_SRC
 
 
-** Elisp
-#+BEGIN_SRC emacs-lisp
+
+;;; Elisp
+
 ;; Automatically load paredit when editing a lisp file
 ;; More at http://www.emacswiki.org/emacs/ParEdit
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
@@ -1205,11 +1092,10 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
-#+END_SRC
 
 
-** Godot
-#+BEGIN_SRC emacs-lisp
+
+;;; Godot
 ;;(require 'godot-gdscript)
 ;;(require 'company-godot-gdscript)
 
@@ -1222,4 +1108,49 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 ;;            (setq-local company-async-timeout 10)
 ;;            (setq-local company-idle-delay 0.2)
 ;;            (company-mode)))
-#+END_SRC
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#657b83" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"))
+ '(custom-safe-themes
+   (quote
+    ("c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" default)))
+ '(fci-rule-color "#eee8d5")
+ '(linum-format " %7i ")
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#dc322f")
+     (40 . "#cb4b16")
+     (60 . "#b58900")
+     (80 . "#859900")
+     (100 . "#2aa198")
+     (120 . "#268bd2")
+     (140 . "#d33682")
+     (160 . "#6c71c4")
+     (180 . "#dc322f")
+     (200 . "#cb4b16")
+     (220 . "#b58900")
+     (240 . "#859900")
+     (260 . "#2aa198")
+     (280 . "#268bd2")
+     (300 . "#d33682")
+     (320 . "#6c71c4")
+     (340 . "#dc322f")
+     (360 . "#cb4b16"))))
+ '(vc-annotate-very-old-color nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-defun 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+(put 'widen 'disabled nil)
