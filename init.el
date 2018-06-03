@@ -465,7 +465,7 @@
 
 ;; Show line numbers if activated manually
 (global-linum-mode 0)
-(global-set-key (kbd "C-c C-' n") 'global-linum-mode)
+(global-set-key (kbd "C-c C-' n") 'linum-mode)
 
 (setq linum-format "%d ")
 ;; Don't show native OS scroll bars for buffers because they're redundant
@@ -489,6 +489,9 @@
 (use-package sublime-themes
   :ensure t)
 
+(use-package dracula-theme
+  :ensure t)
+
 (defadvice load-theme
     ;; Make sure to disable current colors before switching
     (before theme-dont-propagate activate)
@@ -497,12 +500,11 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-(load-theme 'spolsky t)
+(load-theme 'dracula t)
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'spolsky t)
-)
+  (load-theme 'dracula t))
 
 (defun load-light ()
   (interactive)
@@ -513,7 +515,7 @@
 (global-set-key (kbd "C-c C-' d") 'load-dark)
 
 ;; Use Ligatures
-(global-prettify-symbols-mode)
+;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font Mono"))
 (set-face-attribute 'default nil :height 100)
 
@@ -709,11 +711,14 @@
 
 (define-derived-mode react-mode rjsx-mode "React")
 
+(use-package prettier-js
+  :ensure t)
 
 (provide 'react-mode)
 
 (add-hook 'react-mode-hook (lambda ()
                              (emmet-mode 0)
+                             (linum-mode 1)
                              ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
                              (setq-local emmet-expand-jsx-className? t)
                              ;; Enable js-mode
@@ -807,10 +812,14 @@ IF TESTNAME is specified run jest with a pattern for just that test."
               :override 'mocha-generate-command--jest-command))
 
 
+;;; Geiser (Schemes)
+(use-package geiser
+  :ensure t)
+
 ;;; SLIME (Lisp)
 ;;; Borrowed from Portacle
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
+(setq inferior-lisp-program "/usr/bin/sbcl")
 
 (add-hook 'slime-repl-mode-hook (lambda () (linum-mode -1)))
 
@@ -1117,11 +1126,21 @@ IF TESTNAME is specified run jest with a pattern for just that test."
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    (vector "#657b83" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"))
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-    ("c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" default)))
+    ("190a9882bef28d7e944aa610aa68fe1ee34ecea6127239178c7ac848754992df" "a4df5d4a4c343b2712a8ed16bc1488807cd71b25e3108e648d4a26b02bc990b3" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" default)))
  '(fci-rule-color "#eee8d5")
+ '(global-linum-mode t)
  '(linum-format " %7i ")
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(package-selected-packages
+   (quote
+    (prettier-js zenburn-theme geiser dracula-theme yaml-mode yafolding xref-js2 window-numbering window-number web-mode use-package tagedit sublime-themes smex smartparens slime seeing-is-believing scss-mode ruby-test-mode rtags rjsx-mode rinari rainbow-delimiters racer projectile paredit org-bullets multi-term mocha magit linum-relative key-chord js2-refactor jedi intero ido-ubiquitous gruvbox-theme go-autocomplete git-gutter git flycheck-rust flycheck-irony flycheck-crystal flow-minor-mode fiplr expand-region exec-path-from-shell emmet-mode elpy elfeed dashboard crystal-mode counsel company-racer company-quickhelp company-go color-theme-sanityinc-solarized cmake-ide clojure-mode-extra-font-locking cider bundler avy autopair atom-one-dark-theme aggressive-indent ag)))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
