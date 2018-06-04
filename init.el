@@ -516,7 +516,7 @@
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font Mono"))
+(when (display-graphic-p) (set-face-attribute 'default nil :font "RobotoMono Nerd Font Mono"))
 (set-face-attribute 'default nil :height 100)
 
 ;; Uncomment the lines below by removing semicolons and play with the
