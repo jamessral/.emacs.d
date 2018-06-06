@@ -500,11 +500,11 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-(load-theme 'dracula t)
+(load-theme 'zenburn t)
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'dracula t))
+  (load-theme 'zenburn t))
 
 (defun load-light ()
   (interactive)
@@ -516,8 +516,8 @@
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "RobotoMono Nerd Font Mono"))
-(set-face-attribute 'default nil :height 100)
+(when (display-graphic-p) (set-face-attribute 'default nil :font "RobotoMono Nerd Font"))
+(set-face-attribute 'default nil :height 120)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -818,10 +818,10 @@ IF TESTNAME is specified run jest with a pattern for just that test."
 
 ;;; SLIME (Lisp)
 ;;; Borrowed from Portacle
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/usr/bin/sbcl")
+;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; (setq inferior-lisp-program "/usr/bin/sbcl")
 
-(add-hook 'slime-repl-mode-hook (lambda () (linum-mode -1)))
+;; (add-hook 'slime-repl-mode-hook (lambda () (linum-mode -1)))
 
 
 ;;; Clojure

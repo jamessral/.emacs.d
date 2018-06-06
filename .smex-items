@@ -1,18 +1,18 @@
 
 ;; ----- smex-history -----
 (
- elfeed-add-feed
+ eval-region
+ package-install
+ package-refresh-contents
  multi-term
  shell
  cd
  make-directory
- ansi-term
- magit-init
 )
 
 ;; ----- smex-data -----
 (
- (package-install . 5)
+ (package-install . 7)
  (window-numbering-mode . 1)
  (global-aggressive-indent-mode . 2)
  (make-directory . 3)
@@ -23,4 +23,6 @@
  (multi-term . 2)
  (shell . 1)
  (elfeed-add-feed . 1)
+ (package-refresh-contents . 1)
+ (eval-region . 1)
 )
