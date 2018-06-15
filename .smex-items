@@ -1,24 +1,37 @@
 
 ;; ----- smex-history -----
 (
- intero-repl
- multi-term
  cd
- ansi-term
- magit-init
- make-directory
+ package-reinstall
  package-install
+ package-list-packages
+ package-refresh-contents
+ flycheck-verify-setup
+ eval-region
 )
 
 ;; ----- smex-data -----
 (
- (package-install . 5)
+ (package-install . 18)
  (window-numbering-mode . 1)
  (global-aggressive-indent-mode . 2)
- (make-directory . 2)
- (cd . 2)
+ (make-directory . 3)
+ (cd . 6)
  (magit-init . 1)
  (ansi-term . 1)
  (intero-repl . 2)
- (multi-term . 1)
+ (multi-term . 2)
+ (shell . 1)
+ (elfeed-add-feed . 1)
+ (package-refresh-contents . 3)
+ (eval-region . 7)
+ (load-theme . 3)
+ (flycheck-verify-setup . 5)
+ (beacon-mode . 1)
+ (flycheck-mode . 12)
+ (global-linum-mode . 1)
+ (delete-directory . 3)
+ (package-delete . 9)
+ (package-list-packages . 2)
+ (package-reinstall . 7)
 )
