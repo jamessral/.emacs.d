@@ -24,13 +24,8 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("tromey" . "http://tromey.com/elpa/") t)
-;;(add-to-list 'package-archives
-;;             '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives
              '("gnu" . "http://elpa.gnu.org/packages/") t)
-;; (setq package-archives '(
-;;                          ("marmalade" . "http://marmalade-repo.org/packages/")
-;;                          ("melpa" . "http://melpa-stable.milkbox.net/packages/")))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -54,11 +49,11 @@
 (require 'bind-key)
 (require 'use-package)
 
-(require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(setq-default flycheck-temp-prefix ".flycheck")
-
-(add-hook 'after-init-hook 'global-company-mode)
+(use-package flycheck
+             :ensure t
+             :config
+             (add-hook 'after-init-hook #'global-flycheck-mode)
+             (setq-default flycheck-temp-prefix ".flycheck"))
 
 ;; Download the ELPA archive description if needed.
 ;; This informs Emacs about the latest versions of all packages, and
@@ -70,8 +65,6 @@
              :ensure t)
 
 (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-copy-env "GOPATH")
-  (exec-path-from-shell-copy-env "NPM_TOKEN")
   (exec-path-from-shell-initialize))
 
 ;; Don't wrap lines
@@ -97,17 +90,6 @@
 
 
 ;;; Editing
-
-;; Customizations relating to editing a buffer.
-;; Key binding to use "hippie expand" for text autocompletion
-;; http://www.emacswiki.org/emacs/HippieExpand
-
-
-;; Get something like the vim '.' repeat
-;; (use-package dot-mode
-;;   :ensure t)
-;; (add-hook 'find-file-hooks 'dot-mode-on)
-
 ;; Use subword mode
 (global-subword-mode)
 ;; Fix Org Mode syntax stuff
@@ -115,10 +97,12 @@
 ;; Use Asci for compile mode (running tests)
 (use-package ansi-color
              :ensure t)
+
 (defun colorize-compilation-buffer ()
   (toggle-read-only)
   (ansi-color-apply-on-region compilation-filter-start (point))
   (toggle-read-only))
+
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (use-package company
@@ -141,11 +125,6 @@
 
 ;; Case sensitive company mode
 (setq company-dabbrev-downcase nil)
-
-(use-package aggressive-indent
-             :ensure t)
-
-(global-aggressive-indent-mode)
 
 ;; Snippets
 (use-package yasnippet
@@ -218,21 +197,6 @@
              )
 (yafolding-mode 1)
 
-;; Add yasnippet support for all company backends
-;; https://github.com/syl20bnr/spacemacs/pull/179
-;; (defvar company-mode/enable-yas t
-;;   "Enable yasnippet for all backends.")
-
-;; (defun company-mode/backend-with-yas (backend)
-;;   (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-;;       backend
-;;     (append (if (consp backend) backend (list backend))
-;;             '(:with company-yasnippet))))
-
-;; (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-
-
-;; (add-hook 'web-mode-hook #'rainbow-delimiters-mode)
 ;; Rainbow Mode hooks
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'racket-mode-hook #'rainbow-delimiters-mode)
@@ -331,21 +295,6 @@
 (use-package window-numbering
              :ensure t)
 (window-numbering-mode 1)
-
-;; These customizations make it easier for you to navigate files,
-;; switch buffers, and choose options from the minibuffer.
-
-
-;; "When several buffers visit identically-named files,
-;; Emacs must give the buffers distinct names. The usual method
-;; for making buffer names unique adds ‘<2>’, ‘<3>’, etc. to the end
-;; of the buffer names (all but one of them).
-;; The forward naming method includes part of the file's directory
-;; name at the beginning of the buffer name
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
-;;(require 'uniquify)
-;;(setq uniquify-buffer-name-style 'forward)
-
 
 ;; Turn on recent file mode so that you can more easily switch to
 ;; recently edited files when you first start emacs
@@ -510,8 +459,8 @@
 (display-time-mode 1)
 
 ;; Show line numbers if activated manually
-(global-linum-mode 1)
-(global-set-key (kbd "C-c C-' n") 'global-linum-mode)
+(global-set-key (kbd "C-c C-' n") 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook (lambda () 'display-line-numbers-mode 1))
 
 (setq linum-format "%d ")
 ;; Don't show native OS scroll bars for buffers because they're redundant
@@ -634,8 +583,6 @@
 
 ;; customize flycheck temp file prefix
 
-(flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-(flycheck-add-mode 'javascript-eslint 'web-mode)
 ;; use local eslint from node_modules before global
 ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
 (defun my/use-eslint-from-node-modules ()
@@ -769,7 +716,6 @@
 (use-package flow-minor-mode
              :ensure t)
 
-(flycheck-add-mode 'javascript-eslint 'react-mode)
 (add-hook 'react-mode-hook 'flow-minor-enable-automatically)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
@@ -903,7 +849,7 @@
 ; (load (expand-file-name "~/quicklisp/slime-helper.el"))
 ; (setq inferior-lisp-program "/usr/local/bin/sbcl")
 
-; (add-hook 'slime-repl-mode-hook (lambda () (linum-mode -1)))
+; (add-hook 'slime-repl-mode-hook (lambda () (display-line-numbers-mode -1)))
 
 
 
@@ -1091,28 +1037,9 @@
 (add-hook 'ruby-mode-hook 'ruby-test-mode)
 (add-hook 'ruby-mode-hook 'rinari-minor-mode)
 
-
-
-;;; PHP
-
-(use-package company-php
-             :ensure t)
-
-(use-package phpunit
-             :ensure t)
-
-(use-package php-mode
-             :ensure t
-             :init
-             (make-local-variable 'company-backends)
-             (add-to-list 'company-backends '(company-php))
-             (add-to-list 'auto-mode-alist '("\\.php$'" . phpunit-mode))
-             :config
-             (company-mode 1))
-
 ;;; Terminal
 
-(add-hook 'term-mode-hook (lambda () (linum-mode -1)))
+(add-hook 'term-mode-hook (lambda () (display-line-numbers-mode -1)))
 
 
 
@@ -1163,13 +1090,12 @@
 
 
 ;; Turn off numbers for eww browser
-(add-hook 'eww-mode-hook (lambda () (linum-mode -1)))
+(add-hook 'eww-mode-hook (lambda () (display-line-numbers-mode -1)))
 
 ;; Turn of linum mode for games
-(add-hook 'tetris-mode-hook (lambda () (linum-mode -1)))
+(add-hook 'tetris-mode-hook (lambda () (display-line-numbers-mode -1)))
 
 ;;; Elisp
-
 ;; Automatically load paredit when editing a lisp file
 ;; More at http://www.emacswiki.org/emacs/ParEdit
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
@@ -1185,21 +1111,6 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
-
-;;; Godot
-
-                                        ; (require 'godot-gdscript)
-                                        ; (require 'company-godot-gdscript)
-
-                                        ; ;; Company mode completions
-                                        ; (add-hook 'godot-gdscript-mode-hook
-                                        ;           (lambda ()
-                                        ;             (make-local-variable 'company-backends)
-                                        ;             (add-to-list 'company-backends 'company-godot-gdscript)
-                                        ;             (setq-local company-minimum-prefix-length 1)
-                                        ;             (setq-local company-async-timeout 10)
-                                        ;             (setq-local company-idle-delay 0.2)
-                                        ;             (company-mode)))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-defun 'disabled nil)

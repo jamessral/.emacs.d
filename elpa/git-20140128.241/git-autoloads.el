@@ -1,9 +1,15 @@
 ;;; git-autoloads.el --- automatically extracted autoloads
 ;;
 ;;; Code:
-(add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
+
+(add-to-list 'load-path (directory-file-name
+                         (or (file-name-directory #$) (car load-path))))
+
 
-;;;### (autoloads nil nil ("git.el") (23246 2316 793797 840000))
+;;;### (autoloads nil "git" "git.el" (0 0 0 0))
+;;; Generated autoloads from git.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "git" '("git-")))
 
 ;;;***
 
@@ -11,5 +17,6 @@
 ;; version-control: never
 ;; no-byte-compile: t
 ;; no-update-autoloads: t
+;; coding: utf-8
 ;; End:
 ;;; git-autoloads.el ends here
