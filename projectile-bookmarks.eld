@@ -1,1 +1,1 @@
-("~/.emacs.d/" "~/workspace/rent-js/" "~/.stack/global-project/")
+("~/.emacs.d/" "~/code/mealplanner-react/" "~/workspace/rent-js/" "~/.stack/global-project/")

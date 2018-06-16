@@ -170,11 +170,11 @@
 
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-(use-package company
-  :ensure t
-  :config
-  (add-hook 'after-init-hook 'global-company-mode)
-  (global-set-key (kbd "C-<tab>") 'company-complete))
+;; (use-package company
+;;   :ensure t
+;;   :config
+;;   (add-hook 'after-init-hook 'global-company-mode)
+;;   (global-set-key (kbd "C-<tab>") 'company-complete))
 
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
@@ -211,10 +211,10 @@
                       '(add-to-list 'company-backends 'company-irony)
                       '(add-to-list 'company-backends 'company-racer))
 
-(use-package company-quickhelp
-  :ensure t
-  :config
-  (company-quickhelp-mode 1))
+;; (use-package company-quickhelp
+;;   :ensure t
+;;   :config
+;;   (company-quickhelp-mode 1))
 
 ;; Use Key Chords
 (use-package key-chord
@@ -563,18 +563,13 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
-
 ;; Show dashboard on startup
 (use-package dashboard
-             :ensure t)
-(dashboard-setup-startup-hook)
-;; Or if you use use-package
-(use-package dashboard
+             :ensure t
              :config
-             (dashboard-setup-startup-hook))
-
-(setq dashboard-items '((bookmarks . 5)
-                        (projects . 5)))
+             (dashboard-setup-startup-hook)
+             (setq dashboard-items '((bookmarks . 5)
+                                     (projects . 5))))
 
 
 ;; Customize mode-line
@@ -689,6 +684,39 @@
 
 (use-package racket-mode
              :ensure t)
+
+
+;;; Golang
+(use-package go-autocomplete
+             :ensure t)
+
+(use-package company-go
+             :ensure t)
+
+(use-package go-autocomplete
+             :ensure t)
+
+(use-package company-go
+             :ensure t)
+
+(use-package go-mode
+             :ensure t
+             :config
+             (setq gofmt-command "goimports")
+             (setq tab-width 4)
+             ; Call Gofmt before saving
+             (add-hook 'before-save-hook 'gofmt-before-save)
+             ; Customize compile command to run go build
+             (if (not (string-match "go" compile-command))
+                 (set (make-local-variable 'compile-command)
+                      "go generate && go build -v && go test -v && go vet"))
+             ; Godef jump key binding
+             (local-set-key (kbd "M-.") 'godef-jump)
+             (local-set-key (kbd "M-*") 'pop-tag-mark)
+             (lambda ()
+               (set (make-local-variable 'company-backends) '(company-go))
+               (company-mode)))
+;;; End Golang
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

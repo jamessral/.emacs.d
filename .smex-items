@@ -2,36 +2,40 @@
 ;; ----- smex-history -----
 (
  cd
- package-reinstall
- package-install
- package-list-packages
- package-refresh-contents
- flycheck-verify-setup
  eval-region
+ global-linum-mode
+ prettier-js-mode
+ package-install
+ load-theme
+ global-prettify-symbols-mode
 )
 
 ;; ----- smex-data -----
 (
- (package-install . 18)
- (window-numbering-mode . 1)
+ (package-install . 20)
+ (window-numbering-mode . 2)
  (global-aggressive-indent-mode . 2)
- (make-directory . 3)
- (cd . 6)
+ (make-directory . 5)
+ (cd . 16)
  (magit-init . 1)
  (ansi-term . 1)
  (intero-repl . 2)
  (multi-term . 2)
  (shell . 1)
  (elfeed-add-feed . 1)
- (package-refresh-contents . 3)
- (eval-region . 7)
- (load-theme . 3)
- (flycheck-verify-setup . 5)
- (beacon-mode . 1)
- (flycheck-mode . 12)
- (global-linum-mode . 1)
- (delete-directory . 3)
- (package-delete . 9)
- (package-list-packages . 2)
- (package-reinstall . 7)
+ (eval-region . 16)
+ (global-linum-mode . 2)
+ (package-refresh-contents . 2)
+ (window-number-mode . 2)
+ (slime . 1)
+ (eww . 1)
+ (delete-file . 1)
+ (load-theme . 15)
+ (color-theme-cobalt . 2)
+ (package-reinstall . 1)
+ (package-delete . 3)
+ (geiser . 1)
+ (geiser-mode . 1)
+ (global-prettify-symbols-mode . 1)
+ (prettier-js-mode . 1)
 )
