@@ -411,7 +411,6 @@
 (setq js2-basic-offset 2)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
-                           (aggressive-indent-mode -1)
                            (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
                            (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file)))
 
@@ -635,7 +634,7 @@
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "RobotoMono Nerd Font"))
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :height 105)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -704,4 +703,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background nil)))))
