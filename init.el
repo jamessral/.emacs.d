@@ -36,6 +36,7 @@
 (use-package flycheck
              :ensure t
              :config
+	     (global-set-key (kbd "C-c ! v") 'flycheck-verify-setup)
              (add-hook 'after-init-hook #'global-flycheck-mode)
              (setq-default flycheck-temp-prefix ".flycheck"))
 
@@ -46,10 +47,281 @@
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
+;; Mac key admustments
+(setq mac-option-modifier 'control)
+(setq mac-command-modifier 'meta)
+
+(use-package window-numbering
+  :ensure t
+  :config
+  (window-numbering-mode 1))
+
+
+(use-package windmove
+  :ensure t
+  :config
+  (when (fboundp 'windmove-default-keybindings)
+    (windmove-default-keybindings)))
+
+;; Avy mode (vim easymotion-esque)
+(use-package avy
+             :ensure t)
+(global-set-key (kbd "C-:") 'avy-goto-char)
+(global-set-key (kbd "C-'") 'avy-goto-char-2)
+(global-set-key (kbd "M-g f") 'avy-goto-line)
+(global-set-key (kbd "M-g w") 'avy-goto-word-1)
+
+;; Ivy
+(use-package ivy
+  :ensure t
+  :config
+  (global-set-key (kbd "C-C C-r") 'ivy-resume)
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t))
+
+(use-package swiper
+  :ensure t
+  :config
+  (global-set-key "\C-s" 'swiper))
+
+(use-package counsel
+  :ensure t
+  :config
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+
+(use-package ag
+  :ensure t)
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+(use-package fiplr
+  :ensure t
+  :config
+  (setq fiplr-ignored-globs '((directories (".git" ".svn" "node_modules" ".vscode"))
+                              (files ("*.jpg" "*.png" "*.zip" "*~" "*.log" ".project"))))
+  (global-set-key (kbd "C-x f") 'fiplr-find-file))
+
+;; Enhances M-x to allow easier execution of commands. Provides
+;; a filterable list of possible commands in the minibuffer
+;; http://www.emacswiki.org/emacs/Smex
+(use-package smex
+             :ensure t)
+(setq smex-save-file (concat user-emacs-directory ".smex-items"))
+(smex-initialize)
+
+;; All the Icons
+(use-package all-the-icons
+             :ensure t)
+
 ;; Magit
 (use-package magit
              :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
+
+;; Projectile
+;; projectile everywhere!
+(use-package projectile
+  :ensure t
+  :config
+  (add-hook 'after-init-hook (projectile-mode)))
+
+;; Highlights matching parenthesis
+(show-paren-mode 1)
+
+(use-package smartparens
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'smartparens-global-mode 1))
+
+(electric-pair-mode 1)
+
+;; Lisp-friendly hippie expand
+(setq hippie-expand-try-functions-list
+      '(try-expand-dabbrev
+         try-expand-dabbrev-all-buffers
+         try-expand-dabbrev-from-kill
+         try-complete-lisp-symbol-partially
+         try-complete-lisp-symbol))
+
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
+
+;; Show tabs as 4 spaces
+(setq tab-width 4)
+
+;;; Editing
+;; Use subword mode
+(global-subword-mode)
+;; Fix Org Mode syntax stuff
+(setq org-src-fontify-natively t)
+;; Use Asci for compile mode (running tests)
+(use-package ansi-color
+             :ensure t)
+
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+(use-package company
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-set-key (kbd "C-<tab>") 'company-complete))
+
+(global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key (kbd "C-t") 'transpose-chars)
+
+;; Enable paredit for Clojure
+(use-package paredit
+  :ensure t
+  :config
+  ;; Use Paredit to allow slurping
+  (global-set-key (kbd "C-)") 'paredit-forward-slurp-sexp))
+
+;; Expand Region
+(use-package expand-region
+             :ensure t)
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+;; Case sensitive company mode
+(setq company-dabbrev-downcase nil)
+
+;; Snippets
+(use-package yasnippet
+             :ensure t)
+(yas-global-mode 1)
+
+;; global key to get suggestions for snippets
+(global-set-key (kbd "C-x y") 'company-yasnippet)
+
+(with-eval-after-load 'company
+                      '(add-to-list 'company-backends 'company-yasnippet)
+                      '(add-to-list 'company-backends 'company-web)
+                      '(add-to-list 'company-backends 'company-css)
+                      '(add-to-list 'company-backends 'company-go)
+                      '(add-to-list 'company-backends 'company-lua)
+                      '(add-to-list 'company-backends 'company-irony)
+                      '(add-to-list 'company-backends 'company-racer))
+
+(use-package company-quickhelp
+  :ensure t
+  :config
+  (company-quickhelp-mode 1))
+
+;; Use Key Chords
+(use-package key-chord
+             :ensure t)
+
+(key-chord-mode 1)
+
+;; Multiple Cursors
+(use-package multiple-cursors
+             :ensure t)
+
+(global-set-key (kbd "C-c C-l") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C->") 'mc/mark-next-like-this-word)
+(global-set-key (kbd "C-c C-<") 'mc/mark-previous-like-this-word)
+
+;; Folding
+(use-package yafolding
+             :ensure t
+             )
+(yafolding-mode 1)
+
+;; Rainbow Mode hooks
+(add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'racket-mode-hook #'rainbow-delimiters-mode)
+
+;; Interactive search key bindings. By default, C-s runs
+;; isearch-forward, so this swaps the bindings.
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
+
+;; Keybinding for toggling window split direction
+(global-set-key (kbd "C-x |") 'toggle-window-split)
+;; Don't use hard tabs
+(setq-default indent-tabs-mode nil)
+
+;; When you visit a file, point goes to the last place where it
+;; was when you previously visited the same file.
+;; http://www.emacswiki.org/emacs/SavePlace
+(use-package saveplace
+             :ensure t
+             )
+(setq-default save-place t)
+;; keep track of saved places in ~/.emacs.d/places
+(setq save-place-file (concat user-emacs-directory "places"))
+
+;; Emacs can automatically create backup files. This tells Emacs to
+;; put all backups in ~/.emacs.d/backups. More info:
+;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Backup-Files.html
+(setq backup-directory-alist `(("." . ,(concat user-emacs-directory
+                                               "backups"))))
+(setq auto-save-default nil)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; comments
+(defun toggle-comment-on-line ()
+  "comment or uncomment current line"
+  (interactive)
+  (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
+(global-set-key (kbd "C-;") 'toggle-comment-on-line)
+
+;; use 2 spaces for tabs
+(defun die-tabs ()
+  (interactive)
+  (set-variable 'tab-width 2)
+  (mark-whole-buffer)
+  (untabify (region-beginning) (region-end))
+  (keyboard-quit))
+
+;; fix weird os x kill error
+(defun ns-get-pasteboard ()
+  "Returns the value of the pasteboard, or nil for unsupported formats."
+  (condition-case nil
+                  (ns-get-selection-internal 'CLIPBOARD)
+                  (quit nil)))
+
+(setq electric-indent-mode nil)
+
+(defun toggle-window-split ()
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+             (next-win-buffer (window-buffer (next-window)))
+             (this-win-edges (window-edges (selected-window)))
+             (next-win-edges (window-edges (next-window)))
+             (this-win-2nd (not (and (<= (car this-win-edges)
+                                         (car next-win-edges))
+                                     (<= (cadr this-win-edges)
+                                         (cadr next-win-edges)))))
+             (splitter
+               (if (= (car this-win-edges)
+                      (car (window-edges (next-window))))
+                   'split-window-horizontally
+                   'split-window-vertically)))
+        (delete-other-windows)
+        (let ((first-win (selected-window)))
+          (funcall splitter)
+          (if this-win-2nd (other-window 1))
+          (set-window-buffer (selected-window) this-win-buffer)
+          (set-window-buffer (next-window) next-win-buffer)
+          (select-window first-win)
+          (if this-win-2nd (other-window 1))))))
+
+(define-key ctl-x-4-map "t" 'toggle-window-split)
 ;;; End Basics
 
 ;;; Javascript
@@ -58,10 +330,6 @@
 
 (use-package rjsx-mode
   :ensure t)
-
-;; Flow Type
-(add-hook 'web-mode-hook 'flow-minor-enable-automatically)
-
 
 ;; disable jshint since we prefer eslint checking
 ;;(setq-default flycheck-disabled-checkers
@@ -147,7 +415,6 @@
                            (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
                            (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file)))
 
-(js2r-add-keybindings-with-prefix "C-c C-r")
 (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
 
 ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
@@ -176,34 +443,6 @@
                             (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
                             (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
                             (setq-local web-mode-enable-auto-quoting nil)))
-
-(define-derived-mode react-mode rjsx-mode
-  "React"
-  (add-hook 'react-mode-hook (lambda ()
-                               ;;(flow-minor-mode)
-                               (eldoc-mode -1)
-                               (aggressive-indent-mode -1)
-                               ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-                               (setq-local emmet-expand-jsx-className? t)
-                               ;; Enable js-mode
-                               ;;(yas-activate-extra-mode 'js-mode)
-                               ;; Force jsx content type
-                               ;;(web-mode-set-content-type "jsx")
-                               ;;(aggressive-indent-mode -1)
-                               ;;(global-aggressive-indent-mode -1)
-                               (local-set-key (kbd "C-c C-' C-i") 'aggressive-indent-mode)
-                               ;; Don't auto-quote attribute values
-                               (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-                               (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
-                               (setq-local web-mode-enable-auto-quoting nil))))
-
-(provide 'react-mode)
-
-
-(use-package flow-minor-mode
-  :ensure t)
-
-(add-hook 'react-mode-hook 'flow-minor-enable-automatically)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
@@ -442,13 +681,24 @@
              (global-git-gutter-mode t))
 ;;; End UI
 
+;;; Geiser (Scheme)
+
+(use-package geiser
+             :ensure t)
+
+;;; Racket
+
+(use-package racket-mode
+             :ensure t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (flycheck use-package))))
+ '(package-selected-packages
+   (quote
+    (racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
