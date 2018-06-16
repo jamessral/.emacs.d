@@ -1,6 +1,5 @@
 elpa/**
 feeds/**
-init.el
 init.elc
 .recentf
 .smex-items
