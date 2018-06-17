@@ -83,7 +83,7 @@
 (use-package swiper
   :ensure t
   :config
-  (global-set-key "\C-s" 'swiper))
+  (global-set-key (kbd "C-s") 'swiper))
 
 (use-package counsel
   :ensure t
@@ -170,11 +170,11 @@
 
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-;; (use-package company
-;;   :ensure t
-;;   :config
-;;   (add-hook 'after-init-hook 'global-company-mode)
-;;   (global-set-key (kbd "C-<tab>") 'company-complete))
+(use-package company
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-set-key (kbd "C-<tab>") 'company-complete))
 
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
@@ -596,7 +596,7 @@
 
 ;; Show line numbers if activated manually
 (global-set-key (kbd "C-c C-' n") 'display-line-numbers-mode)
-(add-hook 'prog-mode-hook (lambda () 'display-line-numbers-mode 1))
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (setq linum-format "%d ")
 ;; Don't show native OS scroll bars for buffers because they're redundant
@@ -687,12 +687,6 @@
 
 
 ;;; Golang
-(use-package go-autocomplete
-             :ensure t)
-
-(use-package company-go
-             :ensure t)
-
 (use-package go-autocomplete
              :ensure t)
 
