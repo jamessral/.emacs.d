@@ -89,7 +89,7 @@
   :ensure t
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x f") 'counsel-find-file)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   (global-set-key (kbd "C-c k") 'counsel-ag)
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
@@ -129,6 +129,11 @@
   :ensure t
   :config
   (add-hook 'after-init-hook (projectile-mode)))
+
+(use-package counsel-projectile
+  :ensure t
+  :config
+  (add-hook 'after-init-hook (counsel-projectile-mode)))
 
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
@@ -752,7 +757,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
+    (counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
