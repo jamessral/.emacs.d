@@ -1,0 +1,5 @@
+# key: imp
+# name: import
+# --
+import { $1 } from '$2'
+$0

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: import-all
+# key: impa
+# --
+import * as $1 from '$2'
+$0
