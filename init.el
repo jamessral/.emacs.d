@@ -432,7 +432,6 @@
                             ;;(flow-minor-mode t)
                             ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
                             (eldoc-mode -1)
-                            (aggressive-indent-mode -1)
                             ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
                             (setq-local emmet-expand-jsx-className? t)
                             ;; Enable js-mode
@@ -441,7 +440,6 @@
                             ;;(web-mode-set-content-type "jsx")
                             ;;(aggressive-indent-mode -1)
                             ;;(global-aggressive-indent-mode -1)
-                            (local-set-key (kbd "C-c C-' C-i") 'aggressive-indent-mode)
                             ;; Don't auto-quote attribute values
                             (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
                             (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
@@ -589,6 +587,11 @@
 
 ;;; End OrgMode
 
+;;; Fun Stuff (Misc)
+(use-package spotify
+  :ensure t)
+;;; End Fun Stuff (Misc)
+
 ;;; UI
 
 ;; These customizations change the way emacs looks and disable/enable
@@ -667,7 +670,7 @@
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "RobotoMono Nerd Font"))
-(set-face-attribute 'default nil :height 105)
+(set-face-attribute 'default nil :height 140)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -859,7 +862,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
+    (spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
