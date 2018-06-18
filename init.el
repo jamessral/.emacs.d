@@ -34,11 +34,15 @@
 (require 'use-package)
 
 (use-package flycheck
-             :ensure t
-             :config
-	     (global-set-key (kbd "C-c ! v") 'flycheck-verify-setup)
-             (add-hook 'after-init-hook #'global-flycheck-mode)
-             (setq-default flycheck-temp-prefix ".flycheck"))
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c ! v") 'flycheck-verify-setup)
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (setq-default flycheck-temp-prefix ".flycheck")
+  ;; disable jshint since we prefer eslint checking
+  (setq-default flycheck-disabled-checkers
+                (append flycheck-disabled-checkers
+                        '(javascript-jshint))))
 
 ;;; Some Bascis
 (use-package exec-path-from-shell
@@ -64,6 +68,11 @@
   :config
   (when (fboundp 'windmove-default-keybindings)
     (windmove-default-keybindings)))
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-undo-tree-mode))
 
 ;; Avy mode (vim easymotion-esque)
 (use-package avy
@@ -344,11 +353,6 @@
 
 (eval-after-load 'js2-mode
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
-
-;; disable jshint since we prefer eslint checking
-;;(setq-default flycheck-disabled-checkers
-;;  (append flycheck-disabled-checkers
-;;    '(javascript-jshint)))
 
 ;; customize flycheck temp file prefix
 
@@ -872,7 +876,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
+    (undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
