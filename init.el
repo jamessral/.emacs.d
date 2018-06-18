@@ -45,6 +45,7 @@
              :ensure t)
 
 (when (memq window-system '(mac ns x))
+  (exec-path-from-shell-copy-env "PATH")
   (exec-path-from-shell-initialize))
 
 ;; Mac key admustments
@@ -329,11 +330,19 @@
 ;;; End Basics
 
 ;;; Javascript
+(use-package add-node-modules-path
+  :ensure t)
+
 (use-package web-mode
   :ensure t)
 
 (use-package rjsx-mode
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'rjsx-mode-hook #'add-node-modules-path))
+
+(eval-after-load 'js2-mode
+  '(add-hook 'js2-mode-hook #'add-node-modules-path))
 
 ;; disable jshint since we prefer eslint checking
 ;;(setq-default flycheck-disabled-checkers
@@ -344,15 +353,15 @@
 
 ;; use local eslint from node_modules before global
 ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
-(defun my/use-eslint-from-node-modules ()
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
+;; (defun my/use-eslint-from-node-modules ()
+;;   (let* ((root (locate-dominating-file
+;;                 (or (buffer-file-name) default-directory)
+;;                 "node_modules"))
+;;          (eslint (and root
+;;                       (expand-file-name "node_modules/eslint/bin/eslint.js"
+;;                                         root))))
+;;     (when (and eslint (file-executable-p eslint))
+;;       (setq-local flycheck-javascript-eslint-executable eslint))))
 
 (defun codefalling/reset-eslint-rc ()
   (let ((rc-path (if (projectile-project-p)
@@ -362,7 +371,7 @@
           (message rc-path)
           (setq flycheck-eslintrc rc-path)))))
 
-(add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
+;; (add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
 
 (defun my/set-web-mode-indent ()
   (interactive)
@@ -862,7 +871,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
+    (add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
