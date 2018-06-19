@@ -677,7 +677,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'spolsky t))
+  (load-theme 'lush t))
 
 (defun load-light ()
   (interactive)
@@ -898,7 +898,11 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
+ '(custom-safe-themes
+   (quote
+    ("0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" default)))
  '(global-undo-tree-mode t)
+ '(linum-format " %5i ")
  '(package-selected-packages
    (quote
     (sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
