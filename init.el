@@ -661,6 +661,9 @@
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
+(use-package sublime-themes
+  :ensure t)
+
 (use-package lush-theme
              :ensure t)
 
@@ -671,15 +674,16 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
-(load-theme 'lush t)
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'lush t))
+  (load-theme 'spolsky t))
 
 (defun load-light ()
   (interactive)
   (load-theme 'leuven t))
+
+(load-dark)
 
 (global-set-key (kbd "C-c C-' l") 'load-light)
 (global-set-key (kbd "C-c C-' d") 'load-dark)
@@ -897,7 +901,7 @@
  '(global-undo-tree-mode t)
  '(package-selected-packages
    (quote
-    (flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
+    (sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
