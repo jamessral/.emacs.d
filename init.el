@@ -677,7 +677,11 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'lush t))
+  (let ((dark-theme (if (display-graphic-p)
+                        'spolsky
+                      'lush)))
+    (load-theme dark-theme t)))
+
 
 (defun load-light ()
   (interactive)
@@ -900,7 +904,7 @@
    ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
  '(custom-safe-themes
    (quote
-    ("0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" default)))
+    ("c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" default)))
  '(global-undo-tree-mode t)
  '(linum-format " %5i ")
  '(package-selected-packages
