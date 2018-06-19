@@ -48,7 +48,7 @@
 (use-package exec-path-from-shell
              :ensure t)
 
-(when (memq window-system '(mac ns))
+(when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs
    '("PATH")))
@@ -288,7 +288,7 @@
 (setq backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                "backups"))))
 (setq auto-save-default nil)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; comments
 (defun toggle-comment-on-line ()
@@ -835,6 +835,11 @@
 (use-package flycheck-elixir
   :ensure t)
 ;;; End Elixir/Erlang
+
+;;; Slime (Common Lisp)
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "sbcl")
+;;; End Slime (Common Lisp)
 
 ;;; Geiser (Scheme)
 
