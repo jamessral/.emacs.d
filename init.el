@@ -687,7 +687,10 @@
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "RobotoMono Nerd Font"))
-(set-face-attribute 'default nil :height 140)
+(if (memq window-system '(mac ns))
+          (set-face-attribute 'default nil :height 140)
+          (set-face-attribute 'default nil :height 105))
+
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -825,6 +828,11 @@
 
 ;;; Elixir/Erlang
 (use-package alchemist
+  :ensure t
+  :config
+  (add-hook 'before-save-hook 'elixir-format))
+
+(use-package flycheck-elixir
   :ensure t)
 ;;; End Elixir/Erlang
 
@@ -884,7 +892,7 @@
  '(global-undo-tree-mode t)
  '(package-selected-packages
    (quote
-    (beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
+    (flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
