@@ -685,6 +685,13 @@
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (setq linum-format "%d ")
+
+(use-package linum-relative
+  :ensure t)
+
+(setq linum-relative-current-symbol "")
+
+(linum-relative-global-mode t)
 ;; Don't show native OS scroll bars for buffers because they're redundant
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
@@ -932,12 +939,12 @@
    ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
  '(custom-safe-themes
    (quote
-    ("c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" default)))
+    ("a4df5d4a4c343b2712a8ed16bc1488807cd71b25e3108e648d4a26b02bc990b3" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" default)))
  '(global-undo-tree-mode t)
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
+    (linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
