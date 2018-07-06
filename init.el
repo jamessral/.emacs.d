@@ -683,6 +683,7 @@
 ;; Show line numbers if activated manually
 (global-set-key (kbd "C-c C-' n") 'display-line-numbers-mode)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(setq-default display-line-numbers-type 'relative)
 
 (setq linum-format "%d ")
 
@@ -691,7 +692,7 @@
 
 (setq linum-relative-current-symbol "")
 
-(linum-relative-global-mode t)
+;; (global-linum-mode)
 ;; Don't show native OS scroll bars for buffers because they're redundant
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
