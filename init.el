@@ -78,47 +78,47 @@
   (add-hook 'after-init-hook 'global-undo-tree-mode))
 
 
-;;; Evil
-(use-package evil-leader
-  :ensure t
-  :init
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-   "b" 'switch-to-buffer
-   "<SPC>" 'counsel-M-x
-   "p" 'projectile-find-file)
-  (global-evil-leader-mode))
+;; ;;; Evil
+;; (use-package evil-leader
+;;   :ensure t
+;;   :init
+;;   :config
+;;   (evil-leader/set-leader "<SPC>")
+;;   (evil-leader/set-key
+;;    "b" 'switch-to-buffer
+;;    "<SPC>" 'counsel-M-x
+;;    "p" 'projectile-find-file)
+;;   (global-evil-leader-mode))
 
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-want-integration nil)
-  :config
-  (evil-mode 1)
-  (key-chord-mode 1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-  (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up))
+;; (use-package evil
+;;   :ensure t
+;;   :init
+;;   (setq evil-want-integration nil)
+;;   :config
+;;   (evil-mode 1)
+;;   (key-chord-mode 1)
+;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+;;   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+;;   (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
+;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up))
 
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
+;; (use-package evil-collection
+;;   :after evil
+;;   :ensure t
+;;   :config
+;;   (evil-collection-init))
 
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
+;; (use-package evil-surround
+;;   :ensure t
+;;   :config
+;;   (global-evil-surround-mode 1))
 
-(use-package evil-commentary
-  :ensure t
-  :config
-  (evil-commentary-mode))
+;; (use-package evil-commentary
+;;   :ensure t
+;;   :config
+;;   (evil-commentary-mode))
 
 ;;; Tmux navigator
 ;;; (courtesy of Amir Rajan of Rubymotion)
@@ -129,7 +129,7 @@
 (use-package avy
              :ensure t)
 (global-set-key (kbd "C-:") 'avy-goto-char)
-(global-set-key (kbd "C-'") 'avy-goto-char-2)
+(global-set-key (kbd "C-\\") 'avy-goto-char-2)
 (global-set-key (kbd "M-g f") 'avy-goto-line)
 (global-set-key (kbd "M-g w") 'avy-goto-word-1)
 
@@ -480,8 +480,10 @@
 (setq js2-basic-offset 2)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
-                           (local-set-key (kbd "C-c C-' C-t") 'mocha-test-at-point)
-                           (local-set-key (kbd "C-c C-' C-f") 'mocha-test-file)))
+                           (local-set-key (kbd "C-c C-\\ C-t") 'mocha-test-at-point)
+                           (evil-leader/set-key "t" 'mocha-test-at-point)
+                           (local-set-key (kbd "C-c C-\\ C-f") 'mocha-test-file)
+                            (evil-leader/set-key "T" 'mocha-test-file)))
 
 (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
 
@@ -701,9 +703,9 @@
 (display-time-mode 1)
 
 ;; Show line numbers if activated manually
-(global-set-key (kbd "C-c C-' n") 'display-line-numbers-mode)
+(global-set-key (kbd "C-c C-\\ n") 'display-line-numbers-mode)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-(setq-default display-line-numbers-type 'relative)
+;;(setq-default display-line-numbers-type 'relative)
 
 (setq linum-format "%d ")
 
@@ -721,7 +723,10 @@
   :ensure t)
 
 (use-package lush-theme
-             :ensure t)
+  :ensure t)
+
+(use-package base16-theme
+  :ensure t)
 
 (defadvice load-theme
            ;; Make sure to disable current colors before switching
@@ -735,7 +740,7 @@
   (interactive)
   (let ((dark-theme (if (display-graphic-p)
                         'spolsky
-                      'lush)))
+                      'tango-dark)))
     (load-theme dark-theme t)))
 
 
@@ -745,8 +750,8 @@
 
 (load-dark)
 
-(global-set-key (kbd "C-c C-' l") 'load-light)
-(global-set-key (kbd "C-c C-' d") 'load-dark)
+(global-set-key (kbd "C-c C-\\ l") 'load-light)
+(global-set-key (kbd "C-c C-\\ d") 'load-dark)
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
@@ -958,9 +963,11 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
+ '(ansi-term-color-vector
+   [unspecified "#22221b" "#ba6236" "#7d9726" "#a5980d" "#36a166" "#5f9182" "#36a166" "#929181"])
  '(custom-safe-themes
    (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "15348febfa2266c4def59a08ef2846f6032c0797f001d7b9148f30ace0d08bcf" "718fb4e505b6134cc0eafb7dad709be5ec1ba7a7e8102617d87d3109f56d9615" "a4df5d4a4c343b2712a8ed16bc1488807cd71b25e3108e648d4a26b02bc990b3" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" default)))
+    ("b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "1d079355c721b517fdc9891f0fda927fe3f87288f2e6cc3b8566655a64ca5453" "3e34e9bf818cf6301fcabae2005bba8e61b1caba97d95509c8da78cff5f2ec8e" "cabc32838ccceea97404f6fcb7ce791c6e38491fd19baa0fcfb336dcc5f6e23c" "3cc2385c39257fed66238921602d8104d8fd6266ad88a006d0a4325336f5ee02" "4486ade2acbf630e78658cd6235a5c6801090c2694469a2a2b4b0e12227a64b9" "72a81c54c97b9e5efcc3ea214382615649ebb539cb4f2fe3a46cd12af72c7607" "3d5ef3d7ed58c9ad321f05360ad8a6b24585b9c49abcee67bdcbb0fe583a6950" "b3775ba758e7d31f3bb849e7c9e48ff60929a792961a2d536edec8f68c671ca5" "9b59e147dbbde5e638ea1cde5ec0a358d5f269d27bd2b893a0947c4a867e14c1" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "987b709680284a5858d5fe7e4e428463a20dfabe0a6f2a6146b3b8c7c529f08b" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "15348febfa2266c4def59a08ef2846f6032c0797f001d7b9148f30ace0d08bcf" "718fb4e505b6134cc0eafb7dad709be5ec1ba7a7e8102617d87d3109f56d9615" "a4df5d4a4c343b2712a8ed16bc1488807cd71b25e3108e648d4a26b02bc990b3" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "0820d191ae80dcadc1802b3499f84c07a09803f2cb90b343678bdb03d225b26b" default)))
  '(fci-rule-color "#f1c40f")
  '(global-undo-tree-mode t)
  '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
@@ -968,7 +975,7 @@
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
+    (base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
  '(sml/inactive-background-color "#dfe4ea")
