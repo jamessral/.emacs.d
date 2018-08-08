@@ -57,6 +57,8 @@
 (setq mac-option-modifier 'control)
 (setq mac-command-modifier 'meta)
 
+(global-set-key (kbd "C-h") 'help)
+
 (use-package window-numbering
   :ensure t
   :config
@@ -120,11 +122,6 @@
 ;;   :config
 ;;   (evil-commentary-mode))
 
-;;; Tmux navigator
-;;; (courtesy of Amir Rajan of Rubymotion)
-(use-package navigate
-  :ensure t)
-
 ;; Avy mode (vim easymotion-esque)
 (use-package avy
              :ensure t)
@@ -149,8 +146,6 @@
 (use-package counsel
   :ensure t
   :config
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   (global-set-key (kbd "C-c k") 'counsel-ag)
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
@@ -638,6 +633,21 @@
 
 ;;; End Typescript
 
+;;; Rust
+(use-package company-racer
+  :ensure t)
+
+(use-package flycheck-rust
+  :ensure t)
+
+(use-package rust-mode
+  :ensure t
+  :config
+  (with-eval-after-load 'rust-mode
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+;;; End Rust
+
+
 ;;; OrgMode
 
 (use-package org-bullets
@@ -800,16 +810,24 @@
 (use-package paredit
              :ensure t)
 
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
-
-;; This is useful for working with camel-case tokens, like names of
-;; Java classes (e.g. JavaClassName)
-(add-hook 'clojure-mode-hook 'subword-mode)
-(add-hook 'clojure-mode-hook 'cider-mode)
-
 ;; A little more syntax highlighting
 (use-package clojure-mode-extra-font-locking
              :ensure t)
+
+;;;;
+;; Cider
+;;;;
+(use-package cider
+  :ensure t
+  :bind
+  (:map cider-mode-map ("C-c u" . cider-user-ns)))
+
+(use-package clojure-mode
+  :ensure t
+  :config
+  (define-key clojure-mode-map (kbd "C-c C-v") 'cider-start-http-server)
+  (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
+  (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns))
 
 ;; syntax hilighting for midje
 (add-hook 'clojure-mode-hook
@@ -824,9 +842,13 @@
             (define-clojure-indent (fact 1))
             (define-clojure-indent (facts 1))))
 
-;;;;
-;; Cider
-;;;;
+(add-hook 'clojure-mode-hook 'enable-paredit-mode)
+
+;; This is useful for working with camel-case tokens, like names of
+;; Java classes (e.g. JavaClassName)
+(add-hook 'clojure-mode-hook 'subword-mode)
+(add-hook 'clojure-mode-hook 'cider-mode)
+
 (defun cider-turn-on-eldoc-mode ()
   "Turn on eldoc mode in the current buffer."
   (setq-local eldoc-documentation-function 'cider-eldoc)
@@ -876,13 +898,6 @@
 (defun cider-user-ns ()
   (interactive)
   (cider-repl-set-ns "user"))
-
-(eval-after-load 'cider
-  '(progn
-     (define-key clojure-mode-map (kbd "C-c C-v") 'cider-start-http-server)
-     (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
-     (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns)
-     (define-key cider-mode-map (kbd "C-c u") 'cider-user-ns)))
 ;;; EndClojure
 
 ;;; Elixir/Erlang
@@ -983,7 +998,7 @@
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
+    (company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
  '(sml/inactive-background-color "#dfe4ea")
@@ -1010,3 +1025,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil)))))
+(put 'downcase-region 'disabled nil)
