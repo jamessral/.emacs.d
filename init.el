@@ -825,9 +825,10 @@
 (use-package clojure-mode
   :ensure t
   :config
-  (define-key clojure-mode-map (kbd "C-c C-v") 'cider-start-http-server)
-  (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
-  (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns))
+  ;; (define-key clojure-mode-map (kbd "C-c C-v") 'cider-start-http-server)
+  ;; (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
+  ;; (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns)
+  )
 
 ;; syntax hilighting for midje
 (add-hook 'clojure-mode-hook
