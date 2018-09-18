@@ -79,47 +79,80 @@
   :config
   (add-hook 'after-init-hook 'global-undo-tree-mode))
 
-(setq evil-want-integration nil)
 
-;;; Evil
-(use-package evil-leader
-  :ensure t
-  :init
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-   "b" 'switch-to-buffer
-   "<SPC>" 'counsel-M-x
-   "p" 'projectile-find-file)
-  (global-evil-leader-mode))
+;; (setq evil-want-integration nil)
 
-(use-package evil
-  :ensure t
-  :config
-  (evil-mode 1)
-  (key-chord-mode 1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-  (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up))
+;; ;;; Evil
+;; (use-package evil-leader
+;;   :ensure t
+;;   :init
+;;   :config
+;;   (evil-leader/set-leader "<SPC>")
+;;   (evil-leader/set-key
+;;    "b" 'switch-to-buffer
+;;    "<SPC>" 'counsel-M-x
+;;    "p" 'projectile-find-file
+;;    "S" 'magit-status
+;;    "j" 'avy-goto-line
+;;    "v" 'evil-window-vsplit
+;;    "s" 'evil-window-split
+;;    "/" 'evil-search-highlight-persist-remove-all
+;;    "w" 'avy-goto-word-0)
+;;   (global-evil-leader-mode))
 
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
+;; (use-package evil
+;;   :ensure t
+;;   :config
+;;   (evil-mode 1)
+;;   (key-chord-mode 1)
+;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+;;   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+;;   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+;;   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+;;   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+;;   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+;;   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
+;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
+;;                                         ; Shamelessly stolen from Amir Rajan
+;;   (global-set-key [escape] 'evil-exit-emacs-state)
 
-(use-package evil-commentary
-  :ensure t
-  :config
-  (evil-commentary-mode))
+;;   (defun evil-send-string-to-terminal (string)
+;;     (unless (display-graphic-p) (send-string-to-terminal string)))
+
+;;   (defun evil-terminal-cursor-change ()
+;;     (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
+;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
+;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
+;;     (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
+;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
+;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
+
+;;   (evil-terminal-cursor-change)
+;;   )
+
+;; (use-package evil-collection
+;;   :after evil
+;;   :ensure t
+;;   :config
+;;   (evil-collection-init))
+
+;; (use-package evil-surround
+;;   :ensure t
+;;   :config
+;;   (global-evil-surround-mode 1))
+
+;; (use-package evil-commentary
+;;   :ensure t
+;;   :config
+;;   (evil-commentary-mode))
 
 ;;; Avy mode (vim easymotion-esque)
 (use-package avy
