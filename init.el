@@ -1007,7 +1007,10 @@
 (setq c-default-style "linux")
 
 (use-package irony
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'irony-mode-hook '(lambda () (flycheck-mode -1)))
+  )
 ;;. End C/C++
 
 
