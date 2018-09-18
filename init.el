@@ -546,7 +546,10 @@
 
 ;; Vue Support
 (use-package vue-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq mmm-submode-decoration-level 0)
+  )
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 
 (use-package scss-mode
@@ -628,7 +631,6 @@
 
   (advice-add 'mocha-generate-command
               :override 'mocha-generate-command--jest-command))
-
 ;;; End Javascript
 
 ;;; Typescript
@@ -797,9 +799,6 @@
 (if (memq window-system '(mac ns))
     (set-face-attribute 'default nil :height 150)
   (set-face-attribute 'default nil :height 105))
-(add-text-properties (point-min) (point-max)
-                     '(line-spacing 0.25 line-height 1.25))
-
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
