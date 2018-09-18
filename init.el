@@ -221,7 +221,10 @@
 (use-package counsel-projectile
   :ensure t
   :config
-  (add-hook 'after-init-hook (counsel-projectile-mode)))
+  (add-hook 'after-init-hook (counsel-projectile-mode))
+  :bind (("C-c p p" . counsel-projectile-switch-project)
+         ("C-c p f" . counsel-projectile-find-file)
+         ("C-c p s" . counsel-projectile-ag)))
 
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
@@ -798,7 +801,7 @@
 (when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font"))
 (if (memq window-system '(mac ns))
     (set-face-attribute 'default nil :height 150)
-  (set-face-attribute 'default nil :height 105))
+  (set-face-attribute 'default nil :height 150))
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
