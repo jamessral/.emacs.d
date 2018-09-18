@@ -797,7 +797,8 @@
 (if (memq window-system '(mac ns))
     (set-face-attribute 'default nil :height 150)
   (set-face-attribute 'default nil :height 105))
-(setq-default line-height 6)
+(add-text-properties (point-min) (point-max)
+                     '(line-spacing 0.25 line-height 1.25))
 
 
 ;; Uncomment the lines below by removing semicolons and play with the
