@@ -789,7 +789,7 @@
 
 (defun load-light ()
   (interactive)
-  (load-theme 'leuven t))
+  (load-theme 'sanityinc-solarized-light t))
 
 (load-dark)
 
@@ -1004,13 +1004,15 @@
 ;;; End Golang
 
 ;;; C/C++
-(setq c-default-style "linux")
+;; (setq c-default-style "linux")
 
 (use-package irony
   :ensure t
   :config
   (add-hook 'irony-mode-hook '(lambda () (flycheck-mode -1)))
   )
+
+(define-key irony-mode-map (kbd "C-c C-m") 'recompile)
 ;;. End C/C++
 
 
