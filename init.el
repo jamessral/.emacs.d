@@ -738,6 +738,9 @@
 ;; Set frame background to dark for terminal mode
 (setq frame-background-mode 'dark)
 
+(use-package multi-term
+  :ensure t)
+
 
 ;; Show time on status bar
 (display-time-mode 1)
@@ -1047,7 +1050,7 @@
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
+    (multi-term color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
  '(sml/inactive-background-color "#dfe4ea")
