@@ -744,6 +744,8 @@
 ;; Set frame background to dark for terminal mode
 (setq frame-background-mode 'dark)
 
+(setq system-uses-terminfo nil)
+(prefer-coding-system 'utf-8)
 (use-package multi-term
   :ensure t)
 
@@ -783,6 +785,9 @@
 (use-package color-theme-solarized
   :ensure t)
 
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t)
+
 (defadvice load-theme
            ;; Make sure to disable current colors before switching
            (before theme-dont-propagate activate)
@@ -793,16 +798,25 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'gruvbox-dark-hard t))
+  (setq-local my/cursor-color "#b8ba25")
+  (load-theme 'gruvbox-dark-hard t)
+  (set-cursor-color my/cursor-color))
+
+(defun load-very-dark ()
+  (interactive)
+  (load-theme 'sanityinc-tomorrow-bright t))
+
 
 (defun load-light ()
   (interactive)
-  (load-theme 'base16-atelier-dune-light t))
+  (load-theme 'base16-atelier-dune-light t)
+  (set-cursor-color 'my/cursor-color))
 
 (load-dark)
 
 (global-set-key (kbd "C-c C-\\ l") 'load-light)
 (global-set-key (kbd "C-c C-\\ d") 'load-dark)
+(global-set-key (kbd "C-c C-\\ D") 'load-very-dark)
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
@@ -1053,7 +1067,7 @@
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (olivetti olliveti color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
+    (color-theme-sanityinc-tomorrow olivetti olliveti color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
  '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
