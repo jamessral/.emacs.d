@@ -684,10 +684,28 @@
   :ensure t)
 
 (use-package rust-mode
+  :ensure t)
+
+(use-package lsp-mode
+  :ensure t)
+
+(use-package lsp-javascript-typescript
   :ensure t
   :config
-  (with-eval-after-load 'rust-mode
-    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+  (add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
+  (add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable) ;; for typescript support
+  (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
+  (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support)
+  )
+
+(use-package lsp-rust
+  :ensure t
+  :config
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+    (require 'lsp-rust))
+  (add-hook 'rust-mode-hook #'lsp-rust-enable)
+  (add-hook 'rust-mode-hook #'flycheck-mode))
 ;;; End Rust
 
 
@@ -798,9 +816,7 @@
 
 (defun load-dark ()
   (interactive)
-  (setq-local my/cursor-color "#b8ba25")
-  (load-theme 'base16-atelier-dune t)
-  (set-cursor-color my/cursor-color))
+  (load-theme 'dracula t))
 
 (defun load-very-dark ()
   (interactive)
@@ -808,8 +824,7 @@
 
 (defun load-light ()
   (interactive)
-  (load-theme 'base16-atelier-dune-light t)
-  (set-cursor-color 'my/cursor-color))
+  (load-theme 'sanityinc-solarized-light t))
 
 (load-dark)
 
