@@ -84,6 +84,11 @@
 (setq evil-want-keybinding nil)
 (setq evil-want-integration nil)
 
+(use-package neotree
+  :ensure t
+  :config
+  (setq neo-theme (if (display-graphic-p) 'nerd 'arrow)))
+
 ;;; Evil
 (use-package evil-leader
   :ensure t
@@ -93,6 +98,8 @@
   (evil-leader/set-key
    "b" 'switch-to-buffer
    "<SPC>" 'counsel-M-x
+   "n" 'neotree-toggle
+   "<RET>" 'save-buffer
    "p" 'projectile-find-file
    "S" 'magit-status
    "j" 'avy-goto-line
@@ -1105,7 +1112,7 @@
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (evil-escape color-theme-sanityinc-tomorrow olivetti olliveti color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
+    (neotree neo-tree evil-escape color-theme-sanityinc-tomorrow olivetti olliveti color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
  '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
