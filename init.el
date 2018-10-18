@@ -87,7 +87,7 @@
 (use-package neotree
   :ensure t
   :config
-  (setq neo-theme (if (display-graphic-p) 'nerd 'arrow)))
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
 ;;; Evil
 (use-package evil-leader
