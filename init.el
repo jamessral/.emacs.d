@@ -99,7 +99,7 @@
    "v" 'evil-window-vsplit
    "s" 'evil-window-split
    "/" 'evil-search-highlight-persist-remove-all
-   "w" 'avy-goto-char)
+   "w" 'avy-goto-char-2)
   (global-evil-leader-mode))
 
 (use-package evil
