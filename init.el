@@ -148,6 +148,8 @@
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+  (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
+  (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
 
                                         ; Shamelessly stolen from Amir Rajan
   (global-set-key [escape] 'evil-exit-emacs-state)
@@ -280,7 +282,7 @@
 
 ;;; Editing
 ;; Use subword mode
-(global-subword-mode)
+;; (global-subword-mode)
 ;; Fix Org Mode syntax stuff
 (setq org-src-fontify-natively t)
 ;; Use Asci for compile mode (running tests)
