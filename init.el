@@ -802,9 +802,9 @@
 (display-time-mode 1)
 
 ;; Show line numbers if activated manually
+(setq-default display-line-numbers-type 'relative)
 (global-set-key (kbd "C-c C-\\ n") 'display-line-numbers-mode)
-;;(add-hook 'prog-mode-hook 'display-line-numbers-mode)
-;;(setq-default display-line-numbers-type 'relative)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (setq linum-format "%d ")
 
