@@ -102,14 +102,32 @@
    "w" 'avy-goto-char-2)
   (global-evil-leader-mode))
 
+(use-package evil-escape
+  :ensure t
+  :commands evil-escape-mode
+  :init
+  (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
+        evil-escape-excluded-major-modes '(neotree-mode)
+        evil-escape-key-sequence "jk"
+        evil-escape-delay 0.25)
+  (add-hook 'after-init-hook #'evil-escape-mode)
+  :config
+  ;; no `evil-escape' in minibuffer
+  (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
+
+  (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
+  (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
+  (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
+  (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
+
 (use-package evil
   :ensure t
   :init
   :config
   (evil-mode 1)
   (key-chord-mode 1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+  ;;(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+  ;;(key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
@@ -1087,7 +1105,7 @@
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (color-theme-sanityinc-tomorrow olivetti olliveti color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
+    (evil-escape color-theme-sanityinc-tomorrow olivetti olliveti color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
  '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
