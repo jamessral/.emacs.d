@@ -858,13 +858,13 @@
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-bright t))
+  (load-theme 'wheatgrass t))
 
 (defun load-light ()
   (interactive)
   (load-theme 'sanityinc-solarized-light t))
 
-(load-dark)
+(load-very-dark)
 
 (global-set-key (kbd "C-c C-\\ l") 'load-light)
 (global-set-key (kbd "C-c C-\\ d") 'load-dark)
@@ -874,8 +874,8 @@
 ;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font"))
 (if (memq window-system '(mac ns))
-    (set-face-attribute 'default nil :height 150)
-  (set-face-attribute 'default nil :height 150))
+    (set-face-attribute 'default nil :height 120)
+  (set-face-attribute 'default nil :height 120))
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
