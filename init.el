@@ -878,7 +878,7 @@
 (when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font"))
 (if (memq window-system '(mac ns))
     (set-face-attribute 'default nil :height 150)
-  (set-face-attribute 'default nil :height 150))
+  (set-face-attribute 'default nil :height 120))
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
