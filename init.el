@@ -66,7 +66,12 @@
   (setq-default writeroom-width 100)
   ;; Turn on distraction-free mode by default
   (global-writeroom-mode t)
-  (global-set-key (kbd "C-c C-\\ z") 'writeroom-mode))
+  (global-set-key (kbd "C-c C-\\ z") 'writeroom-mode)
+  (setq-default writeroom-maximize-window nil)
+  (setq-default writeroom-major-modes
+                '(prog-mode
+                  text-mode
+                  )))
 
 (use-package window-numbering
   :ensure t
@@ -873,7 +878,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'dracula t))
+  (load-theme 'hickey t))
 
 (defun load-very-dark ()
   (interactive)
