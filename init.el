@@ -888,7 +888,7 @@
   (interactive)
   (load-theme 'base16-google-light t))
 
-(load-very-dark)
+(load-dark)
 
 (global-set-key (kbd "C-c C-\\ l") 'load-light)
 (global-set-key (kbd "C-c C-\\ d") 'load-dark)
@@ -1143,7 +1143,6 @@
  '(global-git-gutter+-mode t)
  '(global-undo-tree-mode t)
  '(global-whitespace-mode nil)
- '(global-writeroom-mode nil nil (writeroom-mode))
  '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
  '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
  '(linum-format " %5i ")
