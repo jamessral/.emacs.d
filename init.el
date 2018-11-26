@@ -906,6 +906,9 @@
 (use-package hemisu-theme
   :ensure t)
 
+(use-package dracula-theme
+  :ensure t)
+
 (defadvice load-theme
            ;; Make sure to disable current colors before switching
            (before theme-dont-propagate activate)
@@ -937,7 +940,7 @@
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hack Nerd Font"))
 (if (memq window-system '(mac ns))
     (set-face-attribute 'default nil :height 140)
-  (set-face-attribute 'default nil :height 120))
+  (set-face-attribute 'default nil :height 100))
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
