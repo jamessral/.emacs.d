@@ -216,6 +216,13 @@
 (global-set-key (kbd "M-g f") 'avy-goto-line)
 (global-set-key (kbd "M-g w") 'avy-goto-word-1)
 
+;; Projectile
+;; projectile everywhere!
+(use-package projectile
+  :ensure t
+  :config
+  (add-hook 'after-init-hook (projectile-mode)))
+
 (use-package helm
   :ensure t
   :config
@@ -224,9 +231,13 @@
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
   (helm-mode 1))
 
+(use-package helm-ag
+  :ensure t)
+
 (use-package helm-projectile
   :ensure t
   :init
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (helm-projectile-on))
 
 (use-package swiper
@@ -269,13 +280,6 @@
 (use-package magit
              :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
-
-;; Projectile
-;; projectile everywhere!
-(use-package projectile
-  :ensure t
-  :config
-  (add-hook 'after-init-hook (projectile-mode)))
 
 ;; (use-package counsel-projectile
 ;;   :ensure t
