@@ -205,6 +205,9 @@
 
 (global-set-key (kbd "C-c C-\\ e") 'evil-mode)
 
+;;; goto last change
+(global-set-key (kbd "C-c C-\\ C-\\") 'goto-last-change)
+
 ;;; Avy mode (vim easymotion-esque)
 (use-package avy
              :ensure t)
@@ -220,6 +223,11 @@
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
   (helm-mode 1))
+
+(use-package helm-projectile
+  :ensure t
+  :init
+  (helm-projectile-on))
 
 (use-package swiper
   :ensure t
@@ -269,13 +277,13 @@
   :config
   (add-hook 'after-init-hook (projectile-mode)))
 
-(use-package counsel-projectile
-  :ensure t
-  :config
-  (add-hook 'after-init-hook (counsel-projectile-mode))
-  :bind (("C-c p p" . counsel-projectile-switch-project)
-         ("C-c p f" . counsel-projectile-find-file)
-         ("C-c p s" . counsel-projectile-ag)))
+;; (use-package counsel-projectile
+;;   :ensure t
+;;   :config
+;;   (add-hook 'after-init-hook (counsel-projectile-mode))
+;;   :bind (("C-c p p" . counsel-projectile-switch-project)
+;;          ("C-c p f" . counsel-projectile-find-file)
+;;          ("C-c p s" . counsel-projectile-ag)))
 
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
@@ -321,7 +329,8 @@
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode)
-  (global-set-key (kbd "C-<tab>") 'company-complete))
+  (global-set-key (kbd "C-<tab>") 'company-complete)
+  (global-set-key (kbd "C-.") 'company-files))
 
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
@@ -903,7 +912,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'base16-material-darker t))
+  (load-theme 'dracula t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1177,7 +1186,7 @@
     ("#183691" "#969896" "#a71d5d" "#969896" "#0086b3" "#795da3" "#a71d5d" "#969896")))
  '(package-selected-packages
    (quote
-    (elpy ruby-end enh-ruby-mode ruby-test-mode ruby-end-mode github-theme git-gutter-fringe+ writeroom-mode zen haxe-imports haxe-import haxe-mode hemisu-theme better-defaults neotree neo-tree evil-escape color-theme-sanityinc-tomorrow olivetti olliveti color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
+    (helm-projectile elpy ruby-end enh-ruby-mode ruby-test-mode ruby-end-mode github-theme git-gutter-fringe+ writeroom-mode zen haxe-imports haxe-import haxe-mode hemisu-theme better-defaults neotree neo-tree evil-escape color-theme-sanityinc-tomorrow olivetti olliveti color-theme-solarized color-theme-sanityinc-solarized color-theme-sanity-inc-solarized company-racer company-rust flycheck-rust rust-mode rust gruvbox-theme helm pacmacs irony irony-mode d-mode w3m base16-theme evil-leader spacemacs-theme evil-collection flatui-theme oceanic-theme flatui-dark-theme linum-relative dracula-theme evil-commentary evil-surround navigate evil sublime-themes flycheck-elixir beacon undo-tree add-node-modules-path spotify clojure-mode-extra-font-locking alchemist counsel-projectile tide racket-mode geiser yafolding key-chord all-the-icons smex fiplr ag counsel swiper ivy avy window-numbering flycheck use-package)))
  '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
