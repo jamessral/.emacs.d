@@ -916,7 +916,8 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'wombat t))
+  (load-theme 'wombat t)
+  (set-cursor-color "#aadd10"))
 
 (defun load-very-dark ()
   (interactive)
