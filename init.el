@@ -767,6 +767,9 @@
 ;;; End Ruby
 
 ;;; Python
+(use-package jedi
+  :ensure t)
+
 (use-package elpy
   :ensure t
   :config
