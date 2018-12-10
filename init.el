@@ -644,7 +644,9 @@
 (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
 (use-package js2-refactor
-  :ensure t)
+  :ensure t
+  :init
+  (js2r-add-keybindings-with-prefix "C-c C-m"))
 
 (use-package xref-js2
   :ensure t)
