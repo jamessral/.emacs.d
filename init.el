@@ -199,9 +199,9 @@
   (evil-commentary-mode))
 
 ;; Evil disabled by default
-(evil-mode -1)
-(evil-escape-mode -1)
-(evil-leader-mode -1)
+;; (evil-mode -1)
+;; (evil-escape-mode -1)
+;; (evil-leader-mode -1)
 
 (global-set-key (kbd "C-c C-\\ e") 'evil-mode)
 
