@@ -711,6 +711,8 @@
 ;;; Typescript
 (use-package tide
   :ensure t
+  :init
+  (add-hook tide-mode 'add-node-modules-path)
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
@@ -769,6 +771,9 @@
 ;;; End Ruby
 
 ;;; Python
+(use-package jedi
+  :ensure t)
+
 (use-package elpy
   :ensure t
   :config
@@ -1170,9 +1175,10 @@
  '(custom-safe-themes
    (quote
     ("446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" default))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+)
