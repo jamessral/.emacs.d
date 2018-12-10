@@ -203,13 +203,29 @@
 ;; (evil-escape-mode -1)
 ;; (evil-leader-mode -1)
 
-(defun toggle-evil ()
+(defun set-relative-lines ()
   (interactive)
+  (setq display-line-numbers 'relative))
+
+(defun set-absolute-lines ()
+  (interactive)
+  (setq display-line-numbers t))
+
+(defun toggle-relative-lines ()
+  (interactive)
+  (if (eq display-line-numbers 'relative)
+      (setq display-line-numbers t)
+    (setq display-line-numbers 'relative)))
+
+(defun enable-evil ()
+  (interactive)
+  (set-relative-lines)
   (evil-mode 1)
   (evil-escape-mode 1)
   (evil-leader-mode 1))
 
-(global-set-key (kbd "C-c C-\\ e") 'toggle-evil)
+(global-set-key (kbd "C-c C-\\ e") 'enable-evil)
+(global-set-key (kbd "C-c C-\\ r") 'toggle-relative-lines)
 
 ;;; goto last change
 (global-set-key (kbd "C-c C-\\ C-\\") 'goto-last-change)
