@@ -295,7 +295,8 @@
 (use-package smartparens
   :ensure t
   :config
-  (add-hook 'after-init-hook 'smartparens-global-mode 1))
+  (add-hook 'after-init-hook 'smartparens-global-mode 1)
+  (add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode -1))))
 
 (electric-pair-mode 1)
 
@@ -344,7 +345,8 @@
   :ensure t
   :config
   ;; Use Paredit to allow slurping
-  (global-set-key (kbd "C-)") 'paredit-forward-slurp-sexp))
+  (global-set-key (kbd "C-)") 'paredit-forward-slurp-sexp)
+  (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
 
 ;; Expand Region
 (use-package expand-region
@@ -916,8 +918,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'wombat t)
-  (set-cursor-color "#aadd10"))
+  (load-theme 'base16-material t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1159,3 +1160,19 @@
 (use-package d-mode
   :ensure t)
 ;;; End D lang
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(custom-safe-themes
+   (quote
+    ("446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
