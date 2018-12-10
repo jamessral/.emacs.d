@@ -119,7 +119,7 @@
    "j" 'avy-goto-line
    "v" 'evil-window-vsplit
    "s" 'evil-window-split
-   "/" 'evil-search-highlight-persist-remove-all
+   "/" 'evil-ex-nohighlight
    "w" 'avy-goto-char-2)
   (global-evil-leader-mode))
 
@@ -203,7 +203,13 @@
 ;; (evil-escape-mode -1)
 ;; (evil-leader-mode -1)
 
-(global-set-key (kbd "C-c C-\\ e") 'evil-mode)
+(defun toggle-evil ()
+  (interactive)
+  (evil-mode 1)
+  (evil-escape-mode 1)
+  (evil-leader-mode 1))
+
+(global-set-key (kbd "C-c C-\\ e") 'toggle-evil)
 
 ;;; goto last change
 (global-set-key (kbd "C-c C-\\ C-\\") 'goto-last-change)
