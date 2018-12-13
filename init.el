@@ -231,9 +231,9 @@
   (evil-escape-mode -1)
   (evil-leader-mode -1))
 
-(global-set-key (kbd "C-c C-\\ e") 'enable-evil)
-(global-set-key (kbd "C-c C-\\ E") 'disable-evil)
-(global-set-key (kbd "C-c C-\\ r") 'toggle-relative-lines)
+(global-set-key (kbd "C-c e o") 'enable-evil)
+(global-set-key (kbd "C-c e f") 'disable-evil)
+(global-set-key (kbd "C-c l r") 'toggle-relative-lines)
 
 ;;; goto last change
 (global-set-key (kbd "C-c C-\\ C-\\") 'goto-last-change)
@@ -619,9 +619,9 @@
 (setq js2-basic-offset 2)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
-                           (local-set-key (kbd "C-c C-\\ C-t") 'mocha-test-at-point)
+                           (local-set-key (kbd "C-c t t") 'mocha-test-at-point)
                            (evil-leader/set-key "t" 'mocha-test-at-point)
-                           (local-set-key (kbd "C-c C-\\ C-f") 'mocha-test-file)
+                           (local-set-key (kbd "C-c t f") 'mocha-test-file)
                             (evil-leader/set-key "T" 'mocha-test-file)))
 
 (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
@@ -647,8 +647,8 @@
                             ;;(aggressive-indent-mode -1)
                             ;;(global-aggressive-indent-mode -1)
                             ;; Don't auto-quote attribute values
-                            (local-set-key (kbd "C-c C-t C-t") 'mocha-test-at-point)
-                            (local-set-key (kbd "C-c C-t C-f") 'mocha-test-file)
+                            (local-set-key (kbd "C-c t t") 'mocha-test-at-point)
+                            (local-set-key (kbd "C-c t f") 'mocha-test-file)
                             (setq-local web-mode-enable-auto-quoting nil)))
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
@@ -936,8 +936,8 @@
 
 ;; Show line numbers if activated manually
 ;; (setq-default display-line-numbers-type 'relative)
-(global-set-key (kbd "C-c C-\\ n") 'display-line-numbers-mode)
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(global-set-key (kbd "C-c n t") 'global-display-line-numbers-mode)
+;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (setq linum-format "%d ")
 
@@ -985,9 +985,9 @@
 
 (load-dark)
 
-(global-set-key (kbd "C-c C-\\ l") 'load-light)
-(global-set-key (kbd "C-c C-\\ d") 'load-dark)
-(global-set-key (kbd "C-c C-\\ D") 'load-very-dark)
+(global-set-key (kbd "C-c u l") 'load-light)
+(global-set-key (kbd "C-c u d") 'load-dark)
+(global-set-key (kbd "C-c u D") 'load-very-dark)
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
@@ -1055,7 +1055,7 @@
 (use-package cider
   :ensure t
   :bind
-  (:map cider-mode-map ("C-c u" . cider-user-ns)))
+  (:map cider-mode-map ("C-c c u" . cider-user-ns)))
 
 (use-package clojure-mode
   :ensure t
@@ -1205,9 +1205,9 @@
   (add-hook 'irony-mode-hook '(lambda () (flycheck-mode -1)))
   )
 
-(define-key irony-mode-map (kbd "C-c C-m") 'recompile)
-(define-key c-mode-map (kbd "C-c C-m") 'recompile)
-(define-key c++-mode-map (kbd "C-c C-m") 'recompile)
+(define-key irony-mode-map (kbd "C-c C-c") 'recompile)
+(define-key c-mode-map (kbd "C-c C-c") 'recompile)
+(define-key c++-mode-map (kbd "C-c C-c") 'recompile)
 ;;. End C/C++
 
 
