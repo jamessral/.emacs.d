@@ -233,10 +233,13 @@
 
 (global-set-key (kbd "C-c e o") 'enable-evil)
 (global-set-key (kbd "C-c e f") 'disable-evil)
-(global-set-key (kbd "C-c l r") 'toggle-relative-lines)
+(global-set-key (kbd "C-c e l") 'toggle-relative-lines)
+
+
+(global-set-key (kbd "C-c RET RET") 'save-buffer)
 
 ;;; goto last change
-(global-set-key (kbd "C-c C-\\ C-\\") 'goto-last-change)
+(global-set-key (kbd "C-c l c") 'goto-last-change)
 
 ;;; Avy mode (vim easymotion-esque)
 (use-package avy
