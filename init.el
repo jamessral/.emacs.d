@@ -199,9 +199,9 @@
   (evil-commentary-mode))
 
 ;; Evil disabled by default
-;; (evil-mode -1)
-;; (evil-escape-mode -1)
-;; (evil-leader-mode -1)
+(evil-mode -1)
+(evil-escape-mode -1)
+(evil-leader-mode -1)
 
 (defun set-relative-lines ()
   (interactive)
@@ -224,7 +224,15 @@
   (evil-escape-mode 1)
   (evil-leader-mode 1))
 
+(defun disable-evil ()
+  (interactive)
+  (set-relative-lines)
+  (evil-mode -1)
+  (evil-escape-mode -1)
+  (evil-leader-mode -1))
+
 (global-set-key (kbd "C-c C-\\ e") 'enable-evil)
+(global-set-key (kbd "C-c C-\\ E") 'disable-evil)
 (global-set-key (kbd "C-c C-\\ r") 'toggle-relative-lines)
 
 ;;; goto last change
@@ -521,6 +529,11 @@
   :ensure t)
 
 (use-package indium
+  :ensure t
+  :init
+  (add-hook 'js-mode-hook #'indium-interaction-mode))
+
+(use-package prettier-js
   :ensure t)
 
 (use-package rjsx-mode
@@ -745,7 +758,7 @@
 (use-package tide
   :ensure t
   :init
-  (add-hook tide-mode 'add-node-modules-path)
+  (add-hook 'tide-mode 'add-node-modules-path)
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
@@ -776,6 +789,10 @@
   (company-mode +1))
 
 ;;; End Typescript
+
+
+(use-package graphql-mode
+  :ensure t)
 
 ;;; Ruby
 (use-package ruby-end
@@ -1211,11 +1228,11 @@
  '(electric-pair-mode t)
  '(package-selected-packages
    (quote
-    (indium wrap-region yafolding xref-js2 writeroom-mode window-numbering web-mode w3m vue-mode use-package tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode ruby-test-mode ruby-end robe rjsx-mode rinari rake racket-mode paredit pacmacs org-bullets olivetti oceanic-theme neotree navigate multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode js2-refactor irony hemisu-theme helm-projectile helm-ag haxe-mode haxe-imports gruvbox-theme go-autocomplete github-theme git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flatui-theme flatui-dark-theme fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode elpy dracula-theme dashboard d-mode counsel-projectile company-racer company-go color-theme-solarized color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path))))
+    (graphql-mode prettier-js indium wrap-region yafolding xref-js2 writeroom-mode window-numbering web-mode w3m vue-mode use-package tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode ruby-test-mode ruby-end robe rjsx-mode rinari rake racket-mode paredit pacmacs org-bullets olivetti oceanic-theme neotree navigate multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode js2-refactor irony hemisu-theme helm-projectile helm-ag haxe-mode haxe-imports gruvbox-theme go-autocomplete github-theme git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flatui-theme flatui-dark-theme fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode elpy dracula-theme dashboard d-mode counsel-projectile company-racer company-go color-theme-solarized color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background nil)))))
