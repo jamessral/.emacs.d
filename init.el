@@ -34,6 +34,14 @@
 (use-package better-defaults
   :ensure t)
 
+(defun run-server ()
+  "Runs emacs server if it is not running"
+  (require 'server)
+  (unless (server-running-p)
+    (server-start)))
+
+(run-server)
+
 (use-package flycheck
   :ensure t
   :config
@@ -797,6 +805,9 @@
 (use-package graphql-mode
   :ensure t)
 
+(use-package yaml-mode
+  :ensure t)
+
 ;;; Ruby
 (use-package ruby-end
   :ensure t)
@@ -807,13 +818,26 @@
 (use-package enh-ruby-mode
   :ensure t)
 
+(use-package inf-ruby
+  :ensure t)
+
+(use-package rbenv
+  :ensure t
+  :init
+  (global-rbenv-mode))
+
 (use-package robe
   :ensure t)
 
-(use-package rinari
+(use-package projectile-rails
   :ensure t
   :init
-  (global-rinari-mode))
+  (projectile-rails-global-mode))
+
+;; (use-package rinari
+;;   :ensure t
+;;   :init
+;;   (global-rinari-mode))
 
 (add-hook 'ruby-mode-hook (lambda ()
                             (progn
@@ -853,25 +877,18 @@
   :ensure t)
 
 (use-package lsp-mode
-  :ensure t)
-
-(use-package lsp-javascript-typescript
   :ensure t
-  :config
-  (add-hook 'js-mode-hook #'lsp-javascript-typescript-enable)
-  (add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable) ;; for typescript support
-  (add-hook 'js3-mode-hook #'lsp-javascript-typescript-enable) ;; for js3-mode support
-  (add-hook 'rjsx-mode #'lsp-javascript-typescript-enable) ;; for rjsx-mode support)
-  )
+  :commands lsp
+  :init
+  (add-hook 'js-mode-hook #'lsp)
+  (add-hook 'typescript-mode-hook #'lsp) ;; for typescript support
+  (add-hook 'js3-mode-hook #'lsp) ;; for js3-mode support
+  (add-hook 'rjsx-mode-hook #'lsp) ;; for rjsx-mode support
+  (add-hook 'rust-mode-hook #'lsp))
 
-(use-package lsp-rust
-  :ensure t
-  :config
-  (with-eval-after-load 'lsp-mode
-    (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
-    (require 'lsp-rust))
-  (add-hook 'rust-mode-hook #'lsp-rust-enable)
-  (add-hook 'rust-mode-hook #'flycheck-mode))
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+
 ;;; End Rust
 
 
@@ -994,7 +1011,7 @@
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "Hack Nerd Font"))
+(when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font"))
 (if (memq window-system '(mac ns))
     (set-face-attribute 'default nil :height 140)
   (set-face-attribute 'default nil :height 100))
@@ -1151,8 +1168,8 @@
 ;;; End Elixir/Erlang
 
 ;;; Slime (Common Lisp)
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "sbcl")
+; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+; (setq inferior-lisp-program "sbcl")
 ;;; End Slime (Common Lisp)
 
 ;;; Geiser (Scheme)
@@ -1231,7 +1248,7 @@
  '(electric-pair-mode t)
  '(package-selected-packages
    (quote
-    (graphql-mode prettier-js indium wrap-region yafolding xref-js2 writeroom-mode window-numbering web-mode w3m vue-mode use-package tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode ruby-test-mode ruby-end robe rjsx-mode rinari rake racket-mode paredit pacmacs org-bullets olivetti oceanic-theme neotree navigate multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode js2-refactor irony hemisu-theme helm-projectile helm-ag haxe-mode haxe-imports gruvbox-theme go-autocomplete github-theme git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flatui-theme flatui-dark-theme fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode elpy dracula-theme dashboard d-mode counsel-projectile company-racer company-go color-theme-solarized color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path))))
+    (projectile-rails inf-ruby-mode rbenv rbenv-mode yaml-mode lsp-javascript-typescript graphql-mode prettier-js indium wrap-region yafolding xref-js2 writeroom-mode window-numbering web-mode w3m vue-mode use-package tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode ruby-test-mode ruby-end robe rjsx-mode rinari rake racket-mode paredit pacmacs org-bullets olivetti oceanic-theme neotree navigate multi-term mocha magit lush-theme lsp-rust linum-relative key-chord json-mode js2-refactor irony hemisu-theme helm-projectile helm-ag haxe-mode haxe-imports gruvbox-theme go-autocomplete github-theme git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flatui-theme flatui-dark-theme fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode elpy dracula-theme dashboard d-mode counsel-projectile company-racer company-go color-theme-solarized color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
