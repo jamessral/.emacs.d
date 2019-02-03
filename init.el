@@ -684,8 +684,6 @@
 (add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . rjsx-mode))
 (add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . rjsx-mode))
 (add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . rjsx-mode))
-(add-to-list 'magic-mode-alist '(".*import Rreact" . rjsx-mode))
-(add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
 
 ;; Vue Support
 (use-package vue-mode
