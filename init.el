@@ -868,8 +868,11 @@
                             (progn
                               (ruby-end-mode)
                               (ruby-test-mode)
+                              (define-key ruby-mode-map (kbd "M-.") #'lsp-find-definition)
                               ;; (enh-ruby-mode)
-                              (robe-mode))))
+                              ;; Use lsp instead now
+                              ;;(robe-mode)
+                              )))
 ;;; End Ruby
 
 ;;; Crystal
