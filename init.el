@@ -868,7 +868,7 @@
                             (progn
                               (ruby-end-mode)
                               (ruby-test-mode)
-                              (enh-ruby-mode)
+                              ;; (enh-ruby-mode)
                               ;; Use lsp instead now
                               ;;(robe-mode)
                               )))
