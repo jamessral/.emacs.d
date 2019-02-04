@@ -868,8 +868,7 @@
                             (progn
                               (ruby-end-mode)
                               (ruby-test-mode)
-                              (define-key ruby-mode-map (kbd "M-.") #'lsp-find-definition)
-                              ;; (enh-ruby-mode)
+                              (enh-ruby-mode)
                               ;; Use lsp instead now
                               ;;(robe-mode)
                               )))
