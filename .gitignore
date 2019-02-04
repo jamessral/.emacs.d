@@ -7,3 +7,4 @@ init.elc
 cider*
 projectile-bookmarks.eld
 nit
+auto-save-list/**/*
