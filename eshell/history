@@ -1,0 +1,9 @@
+cd ...
+exit
+cd ....
+cd ..
+yarn; rails c
+node --version
+exit
+which yarn
+exit
