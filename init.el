@@ -1027,6 +1027,9 @@
 (use-package lush-theme
   :ensure t)
 
+(use-package base16-theme
+  :ensure t)
+
 (use-package color-theme-sanityinc-solarized
   :ensure t)
 
@@ -1043,7 +1046,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'base16-material-darker t))
+  (load-theme 'base16-material t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1061,10 +1064,10 @@
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font"))
-(if (memq window-system '(mac ns))
+(when (display-graphic-p) (set-face-attribute 'default nil :font "SauceCodePro Nerd Font"))
+(if (memq window-system '(mac))
     (set-face-attribute 'default nil :height 140)
-  (set-face-attribute 'default nil :height 100))
+  (set-face-attribute 'default nil :height 110))
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
