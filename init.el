@@ -784,7 +784,7 @@
 (use-package tide
   :ensure t
   :init
-  (add-hook 'tide-mode 'add-node-modules-path)
+  (add-hook 'tide-mode-hook 'add-node-modules-path)
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
@@ -927,6 +927,7 @@
   (add-hook 'js3-mode-hook #'lsp) ;; for js3-mode support
   (add-hook 'js2-mode-hook #'lsp) ;; for rjsx-mode support
   (add-hook 'rust-mode-hook #'lsp)
+  ;; (add-hook 'tide-mode-hook #'lsp)
   (add-hook 'ruby-mode-hook #'lsp))
 
 (use-package lsp-ui
@@ -1295,10 +1296,14 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   ["#212121" "#f07178" "#c3e88d" "#ffcb6b" "#82aaff" "#c792ea" "#82aaff" "#eeffff"])
+ '(ansi-term-color-vector
+   [unspecified "#212121" "#f07178" "#c3e88d" "#ffcb6b" "#82aaff" "#c792ea" "#82aaff" "#eeffff"] t)
  '(beacon-color "#d54e53")
  '(custom-safe-themes
    (quote
-    ("0c3b1358ea01895e56d1c0193f72559449462e5952bded28c81a8e09b53f103f" "446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" default)))
+    ("6145e62774a589c074a31a05dfa5efdf8789cf869104e905956f0cbd7eda9d0e" "0c3b1358ea01895e56d1c0193f72559449462e5952bded28c81a8e09b53f103f" "446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" default)))
  '(electric-pair-mode t)
  '(fci-rule-color "#424242")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
