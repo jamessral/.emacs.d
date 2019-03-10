@@ -113,107 +113,6 @@
 (setq evil-want-keybinding nil)
 (setq evil-want-integration nil)
 
-;;; Evil
-(use-package evil-leader
-  :ensure t
-  :init
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-   "b" 'switch-to-buffer
-   "<SPC>" 'counsel-M-x
-   "n" 'neotree-toggle
-   "m" 'neotree-find
-   "<RET>" 'save-buffer
-   "p" 'projectile-find-file
-   "S" 'magit-status
-   "j" 'avy-goto-line
-   "v" 'evil-window-vsplit
-   "s" 'evil-window-split
-   "/" 'evil-ex-nohighlight
-   "w" 'avy-goto-char-2)
-  (global-evil-leader-mode))
-
-(use-package evil-escape
-  :ensure t
-  :commands evil-escape-mode
-  :init
-  (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
-        evil-escape-excluded-major-modes '(neotree-mode)
-        evil-escape-key-sequence "jk"
-        evil-escape-delay 0.25)
-  (add-hook 'after-init-hook #'evil-escape-mode)
-  :config
-  ;; no `evil-escape' in minibuffer
-  (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
-
-  (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
-  (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
-
-(use-package evil
-  :ensure t
-  :init
-  :config
-  (evil-mode 1)
-  (key-chord-mode 1)
-  ;;(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  ;;(key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-  (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-  (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-  ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
-  (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
-
-                                        ; Shamelessly stolen from Amir Rajan
-  (global-set-key [escape] 'evil-exit-emacs-state)
-
-  (defun evil-send-string-to-terminal (string)
-    (unless (display-graphic-p) (send-string-to-terminal string)))
-
-  (defun evil-terminal-cursor-change ()
-    (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
-      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
-      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
-    (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
-      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
-      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
-
-  (evil-terminal-cursor-change)
-  )
-
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
-
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-
-(use-package evil-commentary
-  :ensure t
-  :config
-  (evil-commentary-mode))
-
-;; Evil disabled by default
-(evil-mode -1)
-(evil-escape-mode -1)
-(evil-leader-mode -1)
-
 (defun set-relative-lines ()
   (interactive)
   (setq-default display-line-numbers 'relative))
@@ -227,25 +126,6 @@
   (if (eq display-line-numbers 'relative)
       (setq display-line-numbers t)
     (setq display-line-numbers 'relative)))
-
-(defun enable-evil ()
-  (interactive)
-  (set-relative-lines)
-  (evil-mode 1)
-  (evil-escape-mode 1)
-  (evil-leader-mode 1))
-
-(defun disable-evil ()
-  (interactive)
-  (set-relative-lines)
-  (evil-mode -1)
-  (evil-escape-mode -1)
-  (evil-leader-mode -1))
-
-(global-set-key (kbd "C-c e o") 'enable-evil)
-(global-set-key (kbd "C-c e f") 'disable-evil)
-(global-set-key (kbd "C-c e l") 'toggle-relative-lines)
-
 
 (global-set-key (kbd "C-c RET RET") 'save-buffer)
 
@@ -332,14 +212,6 @@
 (use-package magit
              :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
-
-;; (use-package counsel-projectile
-;;   :ensure t
-;;   :config
-;;   (add-hook 'after-init-hook (counsel-projectile-mode))
-;;   :bind (("C-c p p" . counsel-projectile-switch-project)
-;;          ("C-c p f" . counsel-projectile-find-file)
-;;          ("C-c p s" . counsel-projectile-ag)))
 
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
@@ -431,11 +303,6 @@
                       '(add-to-list 'company-backends 'company-lua)
                       '(add-to-list 'company-backends 'company-irony)
                       '(add-to-list 'company-backends 'company-racer))
-
-;; (use-package company-quickhelp
-;;   :ensure t
-;;   :config
-;;   (company-quickhelp-mode 1))
 
 ;; Use Key Chords
 (use-package key-chord
@@ -572,20 +439,6 @@
 (eval-after-load 'js2-mode
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
 
-;; customize flycheck temp file prefix
-
-;; use local eslint from node_modules before global
-;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
-;; (defun my/use-eslint-from-node-modules ()
-;;   (let* ((root (locate-dominating-file
-;;                 (or (buffer-file-name) default-directory)
-;;                 "node_modules"))
-;;          (eslint (and root
-;;                       (expand-file-name "node_modules/eslint/bin/eslint.js"
-;;                                         root))))
-;;     (when (and eslint (file-executable-p eslint))
-;;       (setq-local flycheck-javascript-eslint-executable eslint))))
-
 (defun codefalling/reset-eslint-rc ()
   (let ((rc-path (if (projectile-project-p)
                      (concat (projectile-project-root) ".eslintrc"))))
@@ -594,7 +447,6 @@
           (message rc-path)
           (setq flycheck-eslintrc rc-path)))))
 
-;; (add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
 
 (defun my/set-web-mode-indent ()
   (interactive)
@@ -864,18 +716,10 @@
   :init
   (projectile-rails-global-mode))
 
-;; (use-package rinari
-;;   :ensure t
-;;   :init
-;;   (global-rinari-mode))
-
 (add-hook 'ruby-mode-hook (lambda ()
                             (progn
                               (ruby-end-mode)
                               (ruby-test-mode)
-                              ;; (enh-ruby-mode)
-                              ;; Use lsp instead now
-                              ;;(robe-mode)
                               )))
 ;;; End Ruby
 
@@ -955,13 +799,6 @@
 ;;; End Fun Stuff (Misc)
 
 ;;; UI
-
-;; These customizations change the way emacs looks and disable/enable
-;; some user interface elements. Some useful customizations are
-;; commented out, and begin with the line "CUSTOMIZE". These are more
-;; a matter of preference and may require some fiddling to match your
-;; preferences
-
 ;; Turn off the menu bar at the top of each frame because it's distracting
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -1030,6 +867,9 @@
 (use-package base16-theme
   :ensure t)
 
+(use-package gruvbox-theme
+  :ensure t)
+
 (use-package color-theme-sanityinc-solarized
   :ensure t)
 
@@ -1046,7 +886,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'base16-material t))
+  (load-theme 'gruvbox-dark-hard t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1064,7 +904,7 @@
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "SauceCodePro Nerd Font"))
+(when (display-graphic-p) (set-face-attribute 'default nil :font "Hack Nerd Font"))
 (if (memq window-system '(mac))
     (set-face-attribute 'default nil :height 140)
   (set-face-attribute 'default nil :height 110))
@@ -1132,11 +972,7 @@
 
 (use-package clojure-mode
   :ensure t
-  :config
-  ;; (define-key clojure-mode-map (kbd "C-c C-v") 'cider-start-http-server)
-  ;; (define-key clojure-mode-map (kbd "C-M-r") 'cider-refresh)
-  ;; (define-key clojure-mode-map (kbd "C-c u") 'cider-user-ns)
-  )
+  :config)
 
 ;; syntax hilighting for midje
 (add-hook 'clojure-mode-hook
@@ -1295,17 +1131,19 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-term-color-vector
+   [unspecified "#1d2021" "#fb4934" "#b8bb26" "#fabd2f" "#83a598" "#d3869b" "#83a598" "#d5c4a1"] t)
  '(beacon-color "#d54e53")
  '(custom-safe-themes
    (quote
-    ("0c3b1358ea01895e56d1c0193f72559449462e5952bded28c81a8e09b53f103f" "446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" default)))
+    ("a22f40b63f9bc0a69ebc8ba4fbc6b452a4e3f84b80590ba0a92b4ff599e53ad0" "6daa09c8c2c68de3ff1b83694115231faa7e650fdbb668bc76275f0f2ce2a437" "0c3b1358ea01895e56d1c0193f72559449462e5952bded28c81a8e09b53f103f" "446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" default)))
  '(electric-pair-mode t)
  '(fci-rule-color "#424242")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote dark))
  '(package-selected-packages
    (quote
-    (flycheck-crystal crystal-mode rubocopfmt restart-emacs jedi emmet-mode counsel swiper lsp-mode company-lsp lsp-ui which-key rspec-mode haml-mode projectile-rails inf-ruby-mode rbenv rbenv-mode yaml-mode lsp-javascript-typescript graphql-mode prettier-js indium wrap-region yafolding xref-js2 writeroom-mode window-numbering web-mode w3m vue-mode use-package tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode ruby-test-mode ruby-end robe rjsx-mode rinari rake racket-mode paredit pacmacs org-bullets olivetti oceanic-theme neotree navigate multi-term mocha magit lush-theme lsp-rust linum-relative key-chord json-mode js2-refactor irony hemisu-theme helm-projectile helm-ag haxe-mode haxe-imports gruvbox-theme go-autocomplete github-theme git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flatui-theme flatui-dark-theme fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode elpy dracula-theme dashboard d-mode counsel-projectile company-racer company-go color-theme-solarized color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+    (rust-mode helm-rg flycheck-crystal crystal-mode rubocopfmt restart-emacs jedi emmet-mode counsel swiper lsp-mode company-lsp lsp-ui which-key rspec-mode haml-mode projectile-rails inf-ruby-mode rbenv rbenv-mode yaml-mode lsp-javascript-typescript graphql-mode prettier-js indium wrap-region yafolding xref-js2 writeroom-mode window-numbering web-mode w3m vue-mode use-package tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode ruby-test-mode ruby-end robe rjsx-mode rinari rake racket-mode paredit pacmacs org-bullets olivetti oceanic-theme neotree navigate multi-term mocha magit lush-theme lsp-rust linum-relative key-chord json-mode js2-refactor irony hemisu-theme helm-projectile helm-ag haxe-mode haxe-imports gruvbox-theme go-autocomplete github-theme git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flatui-theme flatui-dark-theme fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode elpy dracula-theme dashboard d-mode counsel-projectile company-racer company-go color-theme-solarized color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -1334,4 +1172,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background nil)))))
+ '(default ((((class color) (min-colors 16777215)) (:background "#282828" :foreground "#fdf4c1")) (((class color) (min-colors 255)) (:background "#262626" :foreground "#ffffaf")))))
