@@ -636,7 +636,7 @@
 (use-package tide
   :ensure t
   :init
-  (add-hook 'tide-mode 'add-node-modules-path)
+  (add-hook 'tide-mode-hook 'add-node-modules-path)
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
@@ -771,6 +771,7 @@
   (add-hook 'js3-mode-hook #'lsp) ;; for js3-mode support
   (add-hook 'js2-mode-hook #'lsp) ;; for rjsx-mode support
   (add-hook 'rust-mode-hook #'lsp)
+  ;; (add-hook 'tide-mode-hook #'lsp)
   (add-hook 'ruby-mode-hook #'lsp))
 
 (use-package lsp-ui
