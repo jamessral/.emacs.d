@@ -906,8 +906,8 @@
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hack Nerd Font"))
-(if (memq window-system '(mac))
-    (set-face-attribute 'default nil :height 140)
+(if (memq window-system '(mac ns))
+    (set-face-attribute 'default nil :height 150)
   (set-face-attribute 'default nil :height 110))
 
 ;; Uncomment the lines below by removing semicolons and play with the
@@ -952,6 +952,12 @@
              :ensure t
              :config
              (global-git-gutter+-mode t))
+
+;; Increased line spacing:
+(defun set-bigger-spacing ():
+  (setq-local default-text-properties '(line-spacing 0.3 line-height 1.3)))
+(add-hook 'text-mode-hook 'set-bigger-spacing)
+(add-hook 'prog-mode-hook 'set-bigger-spacing)
 ;;; End UI
 
 ;;; Clojure
