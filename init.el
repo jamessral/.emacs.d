@@ -1143,7 +1143,7 @@
  '(beacon-color "#d54e53")
  '(custom-safe-themes
    (quote
-    ("a22f40b63f9bc0a69ebc8ba4fbc6b452a4e3f84b80590ba0a92b4ff599e53ad0" "6daa09c8c2c68de3ff1b83694115231faa7e650fdbb668bc76275f0f2ce2a437" "0c3b1358ea01895e56d1c0193f72559449462e5952bded28c81a8e09b53f103f" "446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" default)))
+    ("1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "d9aa334b2011d57c8ce279e076d6884c951e82ebc347adbe8b7ac03c4b2f3d72" "a22f40b63f9bc0a69ebc8ba4fbc6b452a4e3f84b80590ba0a92b4ff599e53ad0" "6daa09c8c2c68de3ff1b83694115231faa7e650fdbb668bc76275f0f2ce2a437" "0c3b1358ea01895e56d1c0193f72559449462e5952bded28c81a8e09b53f103f" "446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" default)))
  '(electric-pair-mode t)
  '(fci-rule-color "#424242")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
@@ -1151,6 +1151,7 @@
  '(package-selected-packages
    (quote
     (rust-mode helm-rg flycheck-crystal crystal-mode rubocopfmt restart-emacs jedi emmet-mode counsel swiper lsp-mode company-lsp lsp-ui which-key rspec-mode haml-mode projectile-rails inf-ruby-mode rbenv rbenv-mode yaml-mode lsp-javascript-typescript graphql-mode prettier-js indium wrap-region yafolding xref-js2 writeroom-mode window-numbering web-mode w3m vue-mode use-package tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode ruby-test-mode ruby-end robe rjsx-mode rinari rake racket-mode paredit pacmacs org-bullets olivetti oceanic-theme neotree navigate multi-term mocha magit lush-theme lsp-rust linum-relative key-chord json-mode js2-refactor irony hemisu-theme helm-projectile helm-ag haxe-mode haxe-imports gruvbox-theme go-autocomplete github-theme git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flatui-theme flatui-dark-theme fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode elpy dracula-theme dashboard d-mode counsel-projectile company-racer company-go color-theme-solarized color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+ '(pdf-view-midnight-colors (quote ("#fdf4c1" . "#1d2021")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -1173,10 +1174,3 @@
      (340 . "#e7c547")
      (360 . "#b9ca4a"))))
  '(vc-annotate-very-old-color nil))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((((class color) (min-colors 16777215)) (:background "#282828" :foreground "#fdf4c1")) (((class color) (min-colors 255)) (:background "#262626" :foreground "#ffffaf")))))
