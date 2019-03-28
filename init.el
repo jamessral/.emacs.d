@@ -313,7 +313,7 @@
 ;; Multiple Cursors
 (use-package multiple-cursors
              :ensure t)
-
+(multiple-cursors-mode)
 (global-set-key (kbd "C-c C-l") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -887,7 +887,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'gruvbox-dark-hard t))
+  (load-theme 'sanityinc-tomorrow-eighties t))
 
 (defun load-very-dark ()
   (interactive)
@@ -895,9 +895,9 @@
 
 (defun load-light ()
   (interactive)
-  (load-theme 'leuven t))
+  (load-theme 'base16-tomorrow t))
 
-(load-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1133,44 +1133,39 @@
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-term-color-vector
-   [unspecified "#1d2021" "#fb4934" "#b8bb26" "#fabd2f" "#83a598" "#d3869b" "#83a598" "#d5c4a1"] t)
- '(beacon-color "#d54e53")
+   [unspecified "#ffffff" "#c82829" "#718c00" "#eab700" "#4271ae" "#8959a8" "#4271ae" "#4d4d4c"] t)
+ '(beacon-color "#c82829")
  '(custom-safe-themes
    (quote
-    ("a22f40b63f9bc0a69ebc8ba4fbc6b452a4e3f84b80590ba0a92b4ff599e53ad0" "6daa09c8c2c68de3ff1b83694115231faa7e650fdbb668bc76275f0f2ce2a437" "0c3b1358ea01895e56d1c0193f72559449462e5952bded28c81a8e09b53f103f" "446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" default)))
- '(electric-pair-mode t)
- '(fci-rule-color "#424242")
+    ("3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
+ '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
- '(frame-background-mode (quote dark))
- '(package-selected-packages
-   (quote
-    (rust-mode helm-rg flycheck-crystal crystal-mode rubocopfmt restart-emacs jedi emmet-mode counsel swiper lsp-mode company-lsp lsp-ui which-key rspec-mode haml-mode projectile-rails inf-ruby-mode rbenv rbenv-mode yaml-mode lsp-javascript-typescript graphql-mode prettier-js indium wrap-region yafolding xref-js2 writeroom-mode window-numbering web-mode w3m vue-mode use-package tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode ruby-test-mode ruby-end robe rjsx-mode rinari rake racket-mode paredit pacmacs org-bullets olivetti oceanic-theme neotree navigate multi-term mocha magit lush-theme lsp-rust linum-relative key-chord json-mode js2-refactor irony hemisu-theme helm-projectile helm-ag haxe-mode haxe-imports gruvbox-theme go-autocomplete github-theme git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flatui-theme flatui-dark-theme fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode elpy dracula-theme dashboard d-mode counsel-projectile company-racer company-go color-theme-solarized color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+ '(frame-background-mode (quote light))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
-    ((20 . "#d54e53")
-     (40 . "#e78c45")
-     (60 . "#e7c547")
-     (80 . "#b9ca4a")
-     (100 . "#70c0b1")
-     (120 . "#7aa6da")
-     (140 . "#c397d8")
-     (160 . "#d54e53")
-     (180 . "#e78c45")
-     (200 . "#e7c547")
-     (220 . "#b9ca4a")
-     (240 . "#70c0b1")
-     (260 . "#7aa6da")
-     (280 . "#c397d8")
-     (300 . "#d54e53")
-     (320 . "#e78c45")
-     (340 . "#e7c547")
-     (360 . "#b9ca4a"))))
+    ((20 . "#c82829")
+     (40 . "#f5871f")
+     (60 . "#eab700")
+     (80 . "#718c00")
+     (100 . "#3e999f")
+     (120 . "#4271ae")
+     (140 . "#8959a8")
+     (160 . "#c82829")
+     (180 . "#f5871f")
+     (200 . "#eab700")
+     (220 . "#718c00")
+     (240 . "#3e999f")
+     (260 . "#4271ae")
+     (280 . "#8959a8")
+     (300 . "#c82829")
+     (320 . "#f5871f")
+     (340 . "#eab700")
+     (360 . "#718c00"))))
  '(vc-annotate-very-old-color nil))
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((((class color) (min-colors 16777215)) (:background "#282828" :foreground "#fdf4c1")) (((class color) (min-colors 255)) (:background "#262626" :foreground "#ffffaf")))))
+ )
