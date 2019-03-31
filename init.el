@@ -219,7 +219,7 @@
 (use-package smartparens
   :ensure t
   :config
-  (add-hook 'after-init-hook 'smartparens-global-mode 1)
+  (add-hook 'after-init-hook 'smartparens-global-mode -1)
   (add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode -1))))
 
 (electric-pair-mode 1)
@@ -860,21 +860,27 @@
   (scroll-bar-mode -1))
 
 (use-package sublime-themes
+  :defer t
   :ensure t)
 
 (use-package lush-theme
+  :defer t
   :ensure t)
 
 (use-package base16-theme
+  :defer t
   :ensure t)
 
 (use-package gruvbox-theme
+  :defer t
   :ensure t)
 
 (use-package color-theme-sanityinc-solarized
+  :defer t
   :ensure t)
 
 (use-package color-theme-sanityinc-tomorrow
+  :defer t
   :ensure t)
 
 (defadvice load-theme
@@ -895,7 +901,7 @@
 
 (defun load-light ()
   (interactive)
-  (load-theme 'base16-tomorrow t))
+  (load-theme 'sanityinc-solarized-light t))
 
 (load-light)
 
@@ -906,8 +912,8 @@
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hack Nerd Font"))
-(if (memq window-system '(mac))
-    (set-face-attribute 'default nil :height 140)
+(if (memq window-system '(mac ns))
+    (set-face-attribute 'default nil :height 150)
   (set-face-attribute 'default nil :height 110))
 
 ;; Uncomment the lines below by removing semicolons and play with the
@@ -1137,10 +1143,13 @@
  '(beacon-color "#c82829")
  '(custom-safe-themes
    (quote
-    ("3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
+    ("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
+ '(package-selected-packages
+   (quote
+    (yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-ui lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -1168,4 +1177,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(sp-pair-overlay-face ((t nil))))
