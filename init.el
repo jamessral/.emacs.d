@@ -260,7 +260,7 @@
   (add-hook 'after-init-hook 'global-company-mode)
   (global-set-key (kbd "C-<tab>") 'company-complete)
   (global-set-key (kbd "C-.") 'company-files)
-  (setq company-idle-delay 200))
+  (setq company-idle-delay 0.5))
 
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
