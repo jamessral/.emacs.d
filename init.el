@@ -416,7 +416,12 @@
   :ensure t)
 
 (use-package web-mode
-  :ensure t)
+  :ensure t
+  :init
+  (setq web-mode-script-padding 0)
+  (setq web-mode-style-padding 0)
+  (add-hook 'web-mode-hook #'add-node-modules-path)
+  (flycheck-add-mode 'javascript-eslint 'web-mode))
 
 (use-package emmet-mode
   :ensure t
@@ -489,6 +494,7 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
 
 ;;; JS-mode and derivatives
@@ -774,9 +780,10 @@
   ;; (add-hook 'tide-mode-hook #'lsp)
   (add-hook 'ruby-mode-hook #'lsp))
 
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
+;; (use-package lsp-ui
+  ;; :defer t
+  ;; :ensure t
+  ;; :commands lsp-ui-mode)
 
 (use-package company-lsp
   :ensure t
@@ -833,10 +840,17 @@
 
 (setq system-uses-terminfo nil)
 (prefer-coding-system 'utf-8)
+
+(use-package fish-mode
+  :ensure t)
+
+(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+(ansi-color-for-comint-mode-on)
+
 (use-package multi-term
   :ensure t
   :init
-  (setq multi-term-program "/usr/local/bin/zsh"))
+  (setq multi-term-program "/usr/local/bin/fish"))
 
 
 ;; Show time on status bar
@@ -1063,11 +1077,6 @@
   :ensure t)
 ;;; End Elixir/Erlang
 
-;;; Slime (Common Lisp)
-; (load (expand-file-name "~/quicklisp/slime-helper.el"))
-; (setq inferior-lisp-program "sbcl")
-;;; End Slime (Common Lisp)
-
 ;;; Geiser (Scheme)
 
 (use-package geiser
@@ -1081,10 +1090,10 @@
 ;;; SLIME (Lisp)
 
 ;;; Borrowed from Portacle
-; (load (expand-file-name "~/quicklisp/slime-helper.el"))
-; (setq inferior-lisp-program "/usr/local/bin/sbcl")
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "/usr/local/bin/sbcl")
 
-; (add-hook 'slime-repl-mode-hook (lambda () (display-line-numbers-mode -1)))
+(add-hook 'slime-repl-mode-hook (lambda () (display-line-numbers-mode -1)))
 
 ;;; Golang
 (use-package go-autocomplete
@@ -1152,7 +1161,7 @@
  '(frame-background-mode (quote light))
  '(package-selected-packages
    (quote
-    (yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-ui lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+    (fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-ui lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
