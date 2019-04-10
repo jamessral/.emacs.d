@@ -198,7 +198,7 @@
 (use-package evil-collection
   :after evil
   :ensure t
-  :config
+  :init
   (evil-collection-init))
 
 (use-package evil-surround
@@ -236,23 +236,11 @@
   (evil-escape-mode -1)
   (evil-leader-mode -1))
 
+(enable-evil)
+
 (global-set-key (kbd "C-c e o") 'enable-evil)
 (global-set-key (kbd "C-c e f") 'disable-evil)
 (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
-
-(defun set-relative-lines ()
-  (interactive)
-  (setq-default display-line-numbers 'relative))
-
-(defun set-absolute-lines ()
-  (interactive)
-  (setq-default display-line-numbers t))
-
-(defun toggle-relative-lines ()
-  (interactive)
-  (if (eq display-line-numbers 'relative)
-      (setq display-line-numbers t)
-    (setq display-line-numbers 'relative)))
 
 (global-set-key (kbd "C-c RET RET") 'save-buffer)
 
@@ -1050,7 +1038,9 @@
   (interactive)
   (load-theme 'sanityinc-solarized-light t))
 
-(load-light)
+(when (display-graphic-p)
+ (load-light))
+
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1060,8 +1050,8 @@
 ;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hack Nerd Font"))
 (if (memq window-system '(mac ns))
-    (set-face-attribute 'default nil :height 150)
-  (set-face-attribute 'default nil :height 150))
+    (set-face-attribute 'default nil :height 110)
+  (set-face-attribute 'default nil :height 110))
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -1223,8 +1213,8 @@
 ;;; SLIME (Lisp)
 
 ;;; Borrowed from Portacle
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
+;;(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;;(setq inferior-lisp-program "/usr/local/bin/sbcl")
 
 (add-hook 'slime-repl-mode-hook (lambda () (display-line-numbers-mode -1)))
 
