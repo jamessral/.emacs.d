@@ -109,10 +109,6 @@
   :config
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
-;; Let's get this nice and early
-(setq evil-want-keybinding nil)
-(setq evil-want-integration nil)
-
 ;;; Evil
 (use-package evil-leader
   :ensure t
@@ -155,6 +151,8 @@
 (use-package evil
   :ensure t
   :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode 1)
   (key-chord-mode 1)
@@ -210,9 +208,9 @@
   (evil-commentary-mode))
 
 ;; Evil disabled by default
-(evil-mode -1)
-(evil-escape-mode -1)
-(evil-leader-mode -1)
+;; (evil-mode -1)
+;; (evil-escape-mode -1)
+;; (evil-leader-mode -1)
 
 (defun enable-evil ()
   (interactive)
@@ -976,9 +974,9 @@
 (display-time-mode 1)
 
 ;; Show line numbers if activated manually
-;; (setq-default display-line-numbers-type 'relative)
+(setq-default display-line-numbers-type 'relative)
 (global-set-key (kbd "C-c n t") 'global-display-line-numbers-mode)
-;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (setq linum-format "%d ")
 
