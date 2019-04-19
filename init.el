@@ -107,47 +107,9 @@
 (use-package neotree
   :ensure t
   :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+  (setq neo-theme 'arrow))
 
 ;;; Evil
-(use-package evil-leader
-  :ensure t
-  :init
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-   "b" 'switch-to-buffer
-   "<SPC>" 'counsel-M-x
-   "n" 'neotree-toggle
-   "m" 'neotree-find
-   "<RET>" 'save-buffer
-   "p" 'projectile-find-file
-   "S" 'magit-status
-   "j" 'avy-goto-line
-   "v" 'evil-window-vsplit
-   "s" 'evil-window-split
-   "/" 'evil-ex-nohighlight
-   "w" 'avy-goto-char-2)
-  (global-evil-leader-mode))
-
-(use-package evil-escape
-  :ensure t
-  :commands evil-escape-mode
-  :init
-  (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
-        evil-escape-excluded-major-modes '(neotree-mode)
-        evil-escape-key-sequence "jk"
-        evil-escape-delay 0.25)
-  (add-hook 'after-init-hook #'evil-escape-mode)
-  :config
-  ;; no `evil-escape' in minibuffer
-  (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
-
-  (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
-  (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
-
 (use-package evil
   :ensure t
   :init
@@ -191,6 +153,46 @@
   (evil-terminal-cursor-change)
   )
 
+
+(use-package evil-leader
+  :ensure t
+  :init
+  :config
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+   "b" 'switch-to-buffer
+   "<SPC>" 'counsel-M-x
+   "n" 'neotree-toggle
+   "m" 'neotree-find
+   "<RET>" 'save-buffer
+   "p" 'projectile-find-file
+   "S" 'magit-status
+   "j" 'avy-goto-line
+   "v" 'evil-window-vsplit
+   "s" 'evil-window-split
+   "/" 'evil-ex-nohighlight
+   "w" 'avy-goto-char-2)
+  (global-evil-leader-mode))
+
+(use-package evil-escape
+  :ensure t
+  :commands evil-escape-mode
+  :init
+  (setq-default evil-escape-key-sequence "jk")
+  (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
+        evil-escape-excluded-major-modes '(neotree-mode)
+        evil-escape-key-sequence "jk"
+        evil-escape-delay 0.25)
+  (add-hook 'after-init-hook #'evil-escape-mode)
+  :config
+  ;; no `evil-escape' in minibuffer
+  (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
+
+  (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
+  (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
+  (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
+  (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
+
 (use-package evil-collection
   :after evil
   :ensure t
@@ -201,6 +203,11 @@
   :ensure t
   :config
   (global-evil-surround-mode 1))
+
+(use-package evil-tabs
+  :ensure t
+  :init
+  (global-evil-tabs-mode t))
 
 (use-package evil-commentary
   :ensure t
@@ -537,6 +544,7 @@
   :init
   (setq web-mode-script-padding 0)
   (setq web-mode-style-padding 0)
+  (setq web-mode-markup-indent-offset 2)
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'web-mode))
 
@@ -1278,7 +1286,7 @@
  '(frame-background-mode (quote light))
  '(package-selected-packages
    (quote
-    (fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-ui lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+    (evil-tabs evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -1306,4 +1314,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil))))
  '(sp-pair-overlay-face ((t nil))))
