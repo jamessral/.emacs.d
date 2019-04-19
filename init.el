@@ -207,7 +207,8 @@
 (use-package evil-tabs
   :ensure t
   :init
-  (global-evil-tabs-mode t))
+  (global-evil-tabs-mode t)
+  (evil-global-set-key 'normal (kbd "g t") #'evil-tabs-goto-tab))
 
 (use-package evil-commentary
   :ensure t
@@ -918,7 +919,12 @@
 
 
 ;;; OrgMode
-
+(use-package org
+  :ensure t
+  :config
+  (setq org-agenda-files (list "~/org/work.org"
+                             "~/org/school.org"
+                             "~/org/home.org")))
 (use-package org-bullets
   :ensure t)
 (add-hook 'org-mode-hook (lambda ()
@@ -1286,7 +1292,7 @@
  '(frame-background-mode (quote light))
  '(package-selected-packages
    (quote
-    (evil-tabs evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+    (org-mode evil-tabs evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
