@@ -855,6 +855,16 @@
   (add-hook 'crystal-mode-hook 'flycheck-mode))
 ;;; End Crystal
 
+;;; Data Science
+(use-package polymode
+  :ensure t)
+
+(use-package ess
+  :ensure t)
+
+(use-package poly-R
+  :ensure t)
+
 ;;; Python
 (use-package jedi
   :ensure t)
@@ -863,6 +873,9 @@
   :ensure t
   :config
   (add-hook 'python-mode (lambda () (elpy-mode))))
+
+(use-package ein
+  :ensure t)
 ;;; End Python
 
 
