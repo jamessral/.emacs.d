@@ -1269,8 +1269,12 @@
 (define-key irony-mode-map (kbd "C-c C-c") 'recompile)
 (define-key c-mode-map (kbd "C-c C-c") 'recompile)
 (define-key c++-mode-map (kbd "C-c C-c") 'recompile)
-;;. End C/C++
+;; End C/C++
 
+;;; Godot
+(load "~/.emacs.d/vendor/godot-gdscript/godot-gdscript.el")
+(require 'godot-gdscript)
+;;; End Godot
 
 ;;; D lang
 (use-package d-mode

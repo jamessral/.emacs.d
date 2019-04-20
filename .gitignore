@@ -3,8 +3,11 @@ elpa
 feeds/**
 init.elc
 .recentf
+smex-items
 .smex-items
 cider*
 projectile-bookmarks.eld
 nit
 auto-save-list/**/*
+transient/**
+backups/**
