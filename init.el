@@ -34,7 +34,6 @@
 (use-package better-defaults
   :ensure t)
 
-;;; General
 ;; Borrowed from https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
 (setq delete-old-versions -1)
 (setq version-control t)
@@ -133,6 +132,8 @@
    :non-normal-prefix "C-SPC"
    "b" '(:ignore t :which-key "buffer")
    "b b" 'ibuffer
+   "c" '(:ignore t :which-key "company")
+   "c c" 'company-complete
    "e" '(:ignore t :which-key "evil")
    "e o" 'enable-evil
    "e f" 'disable-evil
@@ -159,6 +160,8 @@
    :prefix "C-c"
    "b" '(:ignore t :which-key "buffer")
    "b b" 'ibuffer
+   "c" '(:ignore t :which-key "company")
+   "c c" 'company-complete
    "e" '(:ignore t :which-key "evil")
    "e o" 'enable-evil
    "e f" 'disable-evil
