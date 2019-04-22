@@ -34,6 +34,21 @@
 (use-package better-defaults
   :ensure t)
 
+;;; General
+;; Borrowed from https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+(setq backup-directory-alist `(("." . "~/.emacs.d/backups")) ) ; which directory to put backups file
+(setq vc-follow-symlinks t )				       ; don't ask for confirmation when opening symlinked file
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
+(setq inhibit-startup-screen t )	; inhibit useless and old-school startup screen
+(setq ring-bell-function 'ignore )	; silent bell when you make a mistake
+(setq coding-system-for-read 'utf-8 )	; use utf-8 by default
+(setq coding-system-for-write 'utf-8 )
+(setq default-fill-column 80)
+
+
 (defun run-server ()
   "Runs emacs server if it is not running"
   (require 'server)
@@ -77,7 +92,6 @@
   (setq-default writeroom-width 100)
   ;; Turn off distraction-free mode by default
   (global-writeroom-mode -1)
-  (global-set-key (kbd "C-c C-\\ z") 'writeroom-mode)
   (setq-default writeroom-maximize-window nil)
   (setq-default writeroom-major-modes
                 '(prog-mode
@@ -108,6 +122,49 @@
   :ensure t
   :config
   (setq neo-theme 'arrow))
+
+(use-package general
+  :ensure t
+  :config
+  ;; Set up keybindings with descriptions
+  (general-define-key
+   :states '(normal visual insert emacs)
+   :prefix "SPC"
+   :non-normal-prefix "C-SPC"
+   "b" '(:ignore t :which-key "buffer")
+   "b" 'ibuffer
+   "e o" 'enable-evil
+   "e f" 'disable-evil
+   "e l" 'toggle-relative-lines
+   "g" '(:ingore t :which-key "git")
+   "g" '(:ingore t :which-key "git")
+   "g s" 'magit-status
+   "j" '(:ingore t :which-key "jump")
+   "j l" 'avy-goto-line
+   "j w" 'avy-goto-char-2
+   "p" '(:ingore t :which-key "project")
+   "p p" 'projectile-switch-project
+   "p f" 'projectile-find-file
+   "p s" 'projectile-ripgrep
+   "u" '(:ignore t :which-key "UI")
+   "u l" 'load-light
+   "u d" 'load-dark
+   "u D" 'load-very-dark
+   "u z" 'writeroom-mode)
+  (general-define-key
+   :prefix "C-c"
+   "e" '(:ingore t :which-key "Evil")
+   "e o" 'enable-evil
+   "e f" 'disable-evil
+   "e l" 'toggle-relative-lines
+   "u" '(:ignore t :which-key "UI")
+   "u n" 'global-display-line-numbers-mode
+   "u z" 'writeroom-mode
+   "u l" 'load-light
+   "u d" 'load-dark
+   "u D" 'load-very-dark
+   "u z" 'writeroom-mode)
+   )
 
 ;;; Evil
 (use-package evil
@@ -155,7 +212,6 @@
   (evil-terminal-cursor-change)
   )
 
-
 (use-package evil-leader
   :ensure t
   :init
@@ -167,13 +223,9 @@
    "n" 'neotree-toggle
    "m" 'neotree-find
    "<RET>" 'save-buffer
-   "p" 'projectile-find-file
-   "S" 'magit-status
-   "j" 'avy-goto-line
    "v" 'evil-window-vsplit
    "s" 'evil-window-split
-   "/" 'evil-ex-nohighlight
-   "w" 'avy-goto-char-2)
+   "/" 'evil-ex-nohighlight)
   (global-evil-leader-mode))
 
 (use-package evil-escape
@@ -241,6 +293,20 @@
 (global-set-key (kbd "C-c e o") 'enable-evil)
 (global-set-key (kbd "C-c e f") 'disable-evil)
 (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
+
+(defun set-relative-lines ()
+  (interactive)
+  (setq-default display-line-numbers 'relative))
+
+(defun set-absolute-lines ()
+  (interactive)
+  (setq-default display-line-numbers t))
+
+(defun toggle-relative-lines ()
+  (interactive)
+  (if (eq display-line-numbers 'relative)
+      (setq display-line-numbers t)
+    (setq display-line-numbers 'relative)))
 
 (global-set-key (kbd "C-c RET RET") 'save-buffer)
 
@@ -946,12 +1012,12 @@
 (tool-bar-mode -1)
 
 ;; Show dashboard on startup
-(use-package dashboard
-             :ensure t
-             :config
-             (dashboard-setup-startup-hook)
-             (setq dashboard-items '((bookmarks . 5)
-                                     (projects . 5))))
+;; (use-package dashboard
+;;              :ensure t
+;;              :config
+;;              ;; (dashboard-setup-startup-hook)
+;;              (setq dashboard-items '((bookmarks . 5)
+;;                                      (projects . 5))))
 
 
 ;; Customize mode-line
@@ -992,7 +1058,6 @@
 
 ;; Show line numbers if activated manually
 (setq-default display-line-numbers-type 'relative)
-(global-set-key (kbd "C-c n t") 'global-display-line-numbers-mode)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (setq linum-format "%d ")
