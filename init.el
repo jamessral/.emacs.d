@@ -182,126 +182,127 @@
    "u l" 'load-light
    "u d" 'load-dark
    "u D" 'load-very-dark
+   "u t" 'toggle-transparency
    "u n" 'global-display-line-numbers-mode
    "u z" 'writeroom-mode))
 
 ;;; Evil
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  :config
-  ;; Don't use evil mode for org mode
-  (evil-set-initial-state 'org-mode 'emacs)
-  (evil-mode 1)
-  (key-chord-mode 1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-  (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-  (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-  ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
-  (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
+;; (use-package evil
+;;   :ensure t
+;;   :init
+;;   (setq evil-want-integration t)
+;;   (setq evil-want-keybinding nil)
+;;   :config
+;;   ;; Don't use evil mode for org mode
+;;   (evil-set-initial-state 'org-mode 'emacs)
+;;   (evil-mode 1)
+;;   (key-chord-mode 1)
+;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+;;   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+;;   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+;;   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+;;   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+;;   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+;;   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+;;   ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
+;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
+;;   (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
 
-                                        ; Shamelessly stolen from Amir Rajan
-  (global-set-key [escape] 'evil-exit-emacs-state)
+;;                                         ; Shamelessly stolen from Amir Rajan
+;;   (global-set-key [escape] 'evil-exit-emacs-state)
 
-  (defun evil-send-string-to-terminal (string)
-    (unless (display-graphic-p) (send-string-to-terminal string)))
+;;   (defun evil-send-string-to-terminal (string)
+;;     (unless (display-graphic-p) (send-string-to-terminal string)))
 
-  (defun evil-terminal-cursor-change ()
-    (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
-      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
-      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
-    (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
-      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
-      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
+;;   (defun evil-terminal-cursor-change ()
+;;     (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
+;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
+;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
+;;     (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
+;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
+;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
 
-  (evil-terminal-cursor-change)
-  )
+;;   (evil-terminal-cursor-change)
+;;   )
 
-(use-package evil-leader
-  :ensure t
-  :init
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-   "<SPC>" 'counsel-M-x
-   "n" 'neotree-toggle
-   "m" 'neotree-find
-   "<RET>" 'save-buffer
-   "v" 'evil-window-vsplit
-   "s" 'evil-window-split
-   "/" 'evil-ex-nohighlight)
-  (global-evil-leader-mode))
+;; (use-package evil-leader
+;;   :ensure t
+;;   :init
+;;   :config
+;;   (evil-leader/set-leader "<SPC>")
+;;   (evil-leader/set-key
+;;    "<SPC>" 'counsel-M-x
+;;    "n" 'neotree-toggle
+;;    "m" 'neotree-find
+;;    "<RET>" 'save-buffer
+;;    "v" 'evil-window-vsplit
+;;    "s" 'evil-window-split
+;;    "/" 'evil-ex-nohighlight)
+;;   (global-evil-leader-mode))
 
-(use-package evil-escape
-  :ensure t
-  :commands evil-escape-mode
-  :init
-  (setq-default evil-escape-key-sequence "jk")
-  (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
-        evil-escape-excluded-major-modes '(neotree-mode)
-        evil-escape-key-sequence "jk"
-        evil-escape-delay 0.25)
-  (add-hook 'after-init-hook #'evil-escape-mode)
-  :config
-  ;; no `evil-escape' in minibuffer
-  (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
+;; (use-package evil-escape
+;;   :ensure t
+;;   :commands evil-escape-mode
+;;   :init
+;;   (setq-default evil-escape-key-sequence "jk")
+;;   (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
+;;         evil-escape-excluded-major-modes '(neotree-mode)
+;;         evil-escape-key-sequence "jk"
+;;         evil-escape-delay 0.25)
+;;   (add-hook 'after-init-hook #'evil-escape-mode)
+;;   :config
+;;   ;; no `evil-escape' in minibuffer
+;;   (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
 
-  (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
-  (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
+;;   (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
+;;   (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
+;;   (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
+;;   (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
 
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
+;; (use-package evil-collection
+;;   :after evil
+;;   :ensure t
+;;   :config
+;;   (evil-collection-init))
 
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
+;; (use-package evil-surround
+;;   :ensure t
+;;   :config
+;;   (global-evil-surround-mode 1))
 
-(use-package evil-tabs
-  :ensure t
-  :init
-  (global-evil-tabs-mode t)
-  (evil-global-set-key 'normal (kbd "g t") #'evil-tabs-goto-tab))
+;; ;; (use-package evil-tabs
+;; ;;   :ensure t
+;; ;;   :init
+;; ;;   (global-evil-tabs-mode t)
+;; ;;   (evil-global-set-key 'normal (kbd "g t") #'evil-tabs-goto-tab))
 
-(use-package evil-commentary
-  :ensure t
-  :config
-  (evil-commentary-mode))
+;; (use-package evil-commentary
+;;   :ensure t
+;;   :config
+;;   (evil-commentary-mode))
 
 ;;; Doom Modeline
 ;; (use-package doom-modeline
 ;;   :ensure t
 ;;   :hook
 ;;   (after-init . doom-modeline-mode))
-(use-package spaceline
-  :ensure t
-  :init
-  (spaceline-emacs-theme)
-  (spaceline-helm-mode))
+;; (use-package spaceline
+;;   :ensure t
+;;   :init
+;;   (spaceline-emacs-theme)
+;;   (spaceline-helm-mode))
 
 ;; Evil disabled by default
-;; (evil-mode -1)
-;; (evil-escape-mode -1)
-;; (evil-leader-mode -1)
+; (evil-mode -1)
+; (evil-escape-mode -1)
+; (evil-leader-mode -1)
 (global-set-key (kbd "C-c e o") 'enable-evil)
 (global-set-key (kbd "C-c e f") 'disable-evil)
 (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
@@ -856,7 +857,7 @@
   (setq company-tooltip-align-annotations t)
   (setq typescript-indent-level 2)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
   (add-hook 'web-mode-hook
             (lambda ()
               (when (string-equal "tsx" (file-name-extension buffer-file-name))
@@ -865,7 +866,7 @@
   (add-to-list 'magic-mode-alist '("\\.tsx\\'" . tide-mode))
 
   ;; enable typescript-tslint checker
-  (flycheck-add-mode 'typescript-tslint 'web-mode))
+  (flycheck-add-mode 'typescript-tslint 'rjsx-mode))
 
 (defun setup-tide-mode ()
   (interactive)
@@ -1037,6 +1038,19 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
+(set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+(defun toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha)))
+    (set-frame-parameter
+     nil 'alpha
+     (if (eql (cond ((numberp alpha) alpha)
+                    ((numberp (cdr alpha)) (cdr alpha))
+              ((numberp (cadr alpha)) (cadr alpha)))
+         100)
+     '(85 . 50) '(100 . 100)))))
+
 ;; Show dashboard on startup
 ;; (use-package dashboard
 ;;              :ensure t
@@ -1132,7 +1146,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-eighties t))
+  (load-theme 'sanityinc-tomorrow-night t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1142,7 +1156,7 @@
   (interactive)
   (load-theme 'sanityinc-solarized-light t))
 
-(load-light)
+(load-dark)
 
 
 (global-set-key (kbd "C-c u l") 'load-light)
@@ -1397,7 +1411,7 @@
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (spaceline doom-modeline org-mode evil-tabs evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+    (spaceline doom-modeline org-mode evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
