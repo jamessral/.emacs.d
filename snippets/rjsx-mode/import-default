@@ -2,5 +2,4 @@
 # name: import-default
 # key: impd
 # --
-import $1 from '$2'
-$0
+import $1 from '$2'$0
