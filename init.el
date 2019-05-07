@@ -639,10 +639,6 @@
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'web-mode))
 
-(flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-(flycheck-add-mode 'javascript-eslint 'typescript-mode)
-(flycheck-add-mode 'javascript-eslint 'tide-mode)
-
 (use-package emmet-mode
   :ensure t
   :init
@@ -660,6 +656,8 @@
   :ensure t
   :init
   (add-hook 'rjsx-mode-hook #'add-node-modules-path)
+  (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+  (flycheck-add-mode 'javascript-eslint 'tide-mode)
   (add-hook 'rjsx-mode-hook #'setup-tide-mode))
 
 (eval-after-load 'js2-mode
@@ -870,6 +868,7 @@
   (setq company-tooltip-align-annotations t)
   (setq typescript-indent-level 2)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
+  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
   (add-hook 'web-mode-hook
             (lambda ()
@@ -880,7 +879,8 @@
   (add-to-list 'magic-mode-alist '("\\.ts\\'" . tide-mode))
 
   ;; enable typescript-tslint checker
-  (flycheck-add-mode 'typescript-tslint 'rjsx-mode))
+  ;; (flycheck-add-mode 'typescript-tslint 'rjsx-mode))
+  )
 
 (defun setup-tide-mode ()
   (interactive)
