@@ -338,7 +338,11 @@
 (global-set-key (kbd "C-c RET RET") 'save-buffer)
 
 ;;; goto last change
-(global-set-key (kbd "C-c l c") 'goto-last-change)
+(use-package goto-last-change
+  :ensure t
+  :init
+  (global-set-key (kbd "C-c l c") 'goto-last-change)
+  )
 
 ;;; Avy mode (vim easymotion-esque)
 (use-package avy
@@ -632,6 +636,10 @@
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'web-mode))
 
+(flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+(flycheck-add-mode 'javascript-eslint 'typescript-mode)
+(flycheck-add-mode 'javascript-eslint 'tide-mode)
+
 (use-package emmet-mode
   :ensure t
   :init
@@ -647,8 +655,9 @@
 
 (use-package rjsx-mode
   :ensure t
-  :config
-  (add-hook 'rjsx-mode-hook #'add-node-modules-path))
+  :init
+  (add-hook 'rjsx-mode-hook #'add-node-modules-path)
+  (add-hook 'rjsx-mode-hook #'setup-tide-mode))
 
 (eval-after-load 'js2-mode
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
@@ -715,9 +724,10 @@
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
                            (local-set-key (kbd "C-c t t") 'mocha-test-at-point)
-                           (evil-leader/set-key "t" 'mocha-test-at-point)
+                           ;; (evil-leader/set-key "t" 'mocha-test-at-point)
                            (local-set-key (kbd "C-c t f") 'mocha-test-file)
-                            (evil-leader/set-key "T" 'mocha-test-file)))
+                           ;; (evil-leader/set-key "T" 'mocha-test-file)))
+                           ))
 
 (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
 
@@ -864,6 +874,7 @@
                 (setup-tide-mode))))
 
   (add-to-list 'magic-mode-alist '("\\.tsx\\'" . tide-mode))
+  (add-to-list 'magic-mode-alist '("\\.ts\\'" . tide-mode))
 
   ;; enable typescript-tslint checker
   (flycheck-add-mode 'typescript-tslint 'rjsx-mode))
@@ -1090,7 +1101,7 @@
 (use-package multi-term
   :ensure t
   :init
-  (setq multi-term-program "/usr/local/bin/fish"))
+  (setq multi-term-program "/usr/bin/fish"))
 
 
 ;; Show time on status bar
@@ -1167,8 +1178,8 @@
 ;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hack Nerd Font"))
 (if (memq window-system '(mac ns))
-    (set-face-attribute 'default nil :height 150)
-  (set-face-attribute 'default nil :height 150))
+    (set-face-attribute 'default nil :height 130)
+  (set-face-attribute 'default nil :height 130))
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
@@ -1411,7 +1422,7 @@
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (spaceline doom-modeline org-mode evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+    (goto-last-change spaceline doom-modeline org-mode evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
