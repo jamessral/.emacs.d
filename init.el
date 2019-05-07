@@ -378,6 +378,9 @@
 (use-package helm-ag
   :ensure t)
 
+(use-package helm-rg
+  :ensure t)
+
 (use-package helm-projectile
   :ensure t
   :init
