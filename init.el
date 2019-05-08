@@ -869,6 +869,7 @@
   (setq typescript-indent-level 2)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+  (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
   (add-hook 'web-mode-hook
             (lambda ()
