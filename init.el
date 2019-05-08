@@ -870,6 +870,7 @@
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
+  (flycheck-add-next-checker 'javascript-eslint 'typescript-tide 'append)
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
   (add-hook 'web-mode-hook
             (lambda ()
@@ -1053,8 +1054,8 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
-(set-frame-parameter (selected-frame) 'alpha '(85 . 50))
-(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+(set-frame-parameter (selected-frame) 'alpha '(90 . 50))
+(add-to-list 'default-frame-alist '(alpha . (90 . 50)))
 (defun toggle-transparency ()
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha)))
@@ -1064,7 +1065,7 @@
                     ((numberp (cdr alpha)) (cdr alpha))
               ((numberp (cadr alpha)) (cadr alpha)))
          100)
-     '(85 . 50) '(100 . 100)))))
+     '(90 . 50) '(100 . 100)))))
 
 ;; Show dashboard on startup
 ;; (use-package dashboard
