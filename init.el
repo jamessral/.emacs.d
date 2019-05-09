@@ -150,6 +150,8 @@
    "p p" 'projectile-switch-project
    "p f" 'projectile-find-file
    "p s" 'projectile-ripgrep
+   "s" '(:ignore t :which-key "shell")
+   "s s" 'multi-term-dedicated-toggle
    "u" '(:ignore t :which-key "UI")
    "u n" 'global-display-line-numbers-mode
    "u l" 'load-light
@@ -178,6 +180,8 @@
    "p p" 'projectile-switch-project
    "p f" 'projectile-find-file
    "p s" 'projectile-ripgrep
+   "s" '(:ignore t :which-key "shell")
+   "s s" 'multi-term-dedicated-toggle
    "u" '(:ignore t :which-key "UI")
    "u l" 'load-light
    "u d" 'load-dark
@@ -454,7 +458,10 @@
 ;; Show tabs as 4 spaces
 (setq tab-width 4)
 
-;;; Editing
+(add-hook 'after-init-hook
+          (lambda ()
+            (define-key global-map (kbd "<C-s-up>") 'move-line-up)
+            (define-key global-map  (kbd "<C-s-down>") 'move-line-down)))
 ;; Use subword mode
 (global-subword-mode)
 ;; Fix Org Mode syntax stuff
@@ -525,6 +532,11 @@
              :ensure t)
 
 (key-chord-mode 1)
+
+
+;;; Email
+;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+;;; End Email
 
 ;; Multiple Cursors
 (use-package multiple-cursors
@@ -1108,7 +1120,6 @@
   :ensure t
   :init
   (setq multi-term-program "/usr/bin/fish"))
-
 
 ;; Show time on status bar
 (display-time-mode 1)
