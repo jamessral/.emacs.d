@@ -485,7 +485,7 @@
   (add-hook 'after-init-hook 'global-company-mode)
   (global-set-key (kbd "C-<tab>") 'company-complete)
   (global-set-key (kbd "C-.") 'company-files)
-  (setq company-idle-delay 0.5))
+  (setq company-idle-delay 0.2))
 
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
@@ -1191,7 +1191,7 @@
   (interactive)
   (load-theme 'sanityinc-solarized-light t))
 
-(load-dark)
+(load-light)
 
 
 (global-set-key (kbd "C-c u l") 'load-light)
@@ -1202,8 +1202,8 @@
 ;;(global-prettify-symbols-mode)
 (when (display-graphic-p) (set-face-attribute 'default nil :font "Hack Nerd Font"))
 (if (memq window-system '(mac ns))
-    (set-face-attribute 'default nil :height 130)
-  (set-face-attribute 'default nil :height 130))
+    (set-face-attribute 'default nil :height 100)
+  (set-face-attribute 'default nil :height 100))
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
