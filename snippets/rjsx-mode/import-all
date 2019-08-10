@@ -2,5 +2,4 @@
 # name: import-all
 # key: impa
 # --
-import * as $1 from '$2'
-$0
+import * as $1 from '$2'$0
