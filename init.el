@@ -194,106 +194,106 @@
    "u z" 'writeroom-mode))
 
 ;;; Evil
-;; (use-package evil
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  :config
+  ;; Don't use evil mode for org mode
+  (evil-set-initial-state 'org-mode 'emacs)
+  (evil-mode 1)
+  (key-chord-mode 1)
+  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+  (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+  (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+  (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+  (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+  ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
+  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+  (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+  (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
+  (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
+
+                                        ; Shamelessly stolen from Amir Rajan
+  (global-set-key [escape] 'evil-exit-emacs-state)
+
+  (defun evil-send-string-to-terminal (string)
+    (unless (display-graphic-p) (send-string-to-terminal string)))
+
+  (defun evil-terminal-cursor-change ()
+    (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
+      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
+      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
+    (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
+      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
+      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
+
+  (evil-terminal-cursor-change)
+  )
+
+(use-package evil-leader
+  :ensure t
+  :init
+  :config
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+   "<SPC>" 'counsel-M-x
+   "n" 'neotree-toggle
+   "m" 'neotree-find
+   "<RET>" 'save-buffer
+   "v" 'evil-window-vsplit
+   "s" 'evil-window-split
+   "/" 'evil-ex-nohighlight)
+  (global-evil-leader-mode))
+
+(use-package evil-escape
+  :ensure t
+  :commands evil-escape-mode
+  :init
+  (setq-default evil-escape-key-sequence "jk")
+  (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
+        evil-escape-excluded-major-modes '(neotree-mode)
+        evil-escape-key-sequence "jk"
+        evil-escape-delay 0.25)
+  (add-hook 'after-init-hook #'evil-escape-mode)
+  :config
+  ;; no `evil-escape' in minibuffer
+  (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
+
+  (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
+  (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
+  (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
+  (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+;; (use-package evil-tabs
 ;;   :ensure t
 ;;   :init
-;;   (setq evil-want-integration t)
-;;   (setq evil-want-keybinding nil)
-;;   :config
-;;   ;; Don't use evil mode for org mode
-;;   (evil-set-initial-state 'org-mode 'emacs)
-;;   (evil-mode 1)
-;;   (key-chord-mode 1)
-;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-;;   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-;;   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-;;   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-;;   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-;;   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-;;   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-;;   ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-;;   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
-;;   (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
-;;   (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
+;;   (global-evil-tabs-mode t)
+;;   (evil-global-set-key 'normal (kbd "g t") #'evil-tabs-goto-tab))
 
-;;                                         ; Shamelessly stolen from Amir Rajan
-;;   (global-set-key [escape] 'evil-exit-emacs-state)
-
-;;   (defun evil-send-string-to-terminal (string)
-;;     (unless (display-graphic-p) (send-string-to-terminal string)))
-
-;;   (defun evil-terminal-cursor-change ()
-;;     (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
-;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
-;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
-;;     (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
-;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
-;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
-
-;;   (evil-terminal-cursor-change)
-;;   )
-
-;; (use-package evil-leader
-;;   :ensure t
-;;   :init
-;;   :config
-;;   (evil-leader/set-leader "<SPC>")
-;;   (evil-leader/set-key
-;;    "<SPC>" 'counsel-M-x
-;;    "n" 'neotree-toggle
-;;    "m" 'neotree-find
-;;    "<RET>" 'save-buffer
-;;    "v" 'evil-window-vsplit
-;;    "s" 'evil-window-split
-;;    "/" 'evil-ex-nohighlight)
-;;   (global-evil-leader-mode))
-
-;; (use-package evil-escape
-;;   :ensure t
-;;   :commands evil-escape-mode
-;;   :init
-;;   (setq-default evil-escape-key-sequence "jk")
-;;   (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
-;;         evil-escape-excluded-major-modes '(neotree-mode)
-;;         evil-escape-key-sequence "jk"
-;;         evil-escape-delay 0.25)
-;;   (add-hook 'after-init-hook #'evil-escape-mode)
-;;   :config
-;;   ;; no `evil-escape' in minibuffer
-;;   (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
-
-;;   (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
-;;   (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
-;;   (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
-;;   (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
-
-;; (use-package evil-collection
-;;   :after evil
-;;   :ensure t
-;;   :config
-;;   (evil-collection-init))
-
-;; (use-package evil-surround
-;;   :ensure t
-;;   :config
-;;   (global-evil-surround-mode 1))
-
-;; ;; (use-package evil-tabs
-;; ;;   :ensure t
-;; ;;   :init
-;; ;;   (global-evil-tabs-mode t)
-;; ;;   (evil-global-set-key 'normal (kbd "g t") #'evil-tabs-goto-tab))
-
-;; (use-package evil-commentary
-;;   :ensure t
-;;   :config
-;;   (evil-commentary-mode))
+(use-package evil-commentary
+  :ensure t
+  :config
+  (evil-commentary-mode))
 
 ;;; Doom Modeline
 ;; (use-package doom-modeline
@@ -307,9 +307,9 @@
 ;;   (spaceline-helm-mode))
 
 ;; Evil disabled by default
-; (evil-mode -1)
-; (evil-escape-mode -1)
-; (evil-leader-mode -1)
+;; (evil-mode -1)
+;; (evil-escape-mode -1)
+;; (evil-leader-mode -1)
 (global-set-key (kbd "C-c e o") 'enable-evil)
 (global-set-key (kbd "C-c e f") 'disable-evil)
 (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
@@ -488,7 +488,7 @@
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode)
-  (global-set-key (kbd "C-<tab>") 'company-complete)
+  (global-set-key (kbd "C-'") 'company-complete)
   (global-set-key (kbd "C-.") 'company-files)
   (setq company-idle-delay 0.2))
 
@@ -1214,10 +1214,10 @@
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font"))
+(when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font"))
 (if (memq window-system '(mac ns))
-    (set-face-attribute 'default nil :height 125)
-  (set-face-attribute 'default nil :height 125))
+    (set-face-attribute 'default nil :height 95)
+  (set-face-attribute 'default nil :height 95))
 
 
 ;; Uncomment the lines below by removing semicolons and play with the
