@@ -1215,10 +1215,10 @@
 
 ;; Use Ligatures
 ;;(global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "Hasklug Nerd Font"))
+(when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font"))
 (if (memq window-system '(mac ns))
-    (set-face-attribute 'default nil :height 95)
-  (set-face-attribute 'default nil :height 95))
+    (set-face-attribute 'default nil :height 110)
+  (set-face-attribute 'default nil :height 110))
 
 
 ;; Uncomment the lines below by removing semicolons and play with the
