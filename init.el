@@ -203,6 +203,7 @@
   ;; Don't use evil mode for org mode
   (evil-set-initial-state 'org-mode 'emacs)
   (evil-mode 1)
+  (setq evil-want-C-d-scroll 't)
   (key-chord-mode 1)
   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
@@ -1205,7 +1206,7 @@
   (interactive)
   (load-theme 'sanityinc-tomorrow-day t))
 
-(load-dark)
+(load-light)
 
 
 (global-set-key (kbd "C-c u l") 'load-light)
