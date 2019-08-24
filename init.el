@@ -156,6 +156,7 @@
    "s" '(:ignore t :which-key "shell")
    "s s" 'multi-term-dedicated-toggle
    "u" '(:ignore t :which-key "UI")
+   "u c" 'counsel-load-theme
    "u n" 'global-display-line-numbers-mode
    "u l" 'load-light
    "u d" 'load-dark
@@ -186,6 +187,7 @@
    "s" '(:ignore t :which-key "shell")
    "s s" 'multi-term-dedicated-toggle
    "u" '(:ignore t :which-key "UI")
+   "u c" 'counsel-load-theme
    "u l" 'load-light
    "u d" 'load-dark
    "u D" 'load-very-dark
@@ -308,9 +310,9 @@
 ;;   (spaceline-helm-mode))
 
 ;; Evil disabled by default
-;; (evil-mode -1)
-;; (evil-escape-mode -1)
-;; (evil-leader-mode -1)
+(evil-mode -1)
+(evil-escape-mode -1)
+(evil-leader-mode -1)
 (global-set-key (kbd "C-c e o") 'enable-evil)
 (global-set-key (kbd "C-c e f") 'disable-evil)
 (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
@@ -1031,6 +1033,21 @@
   :ensure t)
 ;;; End Python
 
+;;; Lua
+(use-package flymake-lua
+  :ensure t)
+
+(use-package luarocks
+  :ensure t)
+
+(use-package company-lua
+  :ensure t)
+
+(use-package lua-mode
+  :ensure t
+  :init
+  (add-hook 'lua-mode-hook #'flymake-mode-on))
+;;; End Lua
 
 ;;; Haxe
 (use-package haxe-mode
@@ -1223,7 +1240,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'zenburn t))
+  (load-theme 'hickey t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1231,7 +1248,7 @@
 
 (defun load-light ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-day t))
+  (load-light 'base16-atelier-forest-light t))
 
 (load-light)
 
@@ -1453,7 +1470,7 @@
 ;;; End C#
 
 ;;; C/C++
-;; (setq c-default-style "linux")
+(setq c-default-style "linux")
 
 (use-package irony
   :ensure t
@@ -1487,12 +1504,14 @@
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    (vector "#657b83" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"))
+ '(ansi-term-color-vector
+   [unspecified "#1f1f1f" "#d6dbe5" "#f3bd09" "#1dd361" "#5350b9" "#0f7ddb" "#5350b9" "#4e5ab7"] t)
  '(beacon-color "#c82829")
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-    ("04232a0bfc50eac64c12471607090ecac9d7fd2d79e388f8543d1c5439ed81f5" "bc4c89a7b91cfbd3e28b2a8e9e6750079a985237b960384f158515d32c7f0490" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
+    ("c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "44961a9303c92926740fc4121829c32abca38ba3a91897a4eab2aa3b7634bed4" "f66abed5139c808607639e5a5a3b5b50b9db91febeae06f11484a15a92bde442" "04232a0bfc50eac64c12471607090ecac9d7fd2d79e388f8543d1c5439ed81f5" "bc4c89a7b91cfbd3e28b2a8e9e6750079a985237b960384f158515d32c7f0490" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
@@ -1503,7 +1522,7 @@
  '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-    (lsp-treemacs pyenv-mode-auto pyenv-auto pyenv-auto-mode lsp-imenu dap-mode company-jedi spinner lsp-mode undo-tree zenburn zenburn-theme forge omnisharp org htmlize ox-reveal goto-last-change spaceline doom-modeline org-mode evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+    (company-lua luarocks flymake-lua lua-mode lsp-treemacs pyenv-mode-auto pyenv-auto pyenv-auto-mode lsp-imenu dap-mode company-jedi spinner lsp-mode undo-tree zenburn zenburn-theme forge omnisharp org htmlize ox-reveal goto-last-change spaceline doom-modeline org-mode evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
