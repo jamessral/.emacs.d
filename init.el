@@ -1248,7 +1248,7 @@
 
 (defun load-light ()
   (interactive)
-  (load-light 'base16-atelier-forest-light t))
+  (load-theme 'base16-atelier-forest-light t))
 
 (load-light)
 
