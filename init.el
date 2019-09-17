@@ -195,126 +195,6 @@
    "u n" 'global-display-line-numbers-mode
    "u z" 'writeroom-mode))
 
-;;; Evil
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  :config
-  ;; Don't use evil mode for org mode
-  (evil-set-initial-state 'org-mode 'emacs)
-  (evil-mode 1)
-  (setq evil-want-C-d-scroll 't)
-  (key-chord-mode 1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-  (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-  (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-  ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
-  (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
-
-                                        ; Shamelessly stolen from Amir Rajan
-  (global-set-key [escape] 'evil-exit-emacs-state)
-
-  (defun evil-send-string-to-terminal (string)
-    (unless (display-graphic-p) (send-string-to-terminal string)))
-
-  (defun evil-terminal-cursor-change ()
-    (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
-      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
-      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
-    (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
-      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
-      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
-
-  (evil-terminal-cursor-change)
-  )
-
-(use-package evil-leader
-  :ensure t
-  :init
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-   "<SPC>" 'counsel-M-x
-   "n" 'neotree-toggle
-   "m" 'neotree-find
-   "<RET>" 'save-buffer
-   "v" 'evil-window-vsplit
-   "s" 'evil-window-split
-   "/" 'evil-ex-nohighlight)
-  (global-evil-leader-mode))
-
-(use-package evil-escape
-  :ensure t
-  :commands evil-escape-mode
-  :init
-  (setq-default evil-escape-key-sequence "jk")
-  (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
-        evil-escape-excluded-major-modes '(neotree-mode)
-        evil-escape-key-sequence "jk"
-        evil-escape-delay 0.25)
-  (add-hook 'after-init-hook #'evil-escape-mode)
-  :config
-  ;; no `evil-escape' in minibuffer
-  (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
-
-  (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
-  (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
-
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
-
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-
-;; (use-package evil-tabs
-;;   :ensure t
-;;   :init
-;;   (global-evil-tabs-mode t)
-;;   (evil-global-set-key 'normal (kbd "g t") #'evil-tabs-goto-tab))
-
-(use-package evil-commentary
-  :ensure t
-  :config
-  (evil-commentary-mode))
-
-;;; Doom Modeline
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :hook
-;;   (after-init . doom-modeline-mode))
-;; (use-package spaceline
-;;   :ensure t
-;;   :init
-;;   (spaceline-emacs-theme)
-;;   (spaceline-helm-mode))
-
-;; Evil disabled by default
-(evil-mode -1)
-(evil-escape-mode -1)
-(evil-leader-mode -1)
-(global-set-key (kbd "C-c e o") 'enable-evil)
-(global-set-key (kbd "C-c e f") 'disable-evil)
 (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
 
 (defun set-relative-lines ()
@@ -330,21 +210,6 @@
   (if (eq display-line-numbers 'relative)
       (setq display-line-numbers t)
     (setq display-line-numbers 'relative)))
-
-(defun enable-evil ()
-  (interactive)
-  (set-relative-lines)
-  (evil-mode 1)
-  (evil-escape-mode 1)
-  (evil-leader-mode 1))
-
-(defun disable-evil ()
-  (interactive)
-  (set-relative-lines)
-  (evil-mode -1)
-  (evil-escape-mode -1)
-  (evil-leader-mode -1))
-
 (global-set-key (kbd "C-c RET RET") 'save-buffer)
 
 ;;; goto last change
@@ -543,11 +408,6 @@
              :ensure t)
 
 (key-chord-mode 1)
-
-
-;;; Email
-;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-;;; End Email
 
 ;; Multiple Cursors
 (use-package multiple-cursors
@@ -983,16 +843,6 @@
   (flycheck-mode -1))
 ;;; End Ruby
 
-;;; Crystal
-(use-package crystal-mode
-  :ensure t)
-
-(use-package flycheck-crystal
-  :ensure t
-  :init
-  (add-hook 'crystal-mode-hook 'flycheck-mode))
-;;; End Crystal
-
 ;;; Data Science
 (use-package polymode
   :ensure t)
@@ -1048,14 +898,6 @@
   :init
   (add-hook 'lua-mode-hook #'flymake-mode-on))
 ;;; End Lua
-
-;;; Haxe
-(use-package haxe-mode
-  :ensure t)
-
-(use-package haxe-imports
-  :ensure t)
-;;; End Haxe
 
 ;;; Rust
 (use-package company-racer
@@ -1141,16 +983,6 @@
               ((numberp (cadr alpha)) (cadr alpha)))
          100)
      '(98 . 50) '(100 . 100)))))
-
-;; Show dashboard on startup
-;; (use-package dashboard
-;;              :ensure t
-;;              :config
-;;              ;; (dashboard-setup-startup-hook)
-;;              (setq dashboard-items '((bookmarks . 5)
-;;                                      (projects . 5))))
-
-
 ;; Customize mode-line
 (setq mode-line-format
       (list
@@ -1181,7 +1013,7 @@
 (use-package multi-term
   :ensure t
   :init
-  (setq multi-term-program "/usr/bin/fish"))
+  (setq multi-term-program "/usr/bin/zsh"))
 
 ;; Show time on status bar
 (display-time-mode 1)
@@ -1234,13 +1066,17 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 
+(use-package naysayer-theme
+  :ensure t
+  :defer t)
+
 (use-package zenburn-theme
   :ensure t
   :defer t)
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'hickey t))
+  (load-theme 'naysayer t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1250,19 +1086,15 @@
   (interactive)
   (load-theme 'base16-atelier-forest-light t))
 
-(load-light)
-
+(when (display-graphic-p) (load-dark))
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
 (global-set-key (kbd "C-c u D") 'load-very-dark)
 
 ;; Use Ligatures
-;;(global-prettify-symbols-mode)
-(when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font"))
-(if (memq window-system '(mac ns))
-    (set-face-attribute 'default nil :height 110)
-  (set-face-attribute 'default nil :height 110))
+(when (display-graphic-p) (set-face-attribute 'default nil :font "LiterationMono Nerd Font"))
+(set-face-attribute 'default nil :height 110)
 
 
 ;; Uncomment the lines below by removing semicolons and play with the
@@ -1302,134 +1134,12 @@
 ;; no bell
 (setq ring-bell-function 'ignore)
 
-;; Git Gutter Fring
+;; Git Gutter Fringe
 (use-package git-gutter-fringe+
              :ensure t
              :config
              (global-git-gutter+-mode t))
 ;;; End UI
-
-;;; Clojure
-;; Enable paredit for Clojure
-(use-package paredit
-             :ensure t)
-
-;; A little more syntax highlighting
-(use-package clojure-mode-extra-font-locking
-             :ensure t)
-
-;;;;
-;; Cider
-;;;;
-(use-package cider
-  :ensure t
-  :bind
-  (:map cider-mode-map ("C-c c u" . cider-user-ns)))
-
-(use-package clojure-mode
-  :ensure t
-  :config)
-
-;; syntax hilighting for midje
-(add-hook 'clojure-mode-hook
-          (lambda ()
-            (setq inferior-lisp-program "lein repl")
-            (font-lock-add-keywords
-              nil
-              '(("(\\(facts?\\)"
-                 (1 font-lock-keyword-face))
-                ("(\\(background?\\)"
-                 (1 font-lock-keyword-face))))
-            (define-clojure-indent (fact 1))
-            (define-clojure-indent (facts 1))))
-
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
-
-;; This is useful for working with camel-case tokens, like names of
-;; Java classes (e.g. JavaClassName)
-(add-hook 'clojure-mode-hook 'subword-mode)
-(add-hook 'clojure-mode-hook 'cider-mode)
-
-(defun cider-turn-on-eldoc-mode ()
-  "Turn on eldoc mode in the current buffer."
-  (setq-local eldoc-documentation-function 'cider-eldoc)
-  (apply 'eldoc-add-command cider-extra-eldoc-commands)
-  (eldoc-mode +1))
-;; provides minibuffer documentation for the code you're typing into the repl
-(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-
-;; go right to the REPL buffer when it's finished connecting
-(setq cider-repl-pop-to-buffer-on-connect t)
-
-;; When there's a cider error, show its buffer and switch to it
-(setq cider-show-error-buffer t)
-(setq cider-auto-select-error-buffer t)
-
-;; Where to store the cider history.
-(setq cider-repl-history-file "~/.emacs.d/cider-history")
-
-;; Wrap when navigating history.
-(setq cider-repl-wrap-history t)
-
-;; enable paredit in your REPL
-(add-hook 'cider-repl-mode-hook 'paredit-mode)
-
-;; Use clojure mode for other extensions
-(add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
-(add-to-list 'auto-mode-alist '("\\.boot$" . clojure-mode))
-(add-to-list 'auto-mode-alist '("\\.cljs.*$" . clojure-mode))
-(add-to-list 'auto-mode-alist '("lein-env" . enh-ruby-mode))
-
-
-;; key bindings
-;; these help me out with the way I usually develop web apps
-(defun cider-start-http-server ()
-  (interactive)
-  (cider-load-current-buffer)
-  (let ((ns (cider-current-ns)))
-    (cider-repl-set-ns ns)
-    (cider-interactive-eval (format "(println '(def server (%s/start))) (println 'server)" ns))
-    (cider-interactive-eval (format "(def server (%s/start)) (println server)" ns))))
-
-
-(defun cider-refresh ()
-  (interactive)
-  (cider-interactive-eval (format "(user/reset)")))
-
-(defun cider-user-ns ()
-  (interactive)
-  (cider-repl-set-ns "user"))
-;;; EndClojure
-
-;;; Elixir/Erlang
-(use-package alchemist
-  :ensure t
-  :config
-  ;;(add-hook 'before-save-hook 'elixir-format)
-  )
-
-(use-package flycheck-elixir
-  :ensure t)
-;;; End Elixir/Erlang
-
-;;; Geiser (Scheme)
-
-(use-package geiser
-             :ensure t)
-
-;;; Racket
-
-(use-package racket-mode
-             :ensure t)
-
-;;; SLIME (Lisp)
-
-;;; Borrowed from Portacle
-;;(load (expand-file-name "~/quicklisp/slime-helper.el"))
-;;(setq inferior-lisp-program "/usr/local/bin/sbcl")
-
-(add-hook 'slime-repl-mode-hook (lambda () (display-line-numbers-mode -1)))
-
 ;;; Golang
 (use-package go-autocomplete
              :ensure t)
@@ -1511,7 +1221,7 @@
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-    ("c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "44961a9303c92926740fc4121829c32abca38ba3a91897a4eab2aa3b7634bed4" "f66abed5139c808607639e5a5a3b5b50b9db91febeae06f11484a15a92bde442" "04232a0bfc50eac64c12471607090ecac9d7fd2d79e388f8543d1c5439ed81f5" "bc4c89a7b91cfbd3e28b2a8e9e6750079a985237b960384f158515d32c7f0490" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
+    ("a2ec1b9fb1001e0ff20cf4d8081d274e9e4ea5d54b41111bc018aab481868fd5" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "44961a9303c92926740fc4121829c32abca38ba3a91897a4eab2aa3b7634bed4" "f66abed5139c808607639e5a5a3b5b50b9db91febeae06f11484a15a92bde442" "04232a0bfc50eac64c12471607090ecac9d7fd2d79e388f8543d1c5439ed81f5" "bc4c89a7b91cfbd3e28b2a8e9e6750079a985237b960384f158515d32c7f0490" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
