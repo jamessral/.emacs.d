@@ -1136,7 +1136,7 @@
   (load-theme 'base16-atelier-forest-light t))
 
 ;; (when (display-graphic-p) (load-dark))
-(load-dark)
+(load-very-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
