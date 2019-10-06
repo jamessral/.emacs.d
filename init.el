@@ -521,7 +521,8 @@
   (setq web-mode-style-padding 0)
   (setq web-mode-markup-indent-offset 2)
   (add-hook 'web-mode-hook #'add-node-modules-path)
-  (flycheck-add-mode 'javascript-eslint 'web-mode))
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey"))
 
 (use-package emmet-mode
   :ensure t
