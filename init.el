@@ -925,6 +925,7 @@
   (add-hook 'js3-mode-hook #'lsp) ;; for js3-mode support
   (add-hook 'js2-mode-hook #'lsp) ;; for rjsx-mode support
   (add-hook 'rust-mode-hook #'lsp)
+  (add-hook 'haskell-mode-hook #'lsp)
   ;; (add-hook 'tide-mode-hook #'lsp)
   (add-hook 'ruby-mode-hook #'lsp)
   ;; (add-hook 'python-mode-hook #'lsp)
@@ -945,12 +946,19 @@
 ;;; Haskell
 (use-package haskell-mode
   :ensure t)
+
+(use-package lsp-haskell
+  :ensure t)
 ;;; End Haskell
 
 
 ;;; Elm
 (use-package elm-mode
-  :ensure t)
+  :ensure t
+  :init
+  (add-to-list 'company-backends 'company-elm)
+  :bind
+  (("C-c C-f" . elm-format-buffer)))
 ;;; End Elm
 
 
@@ -978,6 +986,13 @@
   :ensure t)
 
 ;;; End OrgMode
+
+
+;;; Email
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+(require 'mu4e)
+;;;
+
 
 ;;; Fun Stuff (Misc)
 (use-package spotify
@@ -1249,7 +1264,7 @@
  '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-    (elm-mode haskell-mode company-lua luarocks flymake-lua lua-mode lsp-treemacs pyenv-mode-auto pyenv-auto pyenv-auto-mode lsp-imenu dap-mode company-jedi spinner lsp-mode undo-tree zenburn zenburn-theme forge omnisharp org htmlize ox-reveal goto-last-change spaceline doom-modeline org-mode evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+    (lsp-elixir lsp-haskell company-haskell mu4e elm-mode haskell-mode company-lua luarocks flymake-lua lua-mode lsp-treemacs pyenv-mode-auto pyenv-auto pyenv-auto-mode lsp-imenu dap-mode company-jedi spinner lsp-mode undo-tree zenburn zenburn-theme forge omnisharp org htmlize ox-reveal goto-last-change spaceline doom-modeline org-mode evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
