@@ -949,6 +949,11 @@
 
 (use-package lsp-haskell
   :ensure t)
+
+(use-package flycheck-haskell
+  :ensure t
+  :init
+  (add-hook 'haskell-mode-hook 'flycheck-mode))
 ;;; End Haskell
 
 
@@ -957,14 +962,24 @@
   :ensure t
   :init
   (add-to-list 'company-backends 'company-elm)
+  (setq elm-package-json "elm.json")
   :bind
   (("C-c C-f" . elm-format-buffer)))
+
+(use-package flycheck-elm
+  :ensure t
+  :init
+  (add-hook 'elm-mode-hook 'flycheck-mode))
 ;;; End Elm
 
 
 ;;; Elixir
 (use-package alchemist
   :ensure t)
+(use-package flycheck-elixir
+  :ensure t
+  :init
+  (add-hook 'elixir-mode-hook 'flycheck-mode))
 ;;; End Elixir
 
 
