@@ -1,0 +1,3 @@
+[submodule "vendor/esv-mode"]
+	path = vendor/esv-mode
+	url = https://github.com/csebold/esv.el.git

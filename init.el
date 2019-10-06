@@ -1010,6 +1010,15 @@
 ;;;
 
 
+
+;;; Bible (ESV)
+(load-file "~/.emacs.d/vendor/esv-mode/esv.el")
+(require 'esv)
+(add-hook 'text-mode-hook 'turn-on-esv-mode)
+;;; End Bible
+
+
+
 ;;; Fun Stuff (Misc)
 (use-package spotify
   :ensure t)
@@ -1270,6 +1279,7 @@
  '(custom-safe-themes
    (quote
     ("a2ec1b9fb1001e0ff20cf4d8081d274e9e4ea5d54b41111bc018aab481868fd5" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "44961a9303c92926740fc4121829c32abca38ba3a91897a4eab2aa3b7634bed4" "f66abed5139c808607639e5a5a3b5b50b9db91febeae06f11484a15a92bde442" "04232a0bfc50eac64c12471607090ecac9d7fd2d79e388f8543d1c5439ed81f5" "bc4c89a7b91cfbd3e28b2a8e9e6750079a985237b960384f158515d32c7f0490" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
+ '(esv-key "IP")
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
