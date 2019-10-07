@@ -535,7 +535,10 @@
   (add-hook 'js-mode-hook #'indium-interaction-mode))
 
 (use-package prettier-js
-  :ensure t)
+  :ensure t
+  :init
+  (add-hook 'js-mode-hook #'prettier-js-mode)
+  (add-hook 'typescript-mode-hook #'prettier-js-mode))
 
 (use-package rjsx-mode
   :ensure t
@@ -756,7 +759,7 @@
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
   (flycheck-add-next-checker 'javascript-eslint 'typescript-tide 'append)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
   (add-hook 'web-mode-hook
             (lambda ()
               (when (string-equal "tsx" (file-name-extension buffer-file-name))
