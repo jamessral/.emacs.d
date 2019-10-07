@@ -1276,8 +1276,6 @@
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    (vector "#657b83" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"))
- '(ansi-term-color-vector
-   [unspecified "#f1efee" "#f22c40" "#7b9726" "#c38418" "#407ee7" "#6666ea" "#407ee7" "#68615e"] t)
  '(beacon-color "#c82829")
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
