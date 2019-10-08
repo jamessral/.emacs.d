@@ -968,6 +968,8 @@
   :init
   (add-to-list 'company-backends 'company-elm)
   (setq elm-package-json "elm.json")
+  (eval-after-load 'flycheck
+    '(add-hook 'flycheck-mode-hook #'flycheck-elm-setup))
   :bind
   (("C-c C-f" . elm-format-buffer)))
 
