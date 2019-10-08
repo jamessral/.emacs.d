@@ -522,6 +522,7 @@
   (setq web-mode-markup-indent-offset 2)
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
+  :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey"))
 
 (use-package emmet-mode
@@ -1135,9 +1136,13 @@
   :ensure t
   :defer t)
 
+(use-package spacemacs-theme
+  :defer t
+  :ensure t)
+
 (defun load-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-night t))
+  (load-theme 'spacemacs-dark t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1145,10 +1150,10 @@
 
 (defun load-light ()
   (interactive)
-  (load-theme 'base16-atelier-forest-light t))
+  (load-theme 'spacemacs-light t))
 
 ;; (when (display-graphic-p) (load-dark))
-(load-very-dark)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1292,7 +1297,7 @@
  '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-    (lsp-solargraph lsp-ruby-mode lsp-ruby lsp-elixir lsp-haskell company-haskell mu4e elm-mode haskell-mode company-lua luarocks flymake-lua lua-mode lsp-treemacs pyenv-mode-auto pyenv-auto pyenv-auto-mode lsp-imenu dap-mode company-jedi spinner lsp-mode undo-tree zenburn zenburn-theme forge omnisharp org htmlize ox-reveal goto-last-change spaceline doom-modeline org-mode evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
+    (spacemacs-theme lsp-solargraph lsp-ruby-mode lsp-ruby lsp-elixir lsp-haskell company-haskell mu4e elm-mode haskell-mode company-lua luarocks flymake-lua lua-mode lsp-treemacs pyenv-mode-auto pyenv-auto pyenv-auto-mode lsp-imenu dap-mode company-jedi spinner lsp-mode undo-tree zenburn zenburn-theme forge omnisharp org htmlize ox-reveal goto-last-change spaceline doom-modeline org-mode evil-tab fish-mode yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tide sublime-themes spotify smex smartparens scss-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode rinari restart-emacs rbenv racket-mode projectile-rails prettier-js paredit org-bullets olivetti neotree multi-term mocha magit lush-theme lsp-rust lsp-javascript-typescript linum-relative key-chord json-mode jedi irony indium helm-rg helm-projectile helm-ag haxe-mode haxe-imports haml-mode gruvbox-theme graphql-mode go-autocomplete git-gutter-fringe+ geiser flycheck-rust flycheck-elixir flycheck-crystal fiplr expand-region exec-path-from-shell evil-surround evil-leader evil-escape evil-commentary evil-collection enh-ruby-mode emmet-mode elpy dashboard d-mode crystal-mode counsel company-racer company-lsp company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clojure-mode-extra-font-locking cider better-defaults beacon base16-theme avy all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
