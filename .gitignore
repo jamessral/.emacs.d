@@ -11,3 +11,4 @@ nit
 auto-save-list/**/*
 transient/**
 backups/**
+eshell/**
