@@ -76,9 +76,8 @@
 
 ;;; Some Bascis
 (use-package exec-path-from-shell
-             :ensure t)
-
-(when (memq window-system '(mac ns x))
+  :ensure t
+  :init
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs
    '("PATH")))
@@ -526,6 +525,7 @@
   (setq web-mode-style-padding 0)
   (setq web-mode-markup-indent-offset 2)
   (add-hook 'web-mode-hook #'add-node-modules-path)
+  (add-hook 'web-mode-hook #'prettier-js-mode)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey"))
@@ -607,7 +607,6 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . #'my/setup-erb))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
 
 ;;; JS-mode and derivatives
@@ -1181,7 +1180,7 @@
 (global-set-key (kbd "C-c u D") 'load-very-dark)
 
 ;; Use Ligatures
-(when (display-graphic-p) (set-face-attribute 'default nil :font "Noto Mono"))
+(when (display-graphic-p) (set-face-attribute 'default nil :font "Noto Sans Mono"))
 (set-face-attribute 'default nil :height 110)
 
 
@@ -1365,3 +1364,4 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil))))
  '(sp-pair-overlay-face ((t nil))))
+(put 'narrow-to-region 'disabled nil)
