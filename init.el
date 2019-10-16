@@ -540,7 +540,8 @@
 (use-package emmet-mode
   :ensure t
   :init
-  (add-hook 'web-mode-hook 'emmet-mode))
+  (add-hook 'web-mode-hook 'emmet-mode)
+  (define-key emmet-mode-keymap (kbd "C-j") 'concat-lines))
 
 (use-package indium
   :ensure t
