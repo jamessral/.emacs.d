@@ -700,6 +700,16 @@
 
 ;;; Jest (JS)
 
+
+;;; Angular
+(use-package angular-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\page.html\\'" . angular-html-mode))
+  (add-to-list 'auto-mode-alist '("\\component.html\\'" . angular-html-mode)))
+;;; End Angular
+
+
 ;;; Setup for using Mocha el to run Jest tests
 
 (use-package mocha
@@ -947,6 +957,8 @@
   (add-hook 'typescript-mode-hook #'lsp) ;; for typescript support
   (add-hook 'js3-mode-hook #'lsp) ;; for js3-mode support
   (add-hook 'js2-mode-hook #'lsp) ;; for rjsx-mode support
+  (add-hook 'angular-mode #'lsp)
+  (add-hook 'angular-html-mode #'lsp)
   (add-hook 'rust-mode-hook #'lsp)
   (add-hook 'haskell-mode-hook #'lsp)
   (add-hook 'elm-mode-hook #'lsp)
@@ -1352,7 +1364,7 @@
  '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-    (fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+    (angular-html-mode angular-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
