@@ -625,9 +625,9 @@
 (setq js2-basic-offset 2)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
-                           (local-set-key (kbd "C-c t t") 'mocha-test-at-point)
+                           (local-set-key (kbd "C-c , s") 'mocha-test-at-point)
                            ;; (evil-leader/set-key "t" 'mocha-test-at-point)
-                           (local-set-key (kbd "C-c t f") 'mocha-test-file)
+                           (local-set-key (kbd "C-c , v") 'mocha-test-file)
                            ;; (evil-leader/set-key "T" 'mocha-test-file)))
                            ))
 
