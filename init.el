@@ -705,6 +705,7 @@
 (use-package ng2-mode
   :ensure t
   :init
+  (add-hook 'ng2-html-mode-hook #'prettier-js-mode)
   (add-to-list 'auto-mode-alist '("\\page.html\\'" . ng2-html-mode))
   (add-to-list 'auto-mode-alist '("\\component.html\\'" . ng2-html-mode)))
 ;;; End Angular
