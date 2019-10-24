@@ -254,6 +254,7 @@
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-s") 'helm-occur)
   (helm-mode 1))
 
 (use-package helm-ag
@@ -270,8 +271,9 @@
 
 (use-package swiper
   :ensure t
-  :config
-  (global-set-key (kbd "C-s") 'swiper))
+  ;; :config
+  ;; (global-set-key (kbd "C-s") 'swiper)
+  )
 
 (use-package counsel
   :ensure t
@@ -541,6 +543,7 @@
   :ensure t
   :init
   (add-hook 'web-mode-hook 'emmet-mode)
+  :config
   (define-key emmet-mode-keymap (kbd "C-j") 'concat-lines))
 
 (use-package indium
@@ -615,6 +618,7 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . #'my/setup-erb))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
 
 ;;; JS-mode and derivatives
@@ -671,10 +675,13 @@
 ;; Vue Support
 (use-package vue-mode
   :ensure t
+  :init
+  (add-hook 'vue-mode-hook #'prettier-js-mode)
   :config
   (setq mmm-submode-decoration-level 0)
-  )
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+)
+
 
 (use-package scss-mode
   :ensure t
@@ -702,12 +709,13 @@
 
 
 ;;; Angular
-(use-package ng2-mode
-  :ensure t
-  :init
-  (add-hook 'ng2-html-mode-hook #'prettier-js-mode)
-  (add-to-list 'auto-mode-alist '("\\page.html\\'" . ng2-html-mode))
-  (add-to-list 'auto-mode-alist '("\\component.html\\'" . ng2-html-mode)))
+;; (use-package ng2-mode
+  ;; :ensure t
+  ;; :init
+  ;; (add-hook 'ng2-html-mode-hook #'prettier-js-mode)
+  ;; (add-to-list 'auto-mode-alist '("\\page.html\\'" . ng2-html-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\component.html\\'" . ng2-html-mode))
+  ;; )
 ;;; End Angular
 
 
@@ -831,11 +839,15 @@
 (use-package ruby-test-mode
   :ensure t)
 
+(use-package inf-ruby
+  :ensure t)
+
 (use-package rspec-mode
   :ensure t
   :init
   (eval-after-load 'rspec-mode
-    '(rspec-install-snippets)))
+    '(rspec-install-snippets))
+  (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 
 (use-package enh-ruby-mode
   :ensure t)
@@ -1204,7 +1216,7 @@
 
 (defun load-light ()
   (interactive)
-  (load-theme 'sanityinc-solarized-light t))
+  (load-theme 'sanityinc-tomorrow-day t))
 
 ;; (when (display-graphic-p) (load-dark))
 (load-very-dark)
@@ -1362,13 +1374,14 @@
      ("FIXME" . "#dc752f")
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f"))))
+ '(linum-format " %7i ")
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-    (ng2-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+    (angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
