@@ -1196,7 +1196,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'spacemacs-dark t))
+  (load-theme 'sanityinc-tomorrow-night t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1207,7 +1207,7 @@
   (load-theme 'sanityinc-solarized-light t))
 
 ;; (when (display-graphic-p) (load-dark))
-(load-light)
+(load-very-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
