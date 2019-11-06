@@ -131,119 +131,119 @@
   :config
   (setq neo-theme 'arrow))
 
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  :config
-  ;; Don't use evil mode for org mode
-  (evil-set-initial-state 'org-mode 'emacs)
-  (evil-mode 1)
-  (key-chord-mode 1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-  (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-  (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-  (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-  ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
-  (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
+;; (use-package evil
+;;   :ensure t
+;;   :init
+;;   (setq evil-want-integration t)
+;;   (setq evil-want-keybinding nil)
+;;   :config
+;;   ;; Don't use evil mode for org mode
+;;   (evil-set-initial-state 'org-mode 'emacs)
+;;   (evil-mode 1)
+;;   (key-chord-mode 1)
+;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+;;   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+;;   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+;;   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+;;   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+;;   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+;;   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+;;   ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
+;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
+;;   (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
 
-                                        ; Shamelessly stolen from Amir Rajan
-  (global-set-key [escape] 'evil-exit-emacs-state)
+;;                                         ; Shamelessly stolen from Amir Rajan
+;;   (global-set-key [escape] 'evil-exit-emacs-state)
 
-  (defun evil-send-string-to-terminal (string)
-    (unless (display-graphic-p) (send-string-to-terminal string)))
+;;   (defun evil-send-string-to-terminal (string)
+;;     (unless (display-graphic-p) (send-string-to-terminal string)))
 
-  (defun evil-terminal-cursor-change ()
-    (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
-      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
-      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
-    (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
-      (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
-      (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
+;;   (defun evil-terminal-cursor-change ()
+;;     (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
+;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
+;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
+;;     (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
+;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
+;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
 
-  (evil-terminal-cursor-change)
-  )
+;;   (evil-terminal-cursor-change)
+;;   )
 
-(use-package evil-leader
-  :ensure t
-  :init
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (evil-leader/set-key
-   "<SPC>" 'counsel-M-x
-   "n" 'neotree-toggle
-   "m" 'neotree-find
-   "<RET>" 'save-buffer
-   "v" 'evil-window-vsplit
-   "s" 'evil-window-split
-   "/" 'evil-ex-nohighlight)
-  (global-evil-leader-mode))
+;; (use-package evil-leader
+;;   :ensure t
+;;   :init
+;;   :config
+;;   (evil-leader/set-leader "<SPC>")
+;;   (evil-leader/set-key
+;;    "<SPC>" 'counsel-M-x
+;;    "n" 'neotree-toggle
+;;    "m" 'neotree-find
+;;    "<RET>" 'save-buffer
+;;    "v" 'evil-window-vsplit
+;;    "s" 'evil-window-split
+;;    "/" 'evil-ex-nohighlight)
+;;   (global-evil-leader-mode))
 
-(use-package evil-escape
-  :ensure t
-  :commands evil-escape-mode
-  :init
-  (setq-default evil-escape-key-sequence "jk")
-  (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
-        evil-escape-excluded-major-modes '(neotree-mode)
-        evil-escape-key-sequence "jk"
-        evil-escape-delay 0.25)
-  (add-hook 'after-init-hook #'evil-escape-mode)
-  :config
-  ;; no `evil-escape' in minibuffer
-  (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
+;; (use-package evil-escape
+;;   :ensure t
+;;   :commands evil-escape-mode
+;;   :init
+;;   (setq-default evil-escape-key-sequence "jk")
+;;   (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
+;;         evil-escape-excluded-major-modes '(neotree-mode)
+;;         evil-escape-key-sequence "jk"
+;;         evil-escape-delay 0.25)
+;;   (add-hook 'after-init-hook #'evil-escape-mode)
+;;   :config
+;;   ;; no `evil-escape' in minibuffer
+;;   (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
 
-  (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
-  (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
-  (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
+;;   (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
+;;   (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
+;;   (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
+;;   (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
 
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
+;; (use-package evil-collection
+;;   :after evil
+;;   :ensure t
+;;   :config
+;;   (evil-collection-init))
 
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
+;; (use-package evil-surround
+;;   :ensure t
+;;   :config
+;;   (global-evil-surround-mode 1))
 
-(use-package evil-tabs
-  :ensure t
-  :config
-  (evil-commentary-mode)
-  :init
-  (global-evil-tabs-mode t)
-  (evil-global-set-key 'normal (kbd "g t") #'evil-tabs-goto-tab))
+;; (use-package evil-tabs
+;;   :ensure t
+;;   :config
+;;   (evil-commentary-mode)
+;;   :init
+;;   (global-evil-tabs-mode t)
+;;   (evil-global-set-key 'normal (kbd "g t") #'evil-tabs-goto-tab))
 
-(use-package evil-commentary
-  :ensure t
-  :config
-  (evil-commentary-mode))
+;; (use-package evil-commentary
+;;   :ensure t
+;;   :config
+;;   (evil-commentary-mode))
 
-;; Evil disabled by default
-; (evil-mode -1)
-; (evil-escape-mode -1)
-; (evil-leader-mode -1)
-;; (evil-mode -1)
-;; (evil-escape-mode -1)
-;; (evil-leader-mode -1)
-(global-set-key (kbd "C-c e o") 'enable-evil)
-(global-set-key (kbd "C-c e f") 'disable-evil)
-(global-set-key (kbd "C-c e l") 'toggle-relative-lines)
+;; ;; Evil disabled by default
+;; ; (evil-mode -1)
+;; ; (evil-escape-mode -1)
+;; ; (evil-leader-mode -1)
+;; ;; (evil-mode -1)
+;; ;; (evil-escape-mode -1)
+;; ;; (evil-leader-mode -1)
+;; (global-set-key (kbd "C-c e o") 'enable-evil)
+;; (global-set-key (kbd "C-c e f") 'disable-evil)
+;; (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
 
 
 (use-package general
@@ -1348,7 +1348,7 @@
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-night t))
+  (load-theme 'base16-material t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1359,7 +1359,7 @@
   (load-theme 'sanityinc-tomorrow-day t))
 
 ;; (when (display-graphic-p) (load-dark))
-(load-very-dark)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1494,11 +1494,10 @@
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-    ("a7051d761a713aaf5b893c90eaba27463c791cd75d7257d3a8e66b0c8c346e77" "c968804189e0fc963c641f5c9ad64bca431d41af2fb7e1d01a2a6666376f819c" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "b8929cff63ffc759e436b0f0575d15a8ad7658932f4b2c99415f3dde09b32e97" "a2ec1b9fb1001e0ff20cf4d8081d274e9e4ea5d54b41111bc018aab481868fd5" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "44961a9303c92926740fc4121829c32abca38ba3a91897a4eab2aa3b7634bed4" "f66abed5139c808607639e5a5a3b5b50b9db91febeae06f11484a15a92bde442" "04232a0bfc50eac64c12471607090ecac9d7fd2d79e388f8543d1c5439ed81f5" "bc4c89a7b91cfbd3e28b2a8e9e6750079a985237b960384f158515d32c7f0490" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
+    ("446cc97923e30dec43f10573ac085e384975d8a0c55159464ea6ef001f4a16ba" "a7051d761a713aaf5b893c90eaba27463c791cd75d7257d3a8e66b0c8c346e77" "c968804189e0fc963c641f5c9ad64bca431d41af2fb7e1d01a2a6666376f819c" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "e9776d12e4ccb722a2a732c6e80423331bcb93f02e089ba2a4b02e85de1cf00e" "b8929cff63ffc759e436b0f0575d15a8ad7658932f4b2c99415f3dde09b32e97" "a2ec1b9fb1001e0ff20cf4d8081d274e9e4ea5d54b41111bc018aab481868fd5" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "44961a9303c92926740fc4121829c32abca38ba3a91897a4eab2aa3b7634bed4" "f66abed5139c808607639e5a5a3b5b50b9db91febeae06f11484a15a92bde442" "04232a0bfc50eac64c12471607090ecac9d7fd2d79e388f8543d1c5439ed81f5" "bc4c89a7b91cfbd3e28b2a8e9e6750079a985237b960384f158515d32c7f0490" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "3380a2766cf0590d50d6366c5a91e976bdc3c413df963a0ab9952314b4577299" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "146061a7ceea4ccc75d975a3bb41432382f656c50b9989c7dc1a7bb6952f6eb4" "1f38fb71e55e5ec5f14a39d03ca7d7a416123d3f0847745c7bade053ca58f043" default)))
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
- '(global-evil-tabs-mode t)
  '(hl-todo-keyword-faces
    (quote
     (("TODO" . "#dc752f")
@@ -1523,7 +1522,7 @@
  '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-    (psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+    (geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
