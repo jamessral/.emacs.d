@@ -80,7 +80,7 @@
   :init
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs
-   '("PATH")))
+   '("PATH" "ANDROID_HOME")))
 
 ;; Mac key admustments
 (setq mac-option-modifier 'control)
@@ -1428,7 +1428,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'base16-material t))
+  (load-theme 'base16-monokai t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1446,7 +1446,7 @@ Version 2016-01-12"
 (global-set-key (kbd "C-c u D") 'load-very-dark)
 
 ;; Use Ligatures
-(when (display-graphic-p) (set-face-attribute 'default nil :font "FuraCode Nerd Font"))
+(set-face-attribute 'default nil :font "FuraCode Nerd Font")
 (set-face-attribute 'default nil :height 110)
 
 
