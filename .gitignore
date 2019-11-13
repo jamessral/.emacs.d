@@ -13,4 +13,4 @@ transient/**
 backups/**
 eshell/**
 !eshell/alias
-.lsp-session*
+/.lsp-session-v1
