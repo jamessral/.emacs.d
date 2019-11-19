@@ -1044,7 +1044,8 @@
 (defun my/setup-erb ()
   (interactive)
   (web-mode)
-  (flycheck-mode -1))
+  (flycheck-mode -1)
+  (prettier-js-mode -1))
 ;;; End Ruby
 
 ;;; Data Science
@@ -1422,7 +1423,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'spacemacs-dark t))
+  (load-theme 'zenburn t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1439,9 +1440,12 @@ Version 2016-01-12"
 (global-set-key (kbd "C-c u d") 'load-dark)
 (global-set-key (kbd "C-c u D") 'load-very-dark)
 
-;; Use Ligatures
-(set-face-attribute 'default nil :font "FuraCode Nerd Font")
-(set-face-attribute 'default nil :height 110)
+
+;; Font
+(add-hook 'after-init-hook
+          (lambda ()
+            (set-face-attribute 'default nil :font "FuraCode Nerd Font")
+            (set-face-attribute 'default nil :height 110)))
 
 
 ;; Uncomment the lines below by removing semicolons and play with the
