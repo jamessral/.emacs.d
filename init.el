@@ -1364,7 +1364,13 @@ Version 2016-01-12"
 ;;; End C#
 
 ;;; C/C++
-(setq c-default-style "linux")
+(add-hook 'c-mode-hook
+          (setq c-default-style "linux"
+                tab-width 4
+                indent-tabs-mode t
+                c-basic-offset 4))
+
+(setq-default c-basic-offset 4)
 
 (use-package irony
   :ensure t
