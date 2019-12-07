@@ -695,11 +695,6 @@
   :config
   (define-key emmet-mode-keymap (kbd "C-j") 'concat-lines))
 
-(use-package indium
-  :ensure t
-  :init
-  (add-hook 'js-mode-hook #'indium-interaction-mode))
-
 (use-package prettier-js
   :ensure t
   :init
@@ -856,18 +851,6 @@
 
 ;;; Jest (JS)
 
-
-;;; Angular
-;; (use-package ng2-mode
-  ;; :ensure t
-  ;; :init
-  ;; (add-hook 'ng2-html-mode-hook #'prettier-js-mode)
-  ;; (add-to-list 'auto-mode-alist '("\\page.html\\'" . ng2-html-mode))
-  ;; (add-to-list 'auto-mode-alist '("\\component.html\\'" . ng2-html-mode))
-  ;; )
-;;; End Angular
-
-
 ;;; Setup for using Mocha el to run Jest tests
 
 (use-package mocha
@@ -1021,13 +1004,8 @@
   :init
   (global-rbenv-mode))
 
-(use-package seeing-is-believing
-  :ensure t
-  :init
-  (add-hook 'ruby-mode-hook 'seeing-is-believing))
-
-(use-package robe
-  :ensure t)
+; (use-package robe
+  ; :ensure t)
 
 (use-package projectile-rails
   :ensure t
@@ -1047,46 +1025,6 @@
   (flycheck-mode -1)
   (prettier-js-mode -1))
 ;;; End Ruby
-
-;;; Data Science
-(use-package polymode
-  :ensure t)
-
-(use-package ess
-  :ensure t)
-
-(use-package poly-R
-  :ensure t)
-
-;;; Python
-(use-package jedi
-  :ensure t)
-
-(use-package company-jedi
-  :ensure t
-  :init
-  (add-to-list 'company-backends 'company-jedi))
-
-(use-package elpy
-  :ensure t
-  :defer t
-  :config
-  (add-hook 'python-mode-hook (lambda () (elpy-mode)))
-)
-
-(use-package pyenv-mode-auto
-  :ensure t
-  :defer t
-  :init
-  (add-to-list 'exec-path "~/.pyenv/shims")
-  (setenv "WORKON_HOME" "~/.pyenv/versions/"))
-
-;; (use-package lsp-python-ms
-;;   :ensure t)
-
-(use-package ein
-  :ensure t)
-;;; End Python
 
 ;;; Lua
 (use-package flymake-lua
@@ -1118,142 +1056,42 @@
 (use-package dap-mode
   :ensure t)
 
-(use-package lsp-treemacs
-  :ensure t)
+; (use-package lsp-treemacs
+;   :ensure t)
 
-(use-package lsp-mode
-  :ensure t
-  :commands lsp
-  :init
-  (add-hook 'lsp-mode #'lsp-lens-mode)
-  (add-hook 'lsp-mode #'lsp-ui)
-  (add-hook 'js-mode-hook #'lsp)
-  (add-hook 'typescript-mode-hook #'lsp) ;; for typescript support
-  (add-hook 'js3-mode-hook #'lsp) ;; for js3-mode support
-  (add-hook 'js2-mode-hook #'lsp) ;; for rjsx-mode support
-  (add-hook 'angular-mode #'lsp)
-  (add-hook 'angular-html-mode #'lsp)
-  (add-hook 'rust-mode-hook #'lsp)
-  (add-hook 'haskell-mode-hook #'lsp)
-  (add-hook 'elm-mode-hook #'lsp)
-  (add-hook 'fsharp-mode-hook #'lsp)
-  ;; (add-hook 'tide-mode-hook #'lsp)
-  (add-hook 'ruby-mode-hook #'lsp)
-  (add-hook 'tide-mode-hook #'lsp)
-  (add-hook 'web-mode-hook #'lsp)
-  ;; (add-hook 'python-mode-hook #'lsp)
-  )
+; (use-package lsp-mode
+;   :ensure t
+;   :commands lsp
+;   :init
+;   (add-hook 'lsp-mode #'lsp-lens-mode)
+;   (add-hook 'lsp-mode #'lsp-ui)
+;   (add-hook 'js-mode-hook #'lsp)
+;   (add-hook 'typescript-mode-hook #'lsp) ;; for typescript support
+;   (add-hook 'js3-mode-hook #'lsp) ;; for js3-mode support
+;   (add-hook 'js2-mode-hook #'lsp) ;; for rjsx-mode support
+;   (add-hook 'angular-mode #'lsp)
+;   (add-hook 'angular-html-mode #'lsp)
+;   (add-hook 'rust-mode-hook #'lsp)
+;   (add-hook 'haskell-mode-hook #'lsp)
+;   (add-hook 'elm-mode-hook #'lsp)
+;   (add-hook 'fsharp-mode-hook #'lsp)
+;   ;; (add-hook 'tide-mode-hook #'lsp)
+;   (add-hook 'ruby-mode-hook #'lsp)
+;   (add-hook 'tide-mode-hook #'lsp)
+;   (add-hook 'web-mode-hook #'lsp)
+;   ;; (add-hook 'python-mode-hook #'lsp)
+;   )
 
-(use-package lsp-ui
-  :defer t
-  :ensure t
-  :commands lsp-ui-mode)
+; (use-package lsp-ui
+;   :defer t
+;   :ensure t
+;   :commands lsp-ui-mode)
 
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
+; (use-package company-lsp
+  ; :ensure t
+  ; :commands company-lsp)
 
 ;;; End Rust
-
-
-;;; Haskell
-(use-package haskell-mode
-  :ensure t)
-
-(use-package lsp-haskell
-  :ensure t)
-
-(use-package flycheck-haskell
-  :ensure t
-  :init
-  (add-hook 'haskell-mode-hook 'flycheck-mode))
-;;; End Haskell
-
-
-;;; Purescript
-(use-package purescript-mode
-  :ensure t)
-
-(use-package flycheck-purescript
-  :ensure t)
-
-(use-package psc-ide
-  :ensure t
-  :init
-  (add-hook 'purescript-mode-hook
-            (lambda ()
-              (psc-ide-mode)
-              (company-mode)
-              (flycheck-mode)
-              (turn-on-purescript-indentation))))
-;;; End Purescript
-
-
-;;; Elm
-(use-package elm-mode
-  :ensure t
-  :init
-  (add-to-list 'company-backends 'company-elm)
-  (setq elm-package-json "elm.json")
-  (eval-after-load 'flycheck
-    '(add-hook 'flycheck-mode-hook #'flycheck-elm-setup))
-  (add-hook 'elm-mode-hook #'elm-format-on-save-mode)
-  :bind
-  (("C-c C-f" . elm-format-buffer)))
-
-(use-package flycheck-elm
-  :ensure t
-  :init
-  (add-hook 'elm-mode-hook 'flycheck-mode))
-;;; End Elm
-
-
-;;; F#
-(use-package fsharp-mode
-  :ensure t
-  :defer t)
-;;; End F#
-
-;;; Elixir
-(use-package alchemist
-  :ensure t)
-(use-package flycheck-elixir
-  :ensure t
-  :init
-  (add-hook 'elixir-mode-hook 'flycheck-mode))
-;;; End Elixir
-
-
-;;; Clojure
-(use-package cider
-  :ensure t)
-;;; End Clojure
-
-
-;;; Common Lisp
-(use-package sly
-  :ensure t
-  :init
-  (setq inferior-lisp-program "/usr/bin/sbcl"))
-
-(use-package sly-quicklisp
-  :ensure t)
-;;;
-
-;;; Scheme
-(use-package geiser
-  :ensure t)
-
-(use-package quack
-  :ensure t)
-;;; End Scheme
-
-
-;;; Racket
-(use-package racket-mode
-  :ensure t)
-;;; End Racket
-
 
 ;;; OrgMode
 (use-package org
@@ -1274,18 +1112,10 @@
 
 ;;; End OrgMode
 
-
-;;; Email
-;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-;; (require 'mu4e)
-;;;
-
-
-
 ;;; Bible (ESV)
-(load-file "~/.emacs.d/vendor/esv-mode/esv.el")
-(require 'esv)
-(add-hook 'text-mode-hook 'turn-on-esv-mode)
+;; (load-file "~/.emacs.d/vendor/esv-mode/esv.el")
+;; (require 'esv)
+;; (add-hook 'text-mode-hook 'turn-on-esv-mode)
 ;;; End Bible
 
 
@@ -1431,10 +1261,10 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
-  (load-theme 'spacemacs-light t))
+  (load-theme 'leuven t))
 
 ;; (when (display-graphic-p) (load-dark))
-(load-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1444,7 +1274,7 @@ Version 2016-01-12"
 ;; Font
 (add-hook 'after-init-hook
           (lambda ()
-            (set-face-attribute 'default nil :font "FuraCode Nerd Font")
+            (set-face-attribute 'default nil :font "Liberation Mono")
             (set-face-attribute 'default nil :height 110)))
 
 
@@ -1547,14 +1377,6 @@ Version 2016-01-12"
 (define-key c++-mode-map (kbd "C-c C-c") 'recompile)
 ;; End C/C++
 
-;;; Godot
-; (load "~/.emacs.d/vendor/godot-gdscript/godot-gdscript.el")
-; (require 'godot-gdscript)
-;;; End Godot
-
-;;; D lang
-(use-package d-mode
-  :ensure t)
 ;;; End D lang
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
