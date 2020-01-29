@@ -1142,8 +1142,8 @@ Version 2016-01-12"
 
 
 ;;; Fun Stuff (Misc)
-(use-package spotify
-  :ensure t)
+;; (use-package spotify
+  ;; :ensure t)
 ;;; End Fun Stuff (Misc)
 
 ;;; UI
