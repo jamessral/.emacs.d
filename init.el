@@ -78,9 +78,12 @@
 (use-package exec-path-from-shell
   :ensure t
   :init
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-envs
-   '("PATH" "ANDROID_HOME")))
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-envs
+     '("PATH" "ANDROID_HOME"))))
+
+
 
 ;; Mac key admustments
 (setq mac-option-modifier 'control)
@@ -1284,7 +1287,7 @@ Version 2016-01-12"
 ;; Font
 (add-hook 'after-init-hook
           (lambda ()
-            (set-face-attribute 'default nil :font "Jetbrains Mono")
+            (set-face-attribute 'default nil :font "Liberation Mono")
             (set-face-attribute 'default nil :height 110)))
 
 
