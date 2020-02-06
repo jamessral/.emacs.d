@@ -435,18 +435,14 @@
              :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 
-(use-package forge
-  :ensure t
-  :after magit)
-
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
 
-(use-package smartparens
-  :ensure t
-  :config
-  (add-hook 'after-init-hook (lambda () (smartparens-global-mode -1)))
-  (add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode -1))))
+;; (use-package smartparens
+;;   :ensure t
+;;   :config
+;;   (add-hook 'after-init-hook (lambda () (smartparens-global-mode -1)))
+;;   (add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode -1))))
 
 (electric-pair-mode 1)
 (setq electric-pair-inhibit-predicate
@@ -583,10 +579,10 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-previous-like-this-word)
 
 ;; Folding
-(use-package yafolding
-  :ensure t
-  :init
-  (yafolding-mode 1))
+;; (use-package yafolding
+;;   :ensure t
+;;   :init
+;;   (yafolding-mode 1))
 
 ;; Rainbow Mode hooks
 (use-package rainbow-delimiters
@@ -612,11 +608,6 @@
   :ensure t)
 
 (setq-default save-place t)
-
-(use-package olivetti
-  :ensure t
-  :config
-  (global-set-key (kbd "C-c C-z") 'olivetti-mode))
 
 ;; keep track of saved places in ~/.emacs.d/places
 (setq save-place-file (concat user-emacs-directory "places"))
@@ -1396,7 +1387,6 @@ Version 2016-01-12"
 (define-key c++-mode-map (kbd "C-c C-c") 'recompile)
 ;; End C/C++
 
-;;; End D lang
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
