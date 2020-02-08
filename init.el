@@ -1144,6 +1144,7 @@ Version 2016-01-12"
 ;; Turn off the menu bar at the top of each frame because it's distracting
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(global-hl-line-mode)
 
 ;; (set-frame-parameter (selected-frame) 'alpha '(98 . 50))
 ;; (add-to-list 'default-frame-alist '(alpha . (98 . 50)))
