@@ -1272,12 +1272,16 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'plan9 t))
 
+(defun load-blue ()
+  (interactive)
+  (load-theme 'sanityinc-tomorrow-blue t))
+
 (load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
 (global-set-key (kbd "C-c u D") 'load-very-dark)
-
+(global-set-key (kbd "C-c u b") 'load-blue)
 
 ;; Font
 (add-hook 'after-init-hook
