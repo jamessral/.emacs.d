@@ -1264,7 +1264,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'zenburn t))
+  (load-theme 'sanityinc-solarized-dark t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1278,7 +1278,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
-(load-light)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
