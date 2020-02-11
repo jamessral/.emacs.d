@@ -1142,29 +1142,15 @@ Version 2016-01-12"
 (defun jas/insert-todo ()
   "Insert Todo comment."
   (interactive)
-  (insert "// TODO(jsral): "))
+    (insert "TODO(jsral): ")
+    (toggle-comment-on-line))
 
 (defun jas/insert-note ()
   "Insert Note comment."
   (interactive)
-  (insert "// NOTE(jsral): "))
-
-
-;; Borrowed from Casey Muratori
-; Bright-red TODOs
-(setq fixme-modes '(prog-mode))
-(make-face 'font-lock-fixme-face)
-(make-face 'font-lock-note-face)
-(mapc (lambda (mode)
-        (font-lock-add-keywords
-         mode
-         '(("\\<\\(TODO\\)" 1 'font-lock-fixme-face t)
-           ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
-      fixme-modes)
-(modify-face 'font-lock-fixme-face "Red" nil nil t nil t nil nil)
-(modify-face 'font-lock-note-face "Dark Green" nil nil t nil t nil nil)
+  (insert "NOTE(jsral): ")
+  (toggle-comment-on-line))
 ;;; End Utils
-
 
 ;;; Fun Stuff (Misc)
 ;; (use-package spotify
@@ -1265,9 +1251,9 @@ Version 2016-01-12"
   :ensure t)
 
 (defadvice load-theme
-           ;; Make sure to disable current colors before switching
-           (before theme-dont-propagate activate)
-           (mapc #'disable-theme custom-enabled-themes))
+    ;; Make sure to disable current colors before switching
+    (before theme-dont-propagate activate)
+  (mapc #'disable-theme custom-enabled-themes))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
