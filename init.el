@@ -1400,7 +1400,17 @@ Version 2016-01-12"
           (setq c-default-style "linux"
                 tab-width 4
                 indent-tabs-mode t
-                c-basic-offset 4))
+                c-basic-offset 4)
+          ;; Indent case statements
+          (c-set-offset 'case-label '+))
+
+(add-hook 'c++-mode-hook
+          (setq c-default-style "linux"
+                tab-width 4
+                indent-tabs-mode t
+                c-basic-offset 4)
+          ;; Indent case statements
+          (c-set-offset 'case-label '+))
 
 (setq-default c-basic-offset 4)
 
@@ -1431,7 +1441,7 @@ Version 2016-01-12"
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-    ("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
+    ("b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
  '(doom-modeline-mode nil)
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
