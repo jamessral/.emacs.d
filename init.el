@@ -38,6 +38,8 @@
 (use-package better-defaults
   :ensure t)
 
+(add-to-list 'load-path "./vendor")
+
 ;; Borrowed from https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
 (setq delete-old-versions -1)
 (setq version-control t)
@@ -1029,6 +1031,11 @@
   :init
   (add-hook 'crystal-mode-hook 'ruby-end-mode))
 ;;; End Crystal
+
+;;; Odin
+(require 'odin-mode)
+(add-to-list 'magic-mode-alist '("\\.odin\\'") 'odin-mode)
+;;; End Odin
 
 ;;; Lua
 (use-package flymake-lua
