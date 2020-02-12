@@ -1034,7 +1034,11 @@
 
 ;;; Odin
 (require 'odin-mode)
+(require 'flycheck-odin)
 (add-to-list 'magic-mode-alist '("\\.odin\\'") 'odin-mode)
+(add-hook 'odin-mode #'flycheck-mode)
+(add-hook 'after-init-hook (lambda ()
+                             (flycheck-odin-setup)))
 ;;; End Odin
 
 ;;; Lua
