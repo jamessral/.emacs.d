@@ -1033,7 +1033,9 @@
 ;;; End Crystal
 
 ;;; Odin
+(load "~/.emacs.d/vendor/odin-mode.el")
 (require 'odin-mode)
+(load "~/.emacs.d/vendor/flycheck-odin.el")
 (require 'flycheck-odin)
 (add-to-list 'magic-mode-alist '("\\.odin\\'") 'odin-mode)
 (add-hook 'odin-mode #'flycheck-mode)
@@ -1287,7 +1289,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'zenburn t))
+  (load-theme 'naysayer t))
 
 (defun load-very-dark ()
   (interactive)
