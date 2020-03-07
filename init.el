@@ -1227,14 +1227,14 @@ Version 2016-01-12"
 (setq-default display-line-numbers-type 'absolute)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
-(setq linum-format "%d ")
+(setq linum-format " %d ")
 
 (use-package linum-relative
   :ensure t)
 
 (setq linum-relative-current-symbol "")
 
-;; (global-linum-mode)
+(global-linum-mode)
 ;; Don't show native OS scroll bars for buffers because they're redundant
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
