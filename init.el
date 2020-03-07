@@ -1068,12 +1068,16 @@
 
 (use-package rust-mode
   :ensure t
-  :init
+  :config
   (local-set-key (kbd "C-c C-c") 'recompile))
 
 ;; debugging
 (use-package dap-mode
   :ensure t)
+
+(add-hook 'gdb-mode-hook
+          (lambda ()
+            (gdb-many-windows)))
 
 (use-package lsp-treemacs
   :ensure t)
