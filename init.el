@@ -1234,7 +1234,7 @@ Version 2016-01-12"
 
 (setq linum-relative-current-symbol "")
 
-(global-linum-mode)
+;; (global-linum-mode)
 ;; Don't show native OS scroll bars for buffers because they're redundant
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
@@ -1414,6 +1414,7 @@ Version 2016-01-12"
                 tab-width 4
                 indent-tabs-mode t
                 c-basic-offset 4)
+          (flycheck-mode -1)
           ;; Indent case statements
           (c-set-offset 'case-label '+))
 
@@ -1422,6 +1423,7 @@ Version 2016-01-12"
                 tab-width 4
                 indent-tabs-mode t
                 c-basic-offset 4)
+          (flycheck-mode -1)
           ;; Indent case statements
           (c-set-offset 'case-label '+))
 
