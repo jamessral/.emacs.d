@@ -1303,7 +1303,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
-(load-light)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1317,6 +1317,8 @@ Version 2016-01-12"
             (set-face-attribute 'default nil :font "Liberation Mono")
             (set-face-attribute 'default nil :height 110)))
 
+(set-face-attribute 'default nil :font "Liberation Mono")
+(set-face-attribute 'default nil :height 110)
 
 ;; Uncomment the lines below by removing semicolons and play with the
 ;; values in order to set the width (in characters wide) and height
