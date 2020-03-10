@@ -1293,7 +1293,8 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'base16-unikitty-dark t))
+  (load-theme 'base16-oceanicnext t)
+  (set-cursor-color "#cc4467"))
 
 
 (defun load-very-dark ()
@@ -1522,7 +1523,7 @@ Version 2016-01-12"
      (340 . "#eab700")
      (360 . "#718c00"))))
  '(vc-annotate-very-old-color nil)
- '(window-divider-mode nil))
+ '(window-divider-mode nil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
