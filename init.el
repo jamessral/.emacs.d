@@ -1228,8 +1228,8 @@ Version 2016-01-12"
 (display-time-mode 1)
 
 ;; Show line numbers if activated manually
-(setq-default display-line-numbers-type 'absolute)
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;; (setq-default display-line-numbers-type 'absolute)
+;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (setq linum-format " %d ")
 
