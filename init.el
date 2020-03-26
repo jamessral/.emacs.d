@@ -38,6 +38,9 @@
 (use-package better-defaults
   :ensure t)
 
+(use-package diminish
+  :ensure t)
+
 (add-to-list 'load-path "./vendor")
 
 ;; Borrowed from https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
@@ -106,6 +109,7 @@
 
 (use-package beacon
   :ensure t
+  :diminish beacon-mode
   :config (beacon-mode 1))
 
 (use-package windmove
@@ -116,6 +120,7 @@
 
 (use-package undo-tree
   :ensure t
+  :diminish undo-tree-mode
   :config
   (add-hook 'after-init-hook 'global-undo-tree-mode))
 
@@ -155,6 +160,7 @@
 ;; combinations
 (use-package which-key
   :ensure t
+  :diminish which-key-mode
   :init
   (which-key-mode))
 
@@ -235,7 +241,7 @@
 
 (use-package ivy
   :ensure t
-  :diminish (ivy-mode . "")
+  :diminish ivy-mode
   :bind
   (:map ivy-mode-map
 		("C-'" . ivy-avy))
@@ -243,7 +249,6 @@
   (ivy-mode 1)
   (use-package flx
     :ensure t)
-  (ivy-mode 1)
   (setq ivy-height 20)
   (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
@@ -317,6 +322,7 @@
 
 ;; Use subword mode
 (global-subword-mode)
+(diminish 'subword-mode)
 
 ;; Fix Org Mode syntax stuff
 (setq org-src-fontify-natively t)
@@ -352,6 +358,7 @@
 
 (use-package company
   :ensure t
+  :diminish company-mode
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (global-set-key (kbd "C-.") 'company-files)
@@ -378,6 +385,7 @@
 
 (use-package wrap-region
   :ensure t
+  :diminish wrap-region-mode
   :init
   (wrap-region-global-mode))
 
@@ -386,7 +394,8 @@
 
 ;; Snippets
 (use-package yasnippet
-             :ensure t)
+  :ensure t
+  :diminish yas-minor-mode)
 (yas-global-mode 1)
 
 ;; global key to get suggestions for snippets
@@ -779,6 +788,7 @@
 
 ;;; Ruby
 (use-package ruby-end
+  :diminish ruby-end-mode
   :ensure t)
 
 (use-package ruby-test-mode
@@ -1128,6 +1138,9 @@ Version 2016-01-12"
 ;; (blink-cursor-mode 0)
 (blink-cursor-mode 1)
 
+(diminish 'auto-revert-mode)
+(diminish 'eldoc-mode)
+
 ;; full path in title bar
 (setq-default frame-title-format "%b (%f)")
 
@@ -1139,9 +1152,10 @@ Version 2016-01-12"
 
 ;; Git Gutter Fringe
 (use-package git-gutter-fringe+
-             :ensure t
-             :config
-             (global-git-gutter+-mode t))
+  :ensure t
+  :diminish global-git-gutter+-mode
+  :config
+  (global-git-gutter+-mode t))
 ;;; End UI
 ;;; Golang
 (use-package go-autocomplete
@@ -1321,7 +1335,7 @@ Version 2016-01-12"
 	 (window-divider-mode nil))))
  '(package-selected-packages
    (quote
-	(ripgrep counsel-projectile flx battle-haxe oceanic-theme evil-collection zenburn-theme yaml-mode yafolding xterm-color xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tree-mode tide sublime-themes spotify spacemacs-theme smex smartparens sly-quicklisp shrink-path seeing-is-believing scss-mode rust-mode ruby-test-mode ruby-refactor ruby-end rubocopfmt rspec-mode robe rjsx-mode rich-minority restart-emacs rbenv rainbow-delimiters racket-mode quack pyenv-mode-auto purescript-mode psc-ide projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-ui lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general geiser gdscript-mode fsharp-mode forge flymake-lua flycheck-rust flycheck-purescript flycheck-haskell flycheck-elm flycheck-elixir flycheck-crystal fish-mode fiplr find-file-in-project expand-region exec-path-from-shell evil-tabs evil-surround evil-leader evil-escape evil-commentary ess enh-ruby-mode emmet-mode elpy elm-mode ein dracula-theme doom-themes dap-mode d-mode crystal-mode counsel company-racer company-quickhelp company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized cider better-defaults beacon base16-theme annalist all-the-icons alchemist ag add-node-modules-path))))
+	(diminish ripgrep counsel-projectile flx battle-haxe oceanic-theme evil-collection zenburn-theme yaml-mode yafolding xterm-color xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tree-mode tide sublime-themes spotify spacemacs-theme smex smartparens sly-quicklisp shrink-path seeing-is-believing scss-mode rust-mode ruby-test-mode ruby-refactor ruby-end rubocopfmt rspec-mode robe rjsx-mode rich-minority restart-emacs rbenv rainbow-delimiters racket-mode quack pyenv-mode-auto purescript-mode psc-ide projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-ui lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general geiser gdscript-mode fsharp-mode forge flymake-lua flycheck-rust flycheck-purescript flycheck-haskell flycheck-elm flycheck-elixir flycheck-crystal fish-mode fiplr find-file-in-project expand-region exec-path-from-shell evil-tabs evil-surround evil-leader evil-escape evil-commentary ess enh-ruby-mode emmet-mode elpy elm-mode ein dracula-theme doom-themes dap-mode d-mode crystal-mode counsel company-racer company-quickhelp company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized cider better-defaults beacon base16-theme annalist all-the-icons alchemist ag add-node-modules-path))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
