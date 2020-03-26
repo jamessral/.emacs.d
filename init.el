@@ -99,18 +99,6 @@
 
 (global-set-key (kbd "C-j") 'concat-lines)
 
-(use-package writeroom-mode
-  :ensure t
-  :config
-  (setq-default writeroom-width 100)
-  ;; Turn off distraction-free mode by default
-  (global-writeroom-mode -1)
-  (setq-default writeroom-maximize-window nil)
-  (setq-default writeroom-major-modes
-                '(prog-mode
-                  text-mode
-                  )))
-
 (use-package window-numbering
   :ensure t
   :config
@@ -131,207 +119,6 @@
   :config
   (add-hook 'after-init-hook 'global-undo-tree-mode))
 
-(use-package neotree
-  :ensure t
-  :config
-  (setq neo-theme 'arrow))
-
-;; (use-package evil
-;;   :ensure t
-;;   :init
-;;   (setq evil-want-integration t)
-;;   (setq evil-want-keybinding nil)
-;;   :config
-;;   ;; Don't use evil mode for org mode
-;;   (evil-set-initial-state 'org-mode 'emacs)
-;;   (evil-mode 1)
-;;   (key-chord-mode 1)
-;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-;;   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-;;   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-;;   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-;;   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-;;   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-;;   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-;;   ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-;;   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
-;;   (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
-;;   (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
-
-;;                                         ; Shamelessly stolen from Amir Rajan
-;;   (global-set-key [escape] 'evil-exit-emacs-state)
-
-;;   (defun evil-send-string-to-terminal (string)
-;;     (unless (display-graphic-p) (send-string-to-terminal string)))
-
-;;   (defun evil-terminal-cursor-change ()
-;;     (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
-;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
-;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
-;;     (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
-;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
-;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
-
-;;   (evil-terminal-cursor-change)
-;;   )
-
-;; (use-package evil-leader
-;;   :ensure t
-;;   :init
-;;   :config
-;;   (evil-leader/set-leader "<SPC>")
-;;   (evil-leader/set-key
-;;    "<SPC>" 'counsel-M-x
-;;    "n" 'neotree-toggle
-;;    "m" 'neotree-find
-;;    "<RET>" 'save-buffer
-;;    "v" 'evil-window-vsplit
-;;    "s" 'evil-window-split
-;;    "/" 'evil-ex-nohighlight)
-;;   (global-evil-leader-mode))
-
-;; (use-package evil-escape
-;;   :ensure t
-;;   :commands evil-escape-mode
-;;   :init
-;;   (setq-default evil-escape-key-sequence "jk")
-;;   (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
-;;         evil-escape-excluded-major-modes '(neotree-mode)
-;;         evil-escape-key-sequence "jk"
-;;         evil-escape-delay 0.25)
-;;   (add-hook 'after-init-hook #'evil-escape-mode)
-;;   :config
-;;   ;; no `evil-escape' in minibuffer
-;;   (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
-
-;;   (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
-;;   (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
-;;   (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
-;;   (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
-
-;; (use-package evil-collection
-;;   :after evil
-;;   :ensure t
-;;   :config
-;;   (evil-collection-init))
-
-;; (use-package evil-surround
-;;   :ensure t
-;;   :config
-;;   (global-evil-surround-mode 1))
-
-;; (use-package evil-tabs
-;;   :ensure t
-;;   :config
-;;   (evil-commentary-mode)
-;;   :init
-;;   (global-evil-tabs-mode t)
-;;   (evil-global-set-key 'normal (kbd "g t") #'evil-tabs-goto-tab))
-
-;; (use-package evil-commentary
-;;   :ensure t
-;;   :config
-;;   (evil-commentary-mode))
-
-;; ;; Evil disabled by default
-;; ; (evil-mode -1)
-;; ; (evil-escape-mode -1)
-;; ; (evil-leader-mode -1)
-;; ;; (evil-mode -1)
-;; ;; (evil-escape-mode -1)
-;; ;; (evil-leader-mode -1)
-;; (global-set-key (kbd "C-c e o") 'enable-evil)
-;; (global-set-key (kbd "C-c e f") 'disable-evil)
-;; (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
-
-
-(use-package general
-  :ensure t
-  :config
-  ;; Set up keybindings with descriptions
-  (general-define-key
-   :states '(normal visual insert emacs)
-   :prefix "SPC"
-   :non-normal-prefix "C-SPC"
-   "b" '(:ignore t :which-key "buffer")
-   "b b" 'ibuffer
-   "c" '(:ignore t :which-key "company")
-   "c c" 'company-complete
-   "e" '(:ignore t :which-key "evil")
-   "e o" 'enable-evil
-   "e f" 'disable-evil
-   "e l" 'toggle-relative-lines
-   "f" '(:ignore t :which-key "files")
-   "f s" 'save-buffer
-   "g" '(:ignore t :which-key "git")
-   "g" '(:ignore t :which-key "git")
-   "g s" 'magit-status
-   "j" '(:ingore t :which-key "jump")
-   "j l" 'avy-goto-line
-   "j w" 'avy-goto-char-2
-   "p" '(:ignore t :which-key "project")
-   "p p" 'projectile-switch-project
-   "p f" 'projectile-find-file
-   "p s" 'projectile-ripgrep
-   "s" '(:ignore t :which-key "shell")
-   "s s" 'multi-term-dedicated-toggle
-   "u" '(:ignore t :which-key "UI")
-   "u c" 'counsel-load-theme
-   "u n" 'global-display-line-numbers-mode
-   "u l" 'load-light
-   "u d" 'load-dark
-   "u D" 'load-very-dark
-   "u z" 'writeroom-mode
-   ";" '(:ingore t :which-key "commenting")
-   "; r" 'comment-region))
-(general-define-key
- :prefix "C-c"
- "b" '(:ignore t :which-key "buffer")
-    "b b" 'ibuffer
-   "c" '(:ignore t :which-key "company")
-   "c c" 'company-complete
-   "e" '(:ignore t :which-key "evil")
-   "e o" 'enable-evil
-   "e f" 'disable-evil
-   "e l" 'toggle-relative-lines
-   "f" '(:ignore t :which-key "files")
-   "f s" 'save-buffer
-   "g" '(:ignore t :which-key "git")
-   "g" '(:ignore t :which-key "git")
-   "g s" 'magit-status
-   "i" '(:ignore t :which-key "insert")
-   "i n" 'xah-insert-random-number
-   "j" '(:ingore t :which-key "jump")
-   "j l" 'avy-goto-line
-   "j w" 'avy-goto-char-2
-   "n" '(:ignore t :which-key "notes")
-   "n n" 'jas/insert-note
-   "n t" 'jas/insert-todo
-   "p" '(:ignore t :which-key "project")
-   "p p" 'projectile-switch-project
-   "p f" 'projectile-find-file
-   "p s" 'projectile-ripgrep
-   "s" '(:ignore t :which-key "shell")
-   "s s" 'multi-term-dedicated-toggle
-   "u" '(:ignore t :which-key "UI")
-   "u c" 'counsel-load-theme
-   "u l" 'load-light
-   "u d" 'load-dark
-   "u D" 'load-very-dark
-   "u t" 'toggle-transparency
-   "u n" 'global-display-line-numbers-mode
-   "u z" 'writeroom-mode
-   ";" '(:ignore t :which-key "commenting")
-   "; r" 'comment-region)
-
-(global-set-key (kbd "C-c e l") 'toggle-relative-lines)
-
 (defun set-relative-lines ()
   (interactive)
   (setq-default display-line-numbers 'relative))
@@ -345,6 +132,7 @@
   (if (eq display-line-numbers 'relative)
       (setq display-line-numbers t)
     (setq display-line-numbers 'relative)))
+
 (global-set-key (kbd "C-c RET RET") 'save-buffer)
 
 ;;; goto last change
@@ -377,31 +165,100 @@
   :config
   (add-hook 'after-init-hook (projectile-mode)))
 
-(use-package helm
+(use-package counsel-projectile
   :ensure t
   :config
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-x b") 'helm-buffers-list)
-  (global-set-key (kbd "C-s") 'swiper)
-  (helm-mode 1))
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-(use-package helm-ag
+(use-package ripgrep
   :ensure t)
 
-(use-package helm-rg
-  :ensure t)
-
-(use-package helm-projectile
+(use-package general
   :ensure t
-  :init
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (helm-projectile-on))
+  :config
+  (general-define-key
+   :prefix "C-c"
+   "b" '(:ignore t :which-key "buffer")
+   "b b" 'ibuffer
+   "c" '(:ignore t :which-key "company")
+   "c c" 'company-complete
+   "f" '(:ignore t :which-key "files")
+   "f s" 'save-buffer
+   "g" '(:ignore t :which-key "git")
+   "g" '(:ignore t :which-key "git")
+   "g s" 'magit-status
+   "i" '(:ignore t :which-key "insert")
+   "i n" 'xah-insert-random-number
+   "j" '(:ingore t :which-key "jump")
+   "j l" 'avy-goto-line
+   "j w" 'avy-goto-char-2
+   "n" '(:ignore t :which-key "notes")
+   "n n" 'jas/insert-note
+   "n t" 'jas/insert-todo
+   "p" '(:ignore t :which-key "project")
+   "p p" 'projectile-switch-project
+   "p f" 'projectile-find-file
+   "p s" 'projectile-ripgrep
+   "s" '(:ignore t :which-key "shell")
+   "s s" 'multi-term-dedicated-toggle
+   "u" '(:ignore t :which-key "UI")
+   "u c" 'counsel-load-theme
+   "u l" 'load-light
+   "u d" 'load-dark
+   "u D" 'load-very-dark
+   "u t" 'toggle-transparency
+   "u n" 'global-display-line-numbers-mode
+   "u z" 'writeroom-mode
+   ";" '(:ignore t :which-key "commenting")
+   "; r" 'comment-region))
+
+;; (use-package helm
+;;   :ensure t
+;;   :config
+;;   (global-set-key (kbd "M-x") 'helm-M-x)
+;;   (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;;   (global-set-key (kbd "C-x b") 'helm-buffers-list)
+;;   (global-set-key (kbd "C-s") 'swiper)
+;;   (helm-mode 1))
+
+;; (use-package helm-ag
+;;   :ensure t)
+
+;; (use-package helm-rg
+;;   :ensure t)
+
+;; (use-package helm-projectile
+;;   :ensure t
+;;   :init
+;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+;;   (helm-projectile-on))
+
+(use-package ivy
+  :ensure t
+  :diminish (ivy-mode . "")
+  :bind
+  (:map ivy-mode-map
+		("C-'" . ivy-avy))
+  :config
+  (ivy-mode 1)
+  (use-package flx
+    :ensure t)
+  (ivy-mode 1)
+  (setq ivy-height 20)
+  (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+  ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+  (setq ivy-use-virtual-buffers t)
+  ;; number of result lines to display
+  (setq ivy-height 10)
+  ;; does not count candidates
+  (setq ivy-count-format "")
+  ;; no regexp by default
+  (setq ivy-initial-inputs-alist nil))
 
 (use-package swiper
   :ensure t
-  ;; :config
-  ;; (global-set-key (kbd "C-s") 'swiper)
+  :config
+  (global-set-key (kbd "C-s") 'swiper)
   )
 
 (use-package counsel
@@ -415,13 +272,6 @@
   :ensure t)
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
-(use-package fiplr
-  :ensure t
-  :config
-  (setq fiplr-ignored-globs '((directories (".git" ".svn" "node_modules" ".vscode"))
-                              (files ("*.jpg" "*.png" "*.zip" "*~" "*.log" ".project"))))
-  (global-set-key (kbd "C-x f") 'fiplr-find-file))
 
 ;; Enhances M-x to allow easier execution of commands. Provides
 ;; a filterable list of possible commands in the minibuffer
@@ -443,16 +293,7 @@
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
 
-;; (use-package smartparens
-;;   :ensure t
-;;   :config
-;;   (add-hook 'after-init-hook (lambda () (smartparens-global-mode -1)))
-;;   (add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode -1))))
-
 (electric-pair-mode 1)
-;; (setq electric-pair-inhibit-predicate
-;;       (lambda (c)
-;;         (if (char-equal c ?\') t (electric-pair-default-inhibit c))))
 
 ;; Lisp-friendly hippie expand
 (setq hippie-expand-try-functions-list
@@ -473,13 +314,12 @@
           (lambda ()
             (define-key global-map (kbd "<C-s-up>") 'move-line-up)
             (define-key global-map  (kbd "<C-s-down>") 'move-line-down)))
+
 ;; Use subword mode
 (global-subword-mode)
+
 ;; Fix Org Mode syntax stuff
 (setq org-src-fontify-natively t)
-;; Use Asci for compile mode (running tests)
-;; (use-package ansi-color
-;; :ensure t)
 
 (defun my/setup-shells ()
   (font-lock-mode -1)
@@ -501,9 +341,6 @@
   (add-hook 'eshell-before-prompt-hook
             (lambda ()
               (setq xterm-color-preserve-properties t)))
-  ;; (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
-  ;; (setq eshell-output-filter-functions
-        ;; (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
   (setenv "TERM" "xterm-256color"))
 
 (defun colorize-compilation-buffer ()
@@ -517,10 +354,10 @@
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode)
-  (global-set-key (kbd "C-'") 'company-complete)
   (global-set-key (kbd "C-.") 'company-files)
   (setq company-idle-delay 0.2))
 
+(global-set-key (kbd "C-'") 'company-complete)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
 
@@ -583,12 +420,6 @@
 (global-set-key (kbd "C-c C->") 'mc/mark-next-like-this-word)
 (global-set-key (kbd "C-c C-<") 'mc/mark-previous-like-this-word)
 
-;; Folding
-;; (use-package yafolding
-;;   :ensure t
-;;   :init
-;;   (yafolding-mode 1))
-
 ;; Rainbow Mode hooks
 (use-package rainbow-delimiters
   :ensure t)
@@ -602,47 +433,6 @@
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 
 ;; Keybinding for toggling window split direction
-(global-set-key (kbd "C-x |") 'toggle-window-split)
-;; Don't use hard tabs
-(setq-default indent-tabs-mode nil)
-
-;; When you visit a file, point goes to the last place where it
-;; was when you previously visited the same file.
-;; http://www.emacswiki.org/emacs/SavePlace
-(use-package saveplace
-  :ensure t)
-
-(setq-default save-place t)
-
-;; keep track of saved places in ~/.emacs.d/places
-(setq save-place-file (concat user-emacs-directory "places"))
-
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
-
-;; comments
-(defun toggle-comment-on-line ()
-  "comment or uncomment current line"
-  (interactive)
-  (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
-(global-set-key (kbd "C-;") 'toggle-comment-on-line)
-
-;; use 2 spaces for tabs
-(defun die-tabs ()
-  (interactive)
-  (set-variable 'tab-width 2)
-  (mark-whole-buffer)
-  (untabify (region-beginning) (region-end))
-  (keyboard-quit))
-
-;; fix weird os x kill error
-(defun ns-get-pasteboard ()
-  "Returns the value of the pasteboard, or nil for unsupported formats."
-  (condition-case nil
-                  (ns-get-selection-internal 'CLIPBOARD)
-                  (quit nil)))
-
-(setq electric-indent-mode 1)
-
 (defun toggle-window-split ()
   (interactive)
   (if (= (count-windows) 2)
@@ -668,7 +458,38 @@
           (select-window first-win)
           (if this-win-2nd (other-window 1))))))
 
-(define-key ctl-x-4-map "t" 'toggle-window-split)
+(global-set-key (kbd "C-x |") 'toggle-window-split)
+;; Don't use hard tabs
+(setq-default indent-tabs-mode nil)
+
+;; When you visit a file, point goes to the last place where it
+;; was when you previously visited the same file.
+;; http://www.emacswiki.org/emacs/SavePlace
+(use-package saveplace
+  :ensure t)
+
+(setq-default save-place t)
+
+;; keep track of saved places in ~/.emacs.d/places
+(setq save-place-file (concat user-emacs-directory "places"))
+
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
+
+;; comments
+(defun toggle-comment-on-line ()
+  "comment or uncomment current line"
+  (interactive)
+  (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
+(global-set-key (kbd "C-;") 'toggle-comment-on-line)
+
+;; fix weird os x kill error
+(defun ns-get-pasteboard ()
+  "Returns the value of the pasteboard, or nil for unsupported formats."
+  (condition-case nil
+                  (ns-get-selection-internal 'CLIPBOARD)
+                  (quit nil)))
+
+(setq electric-indent-mode 1)
 ;;; End Basics
 
 ;;; Javascript
@@ -686,13 +507,6 @@
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey"))
-
-(use-package emmet-mode
-  :ensure t
-  :init
-  (add-hook 'web-mode-hook 'emmet-mode)
-  :config
-  (define-key emmet-mode-keymap (kbd "C-j") 'concat-lines))
 
 (use-package prettier-js
   :ensure t
@@ -1071,6 +885,12 @@
   :config
   (local-set-key (kbd "C-c C-c") 'recompile))
 
+
+;;; Haxe
+(use-package battle-haxe
+  :ensure t)
+;;; End Haxe
+
 ;; debugging
 (use-package dap-mode
   :ensure t)
@@ -1079,41 +899,16 @@
           (lambda ()
             (gdb-many-windows)))
 
-(use-package lsp-treemacs
-  :ensure t)
-
-(use-package lsp-mode
+(use-package eglot
   :ensure t
-  :commands lsp
-  :init
-  ;; (add-hook 'lsp-mode #'lsp-lens-mode)
-  ;; (add-hook 'lsp-mode #'lsp-ui)
-  ;; (add-hook 'js-mode-hook #'lsp)
-  ;; (add-hook 'typescript-mode-hook #'lsp) ;; for typescript support
-  ;; (add-hook 'js3-mode-hook #'lsp) ;; for js3-mode support
-  ;; (add-hook 'js2-mode-hook #'lsp) ;; for rjsx-mode support
-  ;; (add-hook 'angular-mode #'lsp)
-  ;; (add-hook 'angular-html-mode #'lsp)
-  ;; (add-hook 'rust-mode-hook #'lsp)
-  ;; (add-hook 'haskell-mode-hook #'lsp)
-  ;; (add-hook 'elm-mode-hook #'lsp)
-  ;; (add-hook 'fsharp-mode-hook #'lsp)
-  ;; (add-hook 'tide-mode-hook #'lsp)
-  ;; (add-hook 'ruby-mode-hook #'lsp)
-  ;; (add-hook 'tide-mode-hook #'lsp)
-  ;; (add-hook 'web-mode-hook #'lsp)
-  ;; (add-hook 'python-mode-hook #'lsp)
-  )
-
-(use-package lsp-ui
-  :defer t
-  :ensure t
-  :commands lsp-ui-mode)
-
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
-
+  :config
+  (add-hook 'tide-mode-hook 'eglot-ensure)
+  (add-hook 'rust-mode-hook 'eglot-ensure)
+  (add-hook 'go-mode-hook 'eglot-ensure)
+  (add-hook 'ruby-mode-hook 'eglot-ensure)
+  (add-hook 'web-mode-hook 'eglot-ensure)
+  (add-hook 'rjsx-mode-hook 'eglot-ensure)
+  (add-hook 'erb-mode-hook 'eglot-ensure))
 ;;; End Rust
 
 ;;; OrgMode
@@ -1126,9 +921,6 @@
   :ensure t)
 (add-hook 'org-mode-hook (lambda ()
                            (org-bullets-mode 1)))
-
-(use-package ox-reveal
-  :ensure t)
 
 (use-package htmlize
   :ensure t)
@@ -1169,11 +961,6 @@ Version 2016-01-12"
   (toggle-comment-on-line))
 ;;; End Utils
 
-;;; Fun Stuff (Misc)
-;; (use-package spotify
-  ;; :ensure t)
-;;; End Fun Stuff (Misc)
-
 ;;; UI
 ;; Turn off the menu bar at the top of each frame because it's distracting
 (menu-bar-mode -1)
@@ -1208,13 +995,10 @@ Version 2016-01-12"
 
 
 ;; Set frame background to dark for terminal mode
-(setq frame-background-mode 'dark)
+;; (setq frame-background-mode 'dark)
 
 (setq system-uses-terminfo nil)
 (prefer-coding-system 'utf-8)
-
-(use-package fish-mode
-  :ensure t)
 
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
 (ansi-color-for-comint-mode-on)
@@ -1244,10 +1028,6 @@ Version 2016-01-12"
   (scroll-bar-mode -1))
 
 (use-package sublime-themes
-  :defer t
-  :ensure t)
-
-(use-package lush-theme
   :defer t
   :ensure t)
 
@@ -1312,7 +1092,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
-(load-very-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1321,18 +1101,8 @@ Version 2016-01-12"
 
 
 ;; Font
-(add-hook 'after-init-hook
-          (lambda ()
-            (set-face-attribute 'default nil :font "Liberation Mono")
-            (set-face-attribute 'default nil :height 110)))
-
-(set-face-attribute 'default nil :font "Liberation Mono")
-(set-face-attribute 'default nil :height 110)
-
-;; Uncomment the lines below by removing semicolons and play with the
-;; values in order to set the width (in characters wide) and height
-;; (in lines high) Emacs will have whenever you start it
-;; (setq initial-frame-alist '((top . 0) (left . 0) (width . 177) (height . 53)))
+(set-face-attribute 'default nil :font "mononoki")
+(set-face-attribute 'default nil :height 120)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1356,8 +1126,6 @@ Version 2016-01-12"
 
 ;; No cursor blinking, it's distracting
 ;; (blink-cursor-mode 0)
-
-
 (blink-cursor-mode 1)
 
 ;; full path in title bar
@@ -1551,66 +1319,9 @@ Version 2016-01-12"
 	 (vc-annotate-very-old-color nil))
 	(quote
 	 (window-divider-mode nil))))
- '(doom-modeline-mode nil)
- '(fci-rule-color "#d6d6d6" t)
- '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
- '(frame-background-mode (quote light))
- '(helm-completion-style (quote helm))
- '(hl-paren-background-colors (quote ("#e8fce8" "#c1e7f8" "#f8e8e8")))
- '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
- '(hl-todo-keyword-faces
-   (quote
-	(("TODO" . "#dc752f")
-	 ("NEXT" . "#dc752f")
-	 ("THEM" . "#2d9574")
-	 ("PROG" . "#4f97d7")
-	 ("OKAY" . "#4f97d7")
-	 ("DONT" . "#f2241f")
-	 ("FAIL" . "#f2241f")
-	 ("DONE" . "#86dc2f")
-	 ("NOTE" . "#b1951d")
-	 ("KLUDGE" . "#b1951d")
-	 ("HACK" . "#b1951d")
-	 ("TEMP" . "#b1951d")
-	 ("FIXME" . "#dc752f")
-	 ("XXX+" . "#dc752f")
-	 ("\\?\\?\\?+" . "#dc752f"))))
- '(linum-format " %7i ")
- '(nrepl-message-colors
-   (quote
-	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-	(alect-themes oceanic-theme gdscript-mode plan9-theme flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- '(sml/active-background-color "#98ece8")
- '(sml/active-foreground-color "#424242")
- '(sml/inactive-background-color "#4fa8a8")
- '(sml/inactive-foreground-color "#424242")
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   (quote
-	((20 . "#c82829")
-	 (40 . "#f5871f")
-	 (60 . "#eab700")
-	 (80 . "#718c00")
-	 (100 . "#3e999f")
-	 (120 . "#4271ae")
-	 (140 . "#8959a8")
-	 (160 . "#c82829")
-	 (180 . "#f5871f")
-	 (200 . "#eab700")
-	 (220 . "#718c00")
-	 (240 . "#3e999f")
-	 (260 . "#4271ae")
-	 (280 . "#8959a8")
-	 (300 . "#c82829")
-	 (320 . "#f5871f")
-	 (340 . "#eab700")
-	 (360 . "#718c00"))))
- '(vc-annotate-very-old-color nil)
- '(window-divider-mode nil))
+	(ripgrep counsel-projectile flx battle-haxe oceanic-theme evil-collection zenburn-theme yaml-mode yafolding xterm-color xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tree-mode tide sublime-themes spotify spacemacs-theme smex smartparens sly-quicklisp shrink-path seeing-is-believing scss-mode rust-mode ruby-test-mode ruby-refactor ruby-end rubocopfmt rspec-mode robe rjsx-mode rich-minority restart-emacs rbenv rainbow-delimiters racket-mode quack pyenv-mode-auto purescript-mode psc-ide projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-ui lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general geiser gdscript-mode fsharp-mode forge flymake-lua flycheck-rust flycheck-purescript flycheck-haskell flycheck-elm flycheck-elixir flycheck-crystal fish-mode fiplr find-file-in-project expand-region exec-path-from-shell evil-tabs evil-surround evil-leader evil-escape evil-commentary ess enh-ruby-mode emmet-mode elpy elm-mode ein dracula-theme doom-themes dap-mode d-mode crystal-mode counsel company-racer company-quickhelp company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized cider better-defaults beacon base16-theme annalist all-the-icons alchemist ag add-node-modules-path))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
