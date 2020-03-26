@@ -173,6 +173,8 @@
 
 (use-package counsel-projectile
   :ensure t
+  :init
+  (counsel-projectile-mode t)
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
@@ -1087,7 +1089,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'oceanic t))
+  (load-theme 'base16-tomorrow-night t))
 
 
 (defun load-very-dark ()
@@ -1096,7 +1098,7 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
-  (load-theme 'spacemacs-light t))
+  (load-theme 'base16-tomorrow t))
 
 (defun load-blue ()
   (interactive)
