@@ -915,6 +915,8 @@
 
 (use-package eglot
   :ensure t
+  :init
+  (add-to-list 'eglot-server-programs '(web-mode . ("javascript-typescript-server")))
   :config
   (add-hook 'tide-mode-hook 'eglot-ensure)
   (add-hook 'rust-mode-hook 'eglot-ensure)
