@@ -168,6 +168,7 @@
 ;; projectile everywhere!
 (use-package projectile
   :ensure t
+  :diminish projectile-mode
   :config
   (add-hook 'after-init-hook (projectile-mode)))
 
@@ -273,6 +274,7 @@
   :config
   (global-set-key (kbd "C-c k") 'counsel-ag)
   (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
 (use-package ag
@@ -1113,8 +1115,8 @@ Version 2016-01-12"
 
 
 ;; Font
-(set-face-attribute 'default nil :font "mononoki")
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :font "Ubuntu Mono")
+(set-face-attribute 'default nil :height 130)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1155,7 +1157,7 @@ Version 2016-01-12"
 ;; Git Gutter Fringe
 (use-package git-gutter-fringe+
   :ensure t
-  :diminish global-git-gutter+-mode
+  :diminish git-gutter+-mode
   :config
   (global-git-gutter+-mode t))
 ;;; End UI
