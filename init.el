@@ -253,7 +253,6 @@
   (use-package flx
     :ensure t)
   (setq ivy-height 20)
-  (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
   (setq ivy-use-virtual-buffers t)
   ;; number of result lines to display
@@ -414,7 +413,6 @@
                       '(add-to-list 'company-backends 'company-irony)
                       '(add-to-list 'company-backends 'company-racer)
                       '(add-to-list 'company-backends 'company-elm)
-                      '(add-to-list 'company-backends 'company-lsp)
                       '(add-to-list 'company-backends 'company-omnisharp))
 
 ;; Use Key Chords
@@ -806,7 +804,8 @@
   :init
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets))
-  (add-hook 'after-init-hook 'inf-ruby-switch-setup))
+  (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+  (add-hook 'ruby-mode-hook 'rspec-mode))
 
 (use-package enh-ruby-mode
   :ensure t)
@@ -913,18 +912,14 @@
           (lambda ()
             (gdb-many-windows)))
 
-(use-package eglot
-  :ensure t
-  :init
-  (add-to-list 'eglot-server-programs '(web-mode . ("javascript-typescript-server")))
-  :config
-  (add-hook 'tide-mode-hook 'eglot-ensure)
-  (add-hook 'rust-mode-hook 'eglot-ensure)
-  (add-hook 'go-mode-hook 'eglot-ensure)
-  (add-hook 'ruby-mode-hook 'eglot-ensure)
-  (add-hook 'web-mode-hook 'eglot-ensure)
-  (add-hook 'rjsx-mode-hook 'eglot-ensure)
-  (add-hook 'erb-mode-hook 'eglot-ensure))
+;; (use-package eglot
+;;   :ensure t
+;;   :config
+;;   (add-hook 'rust-mode-hook 'eglot-ensure)
+;;   (add-hook 'go-mode-hook 'eglot-ensure)
+;;   (add-hook 'ruby-mode-hook 'eglot-ensure)
+;;   (add-hook 'rjsx-mode-hook 'eglot-ensure)
+;;   (add-hook 'erb-mode-hook 'eglot-ensure))
 ;;; End Rust
 
 ;;; OrgMode
@@ -1102,7 +1097,7 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
-  (load-theme 'base16-tomorrow t))
+  (load-theme 'spacemacs-light t))
 
 (defun load-blue ()
   (interactive)
