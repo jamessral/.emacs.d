@@ -107,11 +107,6 @@
   :config
   (window-numbering-mode 1))
 
-(use-package beacon
-  :ensure t
-  :diminish beacon-mode
-  :config (beacon-mode 1))
-
 (use-package windmove
   :ensure t
   :config
@@ -221,46 +216,46 @@
    ";" '(:ignore t :which-key "commenting")
    "; r" 'comment-region))
 
-;; (use-package helm
-;;   :ensure t
-;;   :config
-;;   (global-set-key (kbd "M-x") 'helm-M-x)
-;;   (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;;   (global-set-key (kbd "C-x b") 'helm-buffers-list)
-;;   (global-set-key (kbd "C-s") 'swiper)
-;;   (helm-mode 1))
+(use-package helm
+  :ensure t
+  :config
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-s") 'swiper)
+  (helm-mode 1))
 
 ;; (use-package helm-ag
 ;;   :ensure t)
 
-;; (use-package helm-rg
-;;   :ensure t)
+(use-package helm-rg
+  :ensure t)
 
-;; (use-package helm-projectile
-;;   :ensure t
-;;   :init
-;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-;;   (helm-projectile-on))
-
-(use-package ivy
+(use-package helm-projectile
   :ensure t
-  :diminish ivy-mode
-  :bind
-  (:map ivy-mode-map
-		("C-'" . ivy-avy))
-  :config
-  (ivy-mode 1)
-  (use-package flx
-    :ensure t)
-  (setq ivy-height 20)
-  ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-  (setq ivy-use-virtual-buffers t)
-  ;; number of result lines to display
-  (setq ivy-height 10)
-  ;; does not count candidates
-  (setq ivy-count-format "")
-  ;; no regexp by default
-  (setq ivy-initial-inputs-alist nil))
+  :init
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (helm-projectile-on))
+
+;; (use-package ivy
+;;   :ensure t
+;;   :diminish ivy-mode
+;;   :bind
+;;   (:map ivy-mode-map
+;; 		("C-'" . ivy-avy))
+;;   :config
+;;   (ivy-mode 1)
+;;   (use-package flx
+;;     :ensure t)
+;;   (setq ivy-height 20)
+;;   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+;;   (setq ivy-use-virtual-buffers t)
+;;   ;; number of result lines to display
+;;   (setq ivy-height 10)
+;;   ;; does not count candidates
+;;   (setq ivy-count-format "")
+;;   ;; no regexp by default
+;;   (setq ivy-initial-inputs-alist nil))
 
 (use-package swiper
   :ensure t
@@ -268,13 +263,13 @@
   (global-set-key (kbd "C-s") 'swiper)
   )
 
-(use-package counsel
-  :ensure t
-  :config
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+;; (use-package counsel
+  ;; :ensure t
+  ;; :config
+  ;; (global-set-key (kbd "C-c k") 'counsel-ag)
+  ;; (global-set-key (kbd "C-x l") 'counsel-locate)
+  ;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  ;; (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
 (use-package ag
   :ensure t)
@@ -1097,7 +1092,7 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
-  (load-theme 'spacemacs-light t))
+  (load-theme 'base16-atelier-forest-light t))
 
 (defun load-blue ()
   (interactive)
@@ -1334,9 +1329,53 @@ Version 2016-01-12"
 	 (vc-annotate-very-old-color nil))
 	(quote
 	 (window-divider-mode nil))))
+ '(fci-rule-color "#d6d6d6")
+ '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
+ '(frame-background-mode (quote light))
+ '(hl-todo-keyword-faces
+   (quote
+	(("TODO" . "#dc752f")
+	 ("NEXT" . "#dc752f")
+	 ("THEM" . "#2d9574")
+	 ("PROG" . "#3a81c3")
+	 ("OKAY" . "#3a81c3")
+	 ("DONT" . "#f2241f")
+	 ("FAIL" . "#f2241f")
+	 ("DONE" . "#42ae2c")
+	 ("NOTE" . "#b1951d")
+	 ("KLUDGE" . "#b1951d")
+	 ("HACK" . "#b1951d")
+	 ("TEMP" . "#b1951d")
+	 ("FIXME" . "#dc752f")
+	 ("XXX+" . "#dc752f")
+	 ("\\?\\?\\?+" . "#dc752f"))))
  '(package-selected-packages
    (quote
-	(diminish ripgrep counsel-projectile flx battle-haxe oceanic-theme evil-collection zenburn-theme yaml-mode yafolding xterm-color xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tree-mode tide sublime-themes spotify spacemacs-theme smex smartparens sly-quicklisp shrink-path seeing-is-believing scss-mode rust-mode ruby-test-mode ruby-refactor ruby-end rubocopfmt rspec-mode robe rjsx-mode rich-minority restart-emacs rbenv rainbow-delimiters racket-mode quack pyenv-mode-auto purescript-mode psc-ide projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-ui lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general geiser gdscript-mode fsharp-mode forge flymake-lua flycheck-rust flycheck-purescript flycheck-haskell flycheck-elm flycheck-elixir flycheck-crystal fish-mode fiplr find-file-in-project expand-region exec-path-from-shell evil-tabs evil-surround evil-leader evil-escape evil-commentary ess enh-ruby-mode emmet-mode elpy elm-mode ein dracula-theme doom-themes dap-mode d-mode crystal-mode counsel company-racer company-quickhelp company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized cider better-defaults beacon base16-theme annalist all-the-icons alchemist ag add-node-modules-path))))
+	(helm-projectile helm-rg helm-ag diminish ripgrep counsel-projectile flx battle-haxe oceanic-theme evil-collection zenburn-theme yaml-mode yafolding xterm-color xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package tree-mode tide sublime-themes spotify spacemacs-theme smex smartparens sly-quicklisp shrink-path seeing-is-believing scss-mode rust-mode ruby-test-mode ruby-refactor ruby-end rubocopfmt rspec-mode robe rjsx-mode rich-minority restart-emacs rbenv rainbow-delimiters racket-mode quack pyenv-mode-auto purescript-mode psc-ide projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-ui lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general geiser gdscript-mode fsharp-mode forge flymake-lua flycheck-rust flycheck-purescript flycheck-haskell flycheck-elm flycheck-elixir flycheck-crystal fish-mode fiplr find-file-in-project expand-region exec-path-from-shell evil-tabs evil-surround evil-leader evil-escape evil-commentary ess enh-ruby-mode emmet-mode elpy elm-mode ein dracula-theme doom-themes dap-mode d-mode crystal-mode counsel company-racer company-quickhelp company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized cider better-defaults base16-theme annalist all-the-icons alchemist ag add-node-modules-path)))
+ '(pdf-view-midnight-colors (quote ("#655370" . "#fbf8ef")))
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+	((20 . "#c82829")
+	 (40 . "#f5871f")
+	 (60 . "#eab700")
+	 (80 . "#718c00")
+	 (100 . "#3e999f")
+	 (120 . "#4271ae")
+	 (140 . "#8959a8")
+	 (160 . "#c82829")
+	 (180 . "#f5871f")
+	 (200 . "#eab700")
+	 (220 . "#718c00")
+	 (240 . "#3e999f")
+	 (260 . "#4271ae")
+	 (280 . "#8959a8")
+	 (300 . "#c82829")
+	 (320 . "#f5871f")
+	 (340 . "#eab700")
+	 (360 . "#718c00"))))
+ '(vc-annotate-very-old-color nil)
+ '(window-divider-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
