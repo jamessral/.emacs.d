@@ -1092,7 +1092,7 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
-  (load-theme 'base16-atelier-forest-light t))
+  (load-theme 'base16-one-light t))
 
 (defun load-blue ()
   (interactive)
