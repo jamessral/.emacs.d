@@ -813,6 +813,7 @@
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets))
   (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+  :config
   (add-hook 'ruby-mode-hook 'rspec-mode))
 
 (use-package enh-ruby-mode
