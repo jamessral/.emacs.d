@@ -135,6 +135,19 @@
 
 (global-set-key (kbd "C-c RET RET") 'save-buffer)
 
+(defun jas/duplicate-line-below ()
+  (interactive)
+  (save-excursion
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (next-line 1)
+  (yank))
+  (next-line 1))
+
+(global-set-key (kbd "C-c l d") 'jas/duplicate-line-below)
+
 ;;; goto last change
 (use-package goto-last-change
   :ensure t
