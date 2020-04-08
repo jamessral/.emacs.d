@@ -411,11 +411,15 @@
 ;; Snippets
 (use-package yasnippet
   :ensure t
-  :diminish yas-minor-mode)
-(yas-global-mode 1)
+  :diminish yas-minor-mode
+  :init
+  (yas-global-mode 1)
+  ;; global key to get suggestions for snippets
+  (global-set-key (kbd "C-x y") 'company-yasnippet)
 
-;; global key to get suggestions for snippets
-(global-set-key (kbd "C-x y") 'company-yasnippet)
+  :config
+  (define-key yas-minor-mode-map [(tab)] nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil))
 
 (with-eval-after-load 'company
                       '(add-to-list 'company-backends 'company-yasnippet)
