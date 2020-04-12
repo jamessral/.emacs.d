@@ -959,9 +959,9 @@
 ;;; End OrgMode
 
 ;;; Bible (ESV)
-;; (load-file "~/.emacs.d/vendor/esv-mode/esv.el")
-;; (require 'esv)
-;; (add-hook 'text-mode-hook 'turn-on-esv-mode)
+(load-file "~/.emacs.d/vendor/esv-mode/esv.el")
+(require 'esv)
+(add-hook 'text-mode-hook 'turn-on-esv-mode)
 ;;; End Bible
 
 
