@@ -1133,7 +1133,7 @@ Version 2016-01-12"
 
 ;; Font
 (set-face-attribute 'default nil :font "Ubuntu Mono")
-(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil :height 120)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1355,6 +1355,7 @@ Version 2016-01-12"
 	(quote
 	 (window-divider-mode nil))))
  '(doom-modeline-mode nil)
+ '(esv-key "TEST")
  '(fci-rule-color "#d6d6d6" t)
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
