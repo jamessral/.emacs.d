@@ -110,6 +110,8 @@
 
 (use-package windmove
   :ensure t
+  :init
+  (set-variable 'olivetti-body-width 80)
   :config
   (when (fboundp 'windmove-default-keybindings)
     (windmove-default-keybindings)))
