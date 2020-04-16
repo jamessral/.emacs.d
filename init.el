@@ -110,8 +110,6 @@
 
 (use-package windmove
   :ensure t
-  :init
-  (set-variable 'olivetti-body-width 80)
   :config
   (when (fboundp 'windmove-default-keybindings)
     (windmove-default-keybindings)))
@@ -119,7 +117,8 @@
 (use-package olivetti
   :ensure t
   :init
-  (global-set-key (kbd "C-c w z") 'olivetti-mode))
+  (set-variable 'olivetti-body-width 80)
+  (global-set-key (kbd "C-c w z") 'olivetti))
 
 (use-package undo-tree
   :ensure t
@@ -237,6 +236,8 @@
    "u t" 'toggle-transparency
    "u n" 'global-display-line-numbers-mode
    "u z" 'writeroom-mode
+   "w" '(:ignore t :which-key "window")
+   "w z" 'olivetti-mode
    ";" '(:ignore t :which-key "commenting")
    "; r" 'comment-region))
 
@@ -915,8 +916,9 @@
 
 
 ;;; Lisp
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/home/linuxbrew/.linuxbrew/bin/sbcl")
+;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; (setq inferior-lisp-program "/home/linuxbrew/.linuxbrew/bin/sbcl")
+;;; End Lisp
 
 
 ;; Scheme
@@ -1152,7 +1154,7 @@ Version 2016-01-12"
 
 ;; Font
 (set-face-attribute 'default nil :font "Ubuntu Mono")
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :height 130)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1197,6 +1199,7 @@ Version 2016-01-12"
   :config
   (global-git-gutter+-mode t))
 ;;; End UI
+
 ;;; Golang
 (use-package go-autocomplete
              :ensure t)
@@ -1331,10 +1334,6 @@ Version 2016-01-12"
 	  (quote
 	   ("~/org/work.org"))))
 	(quote
-	 (package-selected-packages
-	  (quote
-	   (gdscript-mode plan9-theme flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path))))
-	(quote
 	 (pdf-view-midnight-colors
 	  (quote
 	   ("#DCDCCC" . "#383838"))))
@@ -1373,7 +1372,7 @@ Version 2016-01-12"
 	 (vc-annotate-very-old-color nil))
 	(quote
 	 (window-divider-mode nil))))
- '(doom-modeline-mode nil)
+ '(doom-modeline-mode t)
  '(esv-key "TEST")
  '(fci-rule-color "#d6d6d6" t)
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
@@ -1405,7 +1404,7 @@ Version 2016-01-12"
  '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-	(centered-window-mode battle-haxe ripgrep counsel-projectile uuidgen diminish alect-themes oceanic-theme gdscript-mode plan9-theme flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(hide-mode-line hide-modeline centered-window-mode battle-haxe ripgrep counsel-projectile uuidgen diminish alect-themes oceanic-theme gdscript-mode plan9-theme flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
