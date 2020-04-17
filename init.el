@@ -1058,7 +1058,7 @@ Version 2016-01-12"
 (use-package multi-term
   :ensure t
   :init
-  (setq multi-term-program "/usr/bin/fish"))
+  (setq multi-term-program "/home/linuxbrew/.linuxbrew/bin/fish"))
 
 ;; Show time on status bar
 (display-time-mode 1)
