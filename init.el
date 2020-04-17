@@ -772,7 +772,7 @@
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
   (flycheck-add-next-checker 'javascript-eslint 'typescript-tide 'append)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
   (add-to-list 'auto-mode-alist '("\\.routes.ts\\'" . typescript-mode))
   (add-to-list 'auto-mode-alist '("\\.module.ts\\'" . typescript-mode))
   (add-hook 'web-mode-hook
@@ -1099,10 +1099,19 @@ Version 2016-01-12"
   :defer t
   :ensure t)
 
+
+(defun jas/reset-ansi-colors (&optional theme)
+  "Undo damage caused by some themes"
+  (interactive)
+  (setq ansi-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
+  (setq ansi-term-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white]))
+
 (defadvice load-theme
     ;; Make sure to disable current colors before switching
     (before theme-dont-propagate activate)
   (mapc #'disable-theme custom-enabled-themes))
+
+(advice-add 'enable-theme :after #'jas/reset-ansi-colors)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
@@ -1129,7 +1138,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'sanityinc-solarized-dark t))
+  (load-theme 'dracula t))
 
 
 (defun load-very-dark ()
@@ -1281,8 +1290,6 @@ Version 2016-01-12"
  '(custom-safe-themes
    (quote
 	(quote
-	 (doom-modeline-mode nil))
-	(quote
 	 (fci-rule-color "#d6d6d6"))
 	(quote
 	 (flycheck-color-mode-line-face-to-color
@@ -1368,7 +1375,6 @@ Version 2016-01-12"
 	 (vc-annotate-very-old-color nil))
 	(quote
 	 (window-divider-mode nil))))
- '(doom-modeline-mode t)
  '(esv-key "TEST")
  '(fci-rule-color "#d6d6d6" t)
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
