@@ -772,7 +772,7 @@
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
   (flycheck-add-next-checker 'javascript-eslint 'typescript-tide 'append)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.routes.ts\\'" . typescript-mode))
   (add-to-list 'auto-mode-alist '("\\.module.ts\\'" . typescript-mode))
   (add-hook 'web-mode-hook
@@ -812,6 +812,16 @@
 
 (use-package haml-mode
   :ensure t)
+
+(use-package dumb-jump
+  :ensure t
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g b" . dumb-jump-back)
+         ("M-g i" . dumb-jump-go-prompt)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window))
+  :config (setq dumb-jump-selector 'ivy))
 
 ;;; Ruby
 (use-package ruby-end
@@ -1135,7 +1145,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'sanityinc-solarized-dark t))
+  (load-theme 'sanityinc-tomorrow-night t))
 
 
 (defun load-very-dark ()
@@ -1144,7 +1154,7 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
-  (load-theme 'sanityinc-solarized-light t))
+  (load-theme 'sanityinc-tomorrow-day t))
 
 (defun load-blue ()
   (interactive)
@@ -1159,8 +1169,8 @@ Version 2016-01-12"
 
 
 ;; Font
-(set-face-attribute 'default nil :font "Ubuntu Mono")
-(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil :font "Jetbrains Mono")
+(set-face-attribute 'default nil :height 105)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1403,7 +1413,7 @@ Version 2016-01-12"
  '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-	(hide-mode-line hide-modeline centered-window-mode battle-haxe ripgrep counsel-projectile uuidgen diminish alect-themes oceanic-theme gdscript-mode plan9-theme flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(dumb-jump hide-mode-line hide-modeline centered-window-mode battle-haxe ripgrep counsel-projectile uuidgen diminish alect-themes oceanic-theme gdscript-mode plan9-theme flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
