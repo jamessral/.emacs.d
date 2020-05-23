@@ -926,8 +926,8 @@
 
 
 ;;; Lisp
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/home/linuxbrew/.linuxbrew/bin/sbcl")
+;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; (setq inferior-lisp-program "/home/linuxbrew/.linuxbrew/bin/sbcl")
 ;;; End Lisp
 
 
@@ -1291,99 +1291,18 @@ Version 2016-01-12"
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(ansi-term-color-vector
+   [default "#272822" "#f92672" "#a6e22e" "#f4bf75" "#66d9ef" "#ae81ff" "#66d9ef" "#f8f8f2"] t)
  '(beacon-color "#c82829")
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-	(quote
-	 (fci-rule-color "#d6d6d6"))
-	(quote
-	 (flycheck-color-mode-line-face-to-color
-	  (quote mode-line-buffer-id)))
-	(quote
-	 (frame-background-mode
-	  (quote light)))
-	(quote
-	 (helm-completion-style
-	  (quote helm)))
-	(quote
-	 (hl-paren-background-colors
-	  (quote
-	   ("#e8fce8" "#c1e7f8" "#f8e8e8"))))
-	(quote
-	 (hl-paren-colors
-	  (quote
-	   ("#40883f" "#0287c8" "#b85c57"))))
-	(quote
-	 (hl-todo-keyword-faces
-	  (quote
-	   (("TODO" . "#dc752f")
-		("NEXT" . "#dc752f")
-		("THEM" . "#2d9574")
-		("PROG" . "#4f97d7")
-		("OKAY" . "#4f97d7")
-		("DONT" . "#f2241f")
-		("FAIL" . "#f2241f")
-		("DONE" . "#86dc2f")
-		("NOTE" . "#b1951d")
-		("KLUDGE" . "#b1951d")
-		("HACK" . "#b1951d")
-		("TEMP" . "#b1951d")
-		("FIXME" . "#dc752f")
-		("XXX+" . "#dc752f")
-		("\\?\\?\\?+" . "#dc752f")))))
-	(quote
-	 (linum-format " %7i "))
-	(quote
-	 (nrepl-message-colors
-	  (quote
-	   ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))))
-	(quote
-	 (org-agenda-files
-	  (quote
-	   ("~/org/work.org"))))
-	(quote
-	 (pdf-view-midnight-colors
-	  (quote
-	   ("#DCDCCC" . "#383838"))))
-	(quote
-	 (sml/active-background-color "#98ece8"))
-	(quote
-	 (sml/active-foreground-color "#424242"))
-	(quote
-	 (sml/inactive-background-color "#4fa8a8"))
-	(quote
-	 (sml/inactive-foreground-color "#424242"))
-	(quote
-	 (vc-annotate-background nil))
-	(quote
-	 (vc-annotate-color-map
-	  (quote
-	   ((20 . "#c82829")
-		(40 . "#f5871f")
-		(60 . "#eab700")
-		(80 . "#718c00")
-		(100 . "#3e999f")
-		(120 . "#4271ae")
-		(140 . "#8959a8")
-		(160 . "#c82829")
-		(180 . "#f5871f")
-		(200 . "#eab700")
-		(220 . "#718c00")
-		(240 . "#3e999f")
-		(260 . "#4271ae")
-		(280 . "#8959a8")
-		(300 . "#c82829")
-		(320 . "#f5871f")
-		(340 . "#eab700")
-		(360 . "#718c00")))))
-	(quote
-	 (vc-annotate-very-old-color nil))
-	(quote
-	 (window-divider-mode nil))))
- '(esv-key "TEST")
- '(fci-rule-color "#d6d6d6" t)
+    ("b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
+ '(doom-modeline-mode nil)
+ '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
  '(helm-completion-style (quote helm))
@@ -1391,29 +1310,29 @@ Version 2016-01-12"
  '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
  '(hl-todo-keyword-faces
    (quote
-	(("TODO" . "#dc752f")
-	 ("NEXT" . "#dc752f")
-	 ("THEM" . "#2d9574")
-	 ("PROG" . "#4f97d7")
-	 ("OKAY" . "#4f97d7")
-	 ("DONT" . "#f2241f")
-	 ("FAIL" . "#f2241f")
-	 ("DONE" . "#86dc2f")
-	 ("NOTE" . "#b1951d")
-	 ("KLUDGE" . "#b1951d")
-	 ("HACK" . "#b1951d")
-	 ("TEMP" . "#b1951d")
-	 ("FIXME" . "#dc752f")
-	 ("XXX+" . "#dc752f")
-	 ("\\?\\?\\?+" . "#dc752f"))))
+    (("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7")
+     ("OKAY" . "#4f97d7")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX+" . "#dc752f")
+     ("\\?\\?\\?+" . "#dc752f"))))
  '(linum-format " %7i ")
  '(nrepl-message-colors
    (quote
-	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(org-agenda-files (quote ("~/org/work.org")))
  '(package-selected-packages
    (quote
-	(dumb-jump hide-mode-line hide-modeline centered-window-mode battle-haxe ripgrep counsel-projectile uuidgen diminish alect-themes oceanic-theme gdscript-mode plan9-theme flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+    (oceanic-theme battle-haxe dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
@@ -1422,24 +1341,24 @@ Version 2016-01-12"
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
-	((20 . "#c82829")
-	 (40 . "#f5871f")
-	 (60 . "#eab700")
-	 (80 . "#718c00")
-	 (100 . "#3e999f")
-	 (120 . "#4271ae")
-	 (140 . "#8959a8")
-	 (160 . "#c82829")
-	 (180 . "#f5871f")
-	 (200 . "#eab700")
-	 (220 . "#718c00")
-	 (240 . "#3e999f")
-	 (260 . "#4271ae")
-	 (280 . "#8959a8")
-	 (300 . "#c82829")
-	 (320 . "#f5871f")
-	 (340 . "#eab700")
-	 (360 . "#718c00"))))
+    ((20 . "#c82829")
+     (40 . "#f5871f")
+     (60 . "#eab700")
+     (80 . "#718c00")
+     (100 . "#3e999f")
+     (120 . "#4271ae")
+     (140 . "#8959a8")
+     (160 . "#c82829")
+     (180 . "#f5871f")
+     (200 . "#eab700")
+     (220 . "#718c00")
+     (240 . "#3e999f")
+     (260 . "#4271ae")
+     (280 . "#8959a8")
+     (300 . "#c82829")
+     (320 . "#f5871f")
+     (340 . "#eab700")
+     (360 . "#718c00"))))
  '(vc-annotate-very-old-color nil)
  '(window-divider-mode nil))
 (custom-set-faces
