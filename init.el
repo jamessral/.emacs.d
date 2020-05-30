@@ -34,7 +34,6 @@
   (package-install 'use-package))
 
 (require 'use-package)
-(setq use-package-always-defer t)
 
 (use-package better-defaults
   :ensure t)
@@ -71,7 +70,6 @@
 
 (use-package flycheck
   :ensure t
-  :demand t
   :diminish 'flycheck-mode
   :config
   (global-set-key (kbd "C-c ! v") 'flycheck-verify-setup)
@@ -118,7 +116,7 @@
 
 (use-package olivetti
   :ensure t
-  :config
+  :init
   (set-variable 'olivetti-body-width 80)
   (global-set-key (kbd "C-c w z") 'olivetti))
 
@@ -160,7 +158,7 @@
 ;;; goto last change
 (use-package goto-last-change
   :ensure t
-  :config
+  :init
   (global-set-key (kbd "C-c l c") 'goto-last-change)
   )
 
@@ -181,7 +179,7 @@
 (use-package which-key
   :ensure t
   :diminish which-key-mode
-  :config
+  :init
   (which-key-mode))
 
 ;; Projectile
@@ -194,8 +192,9 @@
 
 (use-package counsel-projectile
   :ensure t
-  :config
+  :init
   (counsel-projectile-mode t)
+  :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package ripgrep
@@ -245,7 +244,7 @@
 (use-package helm
   :ensure t
   :diminish 'helm-mode
-  :init
+  :config
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-x b") 'helm-buffers-list)
@@ -260,7 +259,7 @@
 
 (use-package helm-projectile
   :ensure t
-  :config
+  :init
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (helm-projectile-on))
 
@@ -317,8 +316,7 @@
 
 ;; Magit
 (use-package magit
-  :ensure t
-  :demand t)
+             :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; Highlights matching parenthesis
@@ -368,7 +366,7 @@
 
 (use-package xterm-color
   :ensure t
-  :config
+  :init
   (add-hook 'shell-mode-hook #'my/setup-shells)
   (add-hook 'eshell-before-prompt-hook
             (lambda ()
@@ -412,7 +410,7 @@
 (use-package wrap-region
   :ensure t
   :diminish wrap-region-mode
-  :config
+  :init
   (wrap-region-global-mode))
 
 ;; Case sensitive company mode
@@ -422,10 +420,12 @@
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :config
+  :init
   (yas-global-mode 1)
   ;; global key to get suggestions for snippets
   (global-set-key (kbd "C-x y") 'company-yasnippet)
+
+  :config
   (define-key yas-minor-mode-map [(tab)] nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil))
 
@@ -534,19 +534,24 @@
 
 (use-package web-mode
   :ensure t
-  :config
+  :init
+  (setq web-mode-script-padding 0)
+  (setq web-mode-style-padding 0)
+  (setq web-mode-markup-indent-offset 2)
+  (add-hook 'web-mode-hook #'add-node-modules-path)
+  (add-hook 'web-mode-hook #'prettier-js-mode)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
+  :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey"))
 
 (use-package prettier-js
   :ensure t
-  :config
+  :init
   (add-hook 'js-mode-hook #'prettier-js-mode)
   (add-hook 'typescript-mode-hook #'prettier-js-mode))
 
 (use-package rjsx-mode
   :ensure t
-  :demand t
   :init
   (add-hook 'rjsx-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
@@ -663,8 +668,9 @@
 ;; Vue Support
 (use-package vue-mode
   :ensure t
-  :config
+  :init
   (add-hook 'vue-mode-hook #'prettier-js-mode)
+  :config
   (setq mmm-submode-decoration-level 0)
   ;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 )
@@ -682,7 +688,7 @@
 
 (use-package js2-refactor
   :ensure t
-  :config
+  :init
   (js2r-add-keybindings-with-prefix "C-c C-m"))
 
 (use-package xref-js2
@@ -831,7 +837,7 @@
 
 (use-package rspec-mode
   :ensure t
-  :config
+  :init
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets))
   (add-hook 'after-init-hook 'inf-ruby-switch-setup))
@@ -842,23 +848,23 @@
 (use-package ruby-refactor
   :ensure t
   :diminish 'ruby-refactor-mode
-  :config
+  :init
   (add-hook 'ruby-mode-hook #'ruby-refactor-mode-launch))
 
 (use-package inf-ruby
   :ensure t
-  :config
+  :init
   (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 
 (use-package rubocopfmt
   :ensure t
   :diminish 'rubocopfmt-mode
-  :config
+  :init
   (add-hook 'ruby-mode-hook #'rubocopfmt-mode))
 
 (use-package rbenv
   :ensure t
-  :config
+  :init
   (global-rbenv-mode))
 
 ;; (use-package robe
@@ -866,7 +872,7 @@
 
 (use-package projectile-rails
   :ensure t
-  :config
+  :init
   (projectile-rails-global-mode))
 
 (add-hook 'ruby-mode-hook (lambda ()
@@ -914,7 +920,7 @@
 
 (use-package lua-mode
   :ensure t
-  :config
+  :init
   (add-hook 'lua-mode-hook #'flymake-mode-on))
 ;;; End Lua
 
@@ -928,7 +934,7 @@
 ;; Scheme
 (use-package geiser
   :ensure t
-  :config
+  :init
   (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
 
 ;;; Rust
@@ -1239,10 +1245,11 @@ Version 2016-01-12"
 ;;; C#
 (use-package omnisharp
   :ensure t
-  :config
+  :init
   (add-hook 'csharp-mode-hook 'omnisharp-mode)
   (add-hook 'csharp-mode-hook #'company-mode)
   (add-hook 'csharp-mode-hook #'flycheck-mode)
+  :config
   (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
   (local-set-key (kbd "C-c C-c") 'recompile))
 
@@ -1268,8 +1275,7 @@ Version 2016-01-12"
 
 (use-package irony
   :ensure t
-  :demand t
-  :init
+  :config
   (add-hook 'irony-mode-hook (lambda () (flycheck-mode -1)))
   )
 
