@@ -263,26 +263,6 @@
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (helm-projectile-on))
 
-;; (use-package ivy
-;;   :ensure t
-;;   :diminish ivy-mode
-;;   :bind
-;;   (:map ivy-mode-map
-;; 		("C-'" . ivy-avy))
-;;   :config
-;;   (ivy-mode 1)
-;;   (use-package flx
-;;     :ensure t)
-;;   (setq ivy-height 20)
-;;   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-;;   (setq ivy-use-virtual-buffers t)
-;;   ;; number of result lines to display
-;;   (setq ivy-height 10)
-;;   ;; does not count candidates
-;;   (setq ivy-count-format "")
-;;   ;; no regexp by default
-;;   (setq ivy-initial-inputs-alist nil))
-
 (use-package swiper
   :ensure t
   :config
@@ -932,27 +912,27 @@
 
 
 ;; Scheme
-(use-package geiser
-  :ensure t
-  :init
-  (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
+;; (use-package geiser
+;;   :ensure t
+;;   :init
+;;   (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
 
 ;;; Rust
-(use-package company-racer
-  :ensure t)
+;; (use-package company-racer
+  ;; :ensure t)
 
-(use-package flycheck-rust
-  :ensure t)
+;; (use-package flycheck-rust
+  ;; :ensure t)
 
-(use-package rust-mode
-  :ensure t
-  :config
-  (local-set-key (kbd "C-c C-c") 'recompile))
+;; (use-package rust-mode
+  ;; :ensure t
+  ;; :config
+  ;; (local-set-key (kbd "C-c C-c") 'recompile))
 
 
 ;;; Haxe
-(use-package battle-haxe
-  :ensure t)
+;; (use-package battle-haxe
+  ;; :ensure t)
 ;;; End Haxe
 
 ;; debugging
@@ -1065,7 +1045,10 @@ Version 2016-01-12"
 (use-package multi-term
   :ensure t
   :init
-  (setq multi-term-program "/home/linuxbrew/.linuxbrew/bin/fish"))
+  (if (memq window-system '(ns))
+	  (setq multi-term-program "cmd.exe")
+	(setq multi-term-program "/home/linuxbrew/.linuxbrew/bin/fish")
+	))
 
 ;; Show time on status bar
 (display-time-mode 1)
@@ -1169,7 +1152,10 @@ Version 2016-01-12"
 
 
 ;; Font
-(set-face-attribute 'default nil :font "Jetbrains Mono")
+(if (memq window-system '(ns))
+  (set-face-attribute 'default nil :font "Cascadia Code")
+  (set-face-attribute 'default nil :font "IBM Plex Mono"))
+
 (set-face-attribute 'default nil :height 105)
 
 ;; These settings relate to how emacs interacts with your operating system
@@ -1243,15 +1229,15 @@ Version 2016-01-12"
 ;;; End Golang
 
 ;;; C#
-(use-package omnisharp
-  :ensure t
-  :init
-  (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-hook 'csharp-mode-hook #'company-mode)
-  (add-hook 'csharp-mode-hook #'flycheck-mode)
-  :config
-  (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
-  (local-set-key (kbd "C-c C-c") 'recompile))
+;; (use-package omnisharp
+;;   :ensure t
+;;   :init
+;;   (add-hook 'csharp-mode-hook 'omnisharp-mode)
+;;   (add-hook 'csharp-mode-hook #'company-mode)
+;;   (add-hook 'csharp-mode-hook #'flycheck-mode)
+;;   :config
+;;   (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+;;   (local-set-key (kbd "C-c C-c") 'recompile))
 
 ;;; End C#
 
