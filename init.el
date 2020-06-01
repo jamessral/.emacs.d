@@ -205,6 +205,7 @@
   :config
   (general-define-key
    :prefix "C-c"
+   "a" 'org-agenda
    "b" '(:ignore t :which-key "buffer")
    "b b" 'ibuffer
    "c" '(:ignore t :which-key "company")
@@ -228,6 +229,8 @@
    "p s" 'projectile-ripgrep
    "s" '(:ignore t :which-key "shell")
    "s s" 'multi-term-dedicated-toggle
+   "t" '(:ingore t :which-key "todo")
+   "t t" #'jas/go-to-todo-file
    "u" '(:ignore t :which-key "UI")
    "u c" 'counsel-load-theme
    "u l" 'load-light
@@ -795,6 +798,8 @@
 
 (use-package dumb-jump
   :ensure t
+  :init
+  (dumb-jump-mode t)
   :bind (("C-c j o" . dumb-jump-go-other-window)
          ("C-c j j" . dumb-jump-go)
          ("C-c j b" . dumb-jump-back)
@@ -960,6 +965,11 @@
   :ensure t)
 (add-hook 'org-mode-hook (lambda ()
                            (org-bullets-mode 1)))
+
+(defun jas/go-to-todo-file ()
+  "Edit my personal todo file."
+  (interactive)
+  (find-file "~/todo.org"))
 
 (use-package htmlize
   :ensure t)
@@ -1286,7 +1296,7 @@ Version 2016-01-12"
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-    ("b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
+	("b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
  '(doom-modeline-mode nil)
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
@@ -1296,29 +1306,29 @@ Version 2016-01-12"
  '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
  '(hl-todo-keyword-faces
    (quote
-    (("TODO" . "#dc752f")
-     ("NEXT" . "#dc752f")
-     ("THEM" . "#2d9574")
-     ("PROG" . "#4f97d7")
-     ("OKAY" . "#4f97d7")
-     ("DONT" . "#f2241f")
-     ("FAIL" . "#f2241f")
-     ("DONE" . "#86dc2f")
-     ("NOTE" . "#b1951d")
-     ("KLUDGE" . "#b1951d")
-     ("HACK" . "#b1951d")
-     ("TEMP" . "#b1951d")
-     ("FIXME" . "#dc752f")
-     ("XXX+" . "#dc752f")
-     ("\\?\\?\\?+" . "#dc752f"))))
+	(("TODO" . "#dc752f")
+	 ("NEXT" . "#dc752f")
+	 ("THEM" . "#2d9574")
+	 ("PROG" . "#4f97d7")
+	 ("OKAY" . "#4f97d7")
+	 ("DONT" . "#f2241f")
+	 ("FAIL" . "#f2241f")
+	 ("DONE" . "#86dc2f")
+	 ("NOTE" . "#b1951d")
+	 ("KLUDGE" . "#b1951d")
+	 ("HACK" . "#b1951d")
+	 ("TEMP" . "#b1951d")
+	 ("FIXME" . "#dc752f")
+	 ("XXX+" . "#dc752f")
+	 ("\\?\\?\\?+" . "#dc752f"))))
  '(linum-format " %7i ")
  '(nrepl-message-colors
    (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(org-agenda-files (quote ("~/org/work.org")))
+	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-    (oceanic-theme battle-haxe dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(oceanic-theme battle-haxe dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
@@ -1327,24 +1337,24 @@ Version 2016-01-12"
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
-    ((20 . "#c82829")
-     (40 . "#f5871f")
-     (60 . "#eab700")
-     (80 . "#718c00")
-     (100 . "#3e999f")
-     (120 . "#4271ae")
-     (140 . "#8959a8")
-     (160 . "#c82829")
-     (180 . "#f5871f")
-     (200 . "#eab700")
-     (220 . "#718c00")
-     (240 . "#3e999f")
-     (260 . "#4271ae")
-     (280 . "#8959a8")
-     (300 . "#c82829")
-     (320 . "#f5871f")
-     (340 . "#eab700")
-     (360 . "#718c00"))))
+	((20 . "#c82829")
+	 (40 . "#f5871f")
+	 (60 . "#eab700")
+	 (80 . "#718c00")
+	 (100 . "#3e999f")
+	 (120 . "#4271ae")
+	 (140 . "#8959a8")
+	 (160 . "#c82829")
+	 (180 . "#f5871f")
+	 (200 . "#eab700")
+	 (220 . "#718c00")
+	 (240 . "#3e999f")
+	 (260 . "#4271ae")
+	 (280 . "#8959a8")
+	 (300 . "#c82829")
+	 (320 . "#f5871f")
+	 (340 . "#eab700")
+	 (360 . "#718c00"))))
  '(vc-annotate-very-old-color nil)
  '(window-divider-mode nil))
 (custom-set-faces
