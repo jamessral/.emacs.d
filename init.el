@@ -858,7 +858,8 @@
 (use-package projectile-rails
   :ensure t
   :init
-  (projectile-rails-global-mode))
+  (projectile-rails-global-mode)
+  (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))
 
 (add-hook 'ruby-mode-hook (lambda ()
                             (progn
@@ -969,6 +970,8 @@
 (defun jas/go-to-todo-file ()
   "Edit my personal todo file."
   (interactive)
+  (split-window-right)
+  (windmove-right)
   (find-file "~/todo.org"))
 
 (use-package htmlize
