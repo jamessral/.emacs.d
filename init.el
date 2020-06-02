@@ -1228,9 +1228,6 @@ Version 2016-01-12"
                     erlang-compile-extra-opts '((i . "../include"))
                     erlang-root-dir "/usr/local/lib/erlang"))))
 
-(use-package elixir
-  :ensure t)
-
 (use-package alchemist
   :ensure t)
 ;;; End Erlang/Elixir
