@@ -1141,7 +1141,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-night t))
+  (load-theme 'base16-gruvbox-dark-hard t))
 
 
 (defun load-very-dark ()
@@ -1150,7 +1150,7 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-day t))
+  (load-theme 'spacemacs-light t))
 
 (defun load-blue ()
   (interactive)
@@ -1215,16 +1215,44 @@ Version 2016-01-12"
   (global-git-gutter+-mode t))
 ;;; End UI
 
+;;; Erlang/Elixir
+(use-package erlang
+  :init
+  (add-to-list 'auto-mode-alist '("\\.P\\'" . erlang-mode))
+  (add-to-list 'auto-mode-alist '("\\.E\\'" . erlang-mode))
+  (add-to-list 'auto-mode-alist '("\\.S\\'" . erlang-mode))
+  :config
+  (add-hook 'erlang-mode-hook
+            (lambda ()
+              (setq mode-name "erl"
+                    erlang-compile-extra-opts '((i . "../include"))
+                    erlang-root-dir "/usr/local/lib/erlang"))))
+
+(use-package elixir
+  :ensure t)
+
+(use-package alchemist
+  :ensure t)
+;;; End Erlang/Elixir
+
 ;;; Golang
 (use-package go-autocomplete
              :ensure t)
 
 (use-package company-go
-             :ensure t)
+  :ensure t)
+
+(use-package go-projectile
+  :ensure t)
+
+(use-package gotest
+  :ensure t)
 
 (use-package go-mode
              :ensure t
              :config
+			 (go-eldoc-setup)
+			 (local-set-key (kbd "M-.") #'godef-jump)
              (setq gofmt-command "goimports")
              (setq tab-width 4)
              ; Call Gofmt before saving
@@ -1331,7 +1359,7 @@ Version 2016-01-12"
  '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-	(oceanic-theme battle-haxe dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(elixir gotest go-projectile oceanic-theme battle-haxe dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
