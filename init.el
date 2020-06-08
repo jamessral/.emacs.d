@@ -1,4 +1,4 @@
- Turn off mouse interface early in startup to avoid momentary display
+;;; Turn off mouse interface early in startup to avoid momentary display
 (menu-bar-mode -1)
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -1156,7 +1156,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'base16-gruvbox-dark-hard t))
+  (load-theme 'base16-material-darker t))
 
 
 (defun load-very-dark ()
@@ -1171,7 +1171,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
-(load-light)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
