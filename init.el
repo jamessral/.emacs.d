@@ -228,7 +228,6 @@
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
-   "o t" 'jas/go-to-todo-org-file
    "o w" 'jas/go-to-work-org-file
    "p" '(:ignore t :which-key "project")
    "p p" 'projectile-switch-project
@@ -966,7 +965,16 @@
   :ensure t
   :config
   (setq org-agenda-files (list "~/.emacs.d/org/work.org"
-							   "~/.emacs.d/org/personal.org")))
+							   "~/.emacs.d/org/personal.org"))
+  (setq org-capture-templates
+      '(("wt" "Work todo" entry (file+headline "~/org/work.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+		("pt" "Personal todo" entry (file+headline "~/org/personal.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("wn" "Work Notes" entry (file+datetree "~/org/work.org")
+         "* %?\nEntered on %U\n  %i\n  %a")
+		("pn" "Personal Notes" entry (file+datetree "~/org/personal.org")
+         "* %?\nEntered on %U\n  %i\n  %a"))))
 
 (use-package org-bullets
   :ensure t)
@@ -990,12 +998,6 @@
   "Edit my personal org file."
   (interactive)
   (jas/go-to-file-in-split "~/org/personal.org"))
-
-(defun jas/go-to-todo-org-file ()
-  "Edit my todo file."
-  (interactive)
-  (jas/go-to-file-in-split "~/org/todo.org"))
-
 
 (use-package htmlize
   :ensure t)
