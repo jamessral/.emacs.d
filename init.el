@@ -857,8 +857,8 @@
   :init
   (global-rbenv-mode))
 
-;; (use-package robe
-  ;; :ensure t)
+(use-package robe
+  :ensure t)
 
 (use-package projectile-rails
   :ensure t
