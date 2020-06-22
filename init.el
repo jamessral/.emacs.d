@@ -226,7 +226,9 @@
    "n n" 'jas/insert-note
    "n t" 'jas/insert-todo
    "o" '(:ignore t :which-key "org")
+   "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
+   "o t" 'jas/go-to-todo-org-file
    "o w" 'jas/go-to-work-org-file
    "p" '(:ignore t :which-key "project")
    "p p" 'projectile-switch-project
@@ -964,7 +966,10 @@
   :ensure t
   :config
   (setq org-agenda-files (list "~/org/work.org"
-                             "~/org/personal.org")))
+							   "~/org/personal.org"
+							   "~/org/todo.org"))
+  (setq org-default-notes-file (concat org-directory "~/org/todo.org")))
+
 (use-package org-bullets
   :ensure t)
 (add-hook 'org-mode-hook (lambda ()
@@ -979,14 +984,19 @@
   (find-file filepath))
 
 (defun jas/go-to-work-org-file ()
-  "Edit my work todo file."
+  "Edit my work org file."
   (interactive)
   (jas/go-to-file-in-split "~/org/work.org"))
 
 (defun jas/go-to-personal-org-file ()
-  "Edit my personal todo file."
+  "Edit my personal org file."
   (interactive)
   (jas/go-to-file-in-split "~/org/personal.org"))
+
+(defun jas/go-to-todo-org-file ()
+  "Edit my todo file."
+  (interactive)
+  (jas/go-to-file-in-split "~/org/todo.org"))
 
 
 (use-package htmlize
@@ -1171,7 +1181,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
-(load-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
