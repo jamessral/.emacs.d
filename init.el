@@ -1,4 +1,4 @@
-; Turn off mouse interface early in startup to avoid momentary display
+;;; Turn off mouse interface early in startup to avoid momentary display
 (menu-bar-mode -1)
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -205,6 +205,7 @@
   :config
   (general-define-key
    :prefix "C-c"
+   "a" 'org-agenda
    "b" '(:ignore t :which-key "buffer")
    "b b" 'ibuffer
    "c" '(:ignore t :which-key "company")
@@ -217,11 +218,17 @@
    "i" '(:ignore t :which-key "insert")
    "i n" 'xah-insert-random-number
    "j" '(:ingore t :which-key "jump")
+   "j j" 'dumb-jump-back
+   "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
    "n" '(:ignore t :which-key "notes")
    "n n" 'jas/insert-note
    "n t" 'jas/insert-todo
+   "o" '(:ignore t :which-key "org")
+   "o c" 'counsel-org-capture
+   "o p" 'jas/go-to-personal-org-file
+   "o w" 'jas/go-to-work-org-file
    "p" '(:ignore t :which-key "project")
    "p p" 'projectile-switch-project
    "p f" 'projectile-find-file
@@ -241,47 +248,27 @@
    ";" '(:ignore t :which-key "commenting")
    "; r" 'comment-region))
 
-(use-package helm
-  :ensure t
-  :diminish 'helm-mode
-  :config
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-x b") 'helm-buffers-list)
-  (global-set-key (kbd "C-s") 'swiper)
-  (helm-mode 1))
+;; (use-package helm
+;;   :ensure t
+;;   :diminish 'helm-mode
+;;   :config
+;;   (global-set-key (kbd "M-x") 'helm-M-x)
+;;   (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;;   (global-set-key (kbd "C-x b") 'helm-buffers-list)
+;;   (global-set-key (kbd "C-s") 'swiper)
+;;   (helm-mode 1))
 
 ;; (use-package helm-ag
 ;;   :ensure t)
 
-(use-package helm-rg
-  :ensure t)
+;; (use-package helm-rg
+  ;; :ensure t)
 
-(use-package helm-projectile
-  :ensure t
-  :init
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (helm-projectile-on))
-
-;; (use-package ivy
-;;   :ensure t
-;;   :diminish ivy-mode
-;;   :bind
-;;   (:map ivy-mode-map
-;; 		("C-'" . ivy-avy))
-;;   :config
-;;   (ivy-mode 1)
-;;   (use-package flx
-;;     :ensure t)
-;;   (setq ivy-height 20)
-;;   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-;;   (setq ivy-use-virtual-buffers t)
-;;   ;; number of result lines to display
-;;   (setq ivy-height 10)
-;;   ;; does not count candidates
-;;   (setq ivy-count-format "")
-;;   ;; no regexp by default
-;;   (setq ivy-initial-inputs-alist nil))
+;; (use-package helm-projectile
+  ;; :ensure t
+  ;; :init
+  ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  ;; (helm-projectile-on))
 
 (use-package swiper
   :ensure t
@@ -289,13 +276,21 @@
   (global-set-key (kbd "C-s") 'swiper)
   )
 
-;; (use-package counsel
-  ;; :ensure t
-  ;; :config
-  ;; (global-set-key (kbd "C-c k") 'counsel-ag)
-  ;; (global-set-key (kbd "C-x l") 'counsel-locate)
-  ;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  ;; (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+(use-package counsel
+  :ensure t
+  :config
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+
+(use-package counsel-projectile
+  :ensure t
+  :init
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (counsel-projectile-mode t))
 
 (use-package ag
   :ensure t)
@@ -672,7 +667,7 @@
   (add-hook 'vue-mode-hook #'prettier-js-mode)
   :config
   (setq mmm-submode-decoration-level 0)
-  ;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+  (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 )
 
 
@@ -815,6 +810,8 @@
 
 (use-package dumb-jump
   :ensure t
+  :init
+  (dumb-jump-mode t)
   :bind (("C-c j o" . dumb-jump-go-other-window)
          ("C-c j j" . dumb-jump-go)
          ("C-c j b" . dumb-jump-back)
@@ -867,13 +864,14 @@
   :init
   (global-rbenv-mode))
 
-;; (use-package robe
-  ;; :ensure t)
+(use-package robe
+  :ensure t)
 
 (use-package projectile-rails
   :ensure t
   :init
-  (projectile-rails-global-mode))
+  (projectile-rails-global-mode)
+  (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))
 
 (add-hook 'ruby-mode-hook (lambda ()
                             (progn
@@ -932,27 +930,27 @@
 
 
 ;; Scheme
-(use-package geiser
-  :ensure t
-  :init
-  (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
+;; (use-package geiser
+;;   :ensure t
+;;   :init
+;;   (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
 
 ;;; Rust
-(use-package company-racer
-  :ensure t)
+;; (use-package company-racer
+  ;; :ensure t)
 
-(use-package flycheck-rust
-  :ensure t)
+;; (use-package flycheck-rust
+  ;; :ensure t)
 
-(use-package rust-mode
-  :ensure t
-  :config
-  (local-set-key (kbd "C-c C-c") 'recompile))
+;; (use-package rust-mode
+  ;; :ensure t
+  ;; :config
+  ;; (local-set-key (kbd "C-c C-c") 'recompile))
 
 
 ;;; Haxe
-(use-package battle-haxe
-  :ensure t)
+;; (use-package battle-haxe
+  ;; :ensure t)
 ;;; End Haxe
 
 ;; debugging
@@ -974,12 +972,40 @@
 (use-package org
   :ensure t
   :config
-  (setq org-agenda-files (list "~/org/work.org"
-                             "~/org/home.org")))
+  (setq org-agenda-files (list "~/.emacs.d/org/work.org"
+							   "~/.emacs.d/org/personal.org"))
+  (setq org-capture-templates
+      '(("wt" "Work todo" entry (file+headline "~/org/work.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+		("pt" "Personal todo" entry (file+headline "~/org/personal.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("wn" "Work Notes" entry (file+datetree "~/org/work.org")
+         "* %?\nEntered on %U\n  %i\n  %a")
+		("pn" "Personal Notes" entry (file+datetree "~/org/personal.org")
+         "* %?\nEntered on %U\n  %i\n  %a"))))
+
 (use-package org-bullets
   :ensure t)
 (add-hook 'org-mode-hook (lambda ()
                            (org-bullets-mode 1)))
+
+
+(defun jas/go-to-file-in-split (filepath)
+  "Open file in split.  FILEPATH is an absolute path to file."
+  (interactive)
+  (split-window-right)
+  (windmove-right)
+  (find-file filepath))
+
+(defun jas/go-to-work-org-file ()
+  "Edit my work org file."
+  (interactive)
+  (jas/go-to-file-in-split "~/org/work.org"))
+
+(defun jas/go-to-personal-org-file ()
+  "Edit my personal org file."
+  (interactive)
+  (jas/go-to-file-in-split "~/org/personal.org"))
 
 (use-package htmlize
   :ensure t)
@@ -1065,7 +1091,10 @@ Version 2016-01-12"
 (use-package multi-term
   :ensure t
   :init
-  (setq multi-term-program "/home/linuxbrew/.linuxbrew/bin/fish"))
+  (if (memq window-system '(ns))
+	  (setq multi-term-program "cmd.exe")
+	(setq multi-term-program "/home/linuxbrew/.linuxbrew/bin/fish")
+	))
 
 ;; Show time on status bar
 (display-time-mode 1)
@@ -1145,7 +1174,7 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-night t))
+  (load-theme 'base16-nord t))
 
 
 (defun load-very-dark ()
@@ -1154,7 +1183,7 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-day t))
+  (load-theme 'tsdh-light t))
 
 (defun load-blue ()
   (interactive)
@@ -1169,7 +1198,10 @@ Version 2016-01-12"
 
 
 ;; Font
-(set-face-attribute 'default nil :font "Jetbrains Mono")
+(if (memq window-system '(ns))
+  (set-face-attribute 'default nil :font "Cascadia Code")
+  (set-face-attribute 'default nil :font "IBM Plex Mono"))
+
 (set-face-attribute 'default nil :height 105)
 
 ;; These settings relate to how emacs interacts with your operating system
@@ -1216,16 +1248,42 @@ Version 2016-01-12"
   (global-git-gutter+-mode t))
 ;;; End UI
 
+;;; Erlang/Elixir
+(use-package erlang
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.P\\'" . erlang-mode))
+  (add-to-list 'auto-mode-alist '("\\.E\\'" . erlang-mode))
+  (add-to-list 'auto-mode-alist '("\\.S\\'" . erlang-mode))
+  :config
+  (add-hook 'erlang-mode-hook
+            (lambda ()
+              (setq mode-name "erl"
+                    erlang-compile-extra-opts '((i . "../include"))
+                    erlang-root-dir "/usr/local/lib/erlang"))))
+
+(use-package alchemist
+  :ensure t)
+;;; End Erlang/Elixir
+
 ;;; Golang
 (use-package go-autocomplete
              :ensure t)
 
 (use-package company-go
-             :ensure t)
+  :ensure t)
+
+(use-package go-projectile
+  :ensure t)
+
+(use-package gotest
+  :ensure t)
 
 (use-package go-mode
              :ensure t
              :config
+			 (go-eldoc-setup)
+			 (local-set-key (kbd "M-.") #'godef-jump)
              (setq gofmt-command "goimports")
              (setq tab-width 4)
              ; Call Gofmt before saving
@@ -1243,15 +1301,15 @@ Version 2016-01-12"
 ;;; End Golang
 
 ;;; C#
-(use-package omnisharp
-  :ensure t
-  :init
-  (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-hook 'csharp-mode-hook #'company-mode)
-  (add-hook 'csharp-mode-hook #'flycheck-mode)
-  :config
-  (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
-  (local-set-key (kbd "C-c C-c") 'recompile))
+;; (use-package omnisharp
+;;   :ensure t
+;;   :init
+;;   (add-hook 'csharp-mode-hook 'omnisharp-mode)
+;;   (add-hook 'csharp-mode-hook #'company-mode)
+;;   (add-hook 'csharp-mode-hook #'flycheck-mode)
+;;   :config
+;;   (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+;;   (local-set-key (kbd "C-c C-c") 'recompile))
 
 ;;; End C#
 
@@ -1300,39 +1358,40 @@ Version 2016-01-12"
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-    ("b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
+	("b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
  '(doom-modeline-mode nil)
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
+ '(global-robe-mode t)
  '(helm-completion-style (quote helm))
  '(hl-paren-background-colors (quote ("#e8fce8" "#c1e7f8" "#f8e8e8")))
  '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
  '(hl-todo-keyword-faces
    (quote
-    (("TODO" . "#dc752f")
-     ("NEXT" . "#dc752f")
-     ("THEM" . "#2d9574")
-     ("PROG" . "#4f97d7")
-     ("OKAY" . "#4f97d7")
-     ("DONT" . "#f2241f")
-     ("FAIL" . "#f2241f")
-     ("DONE" . "#86dc2f")
-     ("NOTE" . "#b1951d")
-     ("KLUDGE" . "#b1951d")
-     ("HACK" . "#b1951d")
-     ("TEMP" . "#b1951d")
-     ("FIXME" . "#dc752f")
-     ("XXX+" . "#dc752f")
-     ("\\?\\?\\?+" . "#dc752f"))))
+	(("TODO" . "#dc752f")
+	 ("NEXT" . "#dc752f")
+	 ("THEM" . "#2d9574")
+	 ("PROG" . "#4f97d7")
+	 ("OKAY" . "#4f97d7")
+	 ("DONT" . "#f2241f")
+	 ("FAIL" . "#f2241f")
+	 ("DONE" . "#86dc2f")
+	 ("NOTE" . "#b1951d")
+	 ("KLUDGE" . "#b1951d")
+	 ("HACK" . "#b1951d")
+	 ("TEMP" . "#b1951d")
+	 ("FIXME" . "#dc752f")
+	 ("XXX+" . "#dc752f")
+	 ("\\?\\?\\?+" . "#dc752f"))))
  '(linum-format " %7i ")
  '(nrepl-message-colors
    (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(org-agenda-files (quote ("~/org/work.org")))
+	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-    (oceanic-theme battle-haxe dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-rg helm-projectile helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
@@ -1341,24 +1400,24 @@ Version 2016-01-12"
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
-    ((20 . "#c82829")
-     (40 . "#f5871f")
-     (60 . "#eab700")
-     (80 . "#718c00")
-     (100 . "#3e999f")
-     (120 . "#4271ae")
-     (140 . "#8959a8")
-     (160 . "#c82829")
-     (180 . "#f5871f")
-     (200 . "#eab700")
-     (220 . "#718c00")
-     (240 . "#3e999f")
-     (260 . "#4271ae")
-     (280 . "#8959a8")
-     (300 . "#c82829")
-     (320 . "#f5871f")
-     (340 . "#eab700")
-     (360 . "#718c00"))))
+	((20 . "#c82829")
+	 (40 . "#f5871f")
+	 (60 . "#eab700")
+	 (80 . "#718c00")
+	 (100 . "#3e999f")
+	 (120 . "#4271ae")
+	 (140 . "#8959a8")
+	 (160 . "#c82829")
+	 (180 . "#f5871f")
+	 (200 . "#eab700")
+	 (220 . "#718c00")
+	 (240 . "#3e999f")
+	 (260 . "#4271ae")
+	 (280 . "#8959a8")
+	 (300 . "#c82829")
+	 (320 . "#f5871f")
+	 (340 . "#eab700")
+	 (360 . "#718c00"))))
  '(vc-annotate-very-old-color nil)
  '(window-divider-mode nil))
 (custom-set-faces
