@@ -71,11 +71,13 @@
 (use-package flycheck
   :ensure t
   :diminish 'flycheck-mode
+  :init
+  (flycheck-add-mode 'ruby-rubocop 'ruby-mode)
   :config
   (global-set-key (kbd "C-c ! v") 'flycheck-verify-setup)
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (setq-default flycheck-temp-prefix ".flycheck")
-  ;; disable jshint since we prefer eslint checking
+  ;; disable jshint snce we prefer eslint checking
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
                         '(javascript-jshint))))
@@ -235,6 +237,7 @@
    "p s" 'projectile-ripgrep
    "s" '(:ignore t :which-key "shell")
    "s s" 'multi-term-dedicated-toggle
+   "s n" 'multi-term
    "u" '(:ignore t :which-key "UI")
    "u c" 'counsel-load-theme
    "u l" 'load-light
@@ -269,6 +272,11 @@
   ;; :init
   ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   ;; (helm-projectile-on))
+
+(use-package ivy
+  :ensure t
+  :init
+  (ivy-mode t))
 
 (use-package swiper
   :ensure t
@@ -837,6 +845,7 @@
   :init
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets))
+  (setq rspec-use-spring-when-possible nil)
   (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 
 (use-package enh-ruby-mode
@@ -865,6 +874,12 @@
   (global-rbenv-mode))
 
 (use-package robe
+  :ensure t
+  :init
+  ;; (global-robe-mode)
+  )
+
+(use-package erblint
   :ensure t)
 
 (use-package projectile-rails
@@ -876,7 +891,6 @@
 (add-hook 'ruby-mode-hook (lambda ()
                             (progn
                               (ruby-end-mode)
-                              (robe-mode)
                               (ruby-test-mode)
 							  (rspec-mode)
                               )))
@@ -1091,8 +1105,8 @@ Version 2016-01-12"
 (use-package multi-term
   :ensure t
   :init
-  (if (memq window-system '(ns))
-	  (setq multi-term-program "cmd.exe")
+  (if (memq window-system '(ns win32))
+	  (setq multi-term-program "ps.exe")
 	(setq multi-term-program "/home/linuxbrew/.linuxbrew/bin/fish")
 	))
 
@@ -1187,13 +1201,13 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
-  (load-theme 'tango t))
+  (load-theme 'tsdh-light t))
 
 (defun load-blue ()
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
-(load-light)
+(load-very-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1368,8 +1382,6 @@ Version 2016-01-12"
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
- '(global-robe-mode t)
- '(helm-completion-style (quote helm))
  '(highlight-changes-colors (quote ("#EF5350" "#7E57C2")))
  '(highlight-tail-colors
    (quote
@@ -1408,7 +1420,7 @@ Version 2016-01-12"
  '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-	(night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#FFF9DC")
  '(pos-tip-foreground-color "#011627")
@@ -1453,3 +1465,4 @@ Version 2016-01-12"
 
 (setq ansi-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (setq ansi-term-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
+(put 'upcase-region 'disabled nil)
