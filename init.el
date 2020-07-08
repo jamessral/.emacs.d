@@ -71,11 +71,12 @@
 (use-package flycheck
   :ensure t
   :diminish 'flycheck-mode
-  :init
-  (flycheck-add-mode 'ruby-rubocop 'ruby-mode)
   :config
   (global-set-key (kbd "C-c ! v") 'flycheck-verify-setup)
   (add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'after-init-hook
+			(lambda ()
+			  (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
   (setq-default flycheck-temp-prefix ".flycheck")
   ;; disable jshint snce we prefer eslint checking
   (setq-default flycheck-disabled-checkers
@@ -276,7 +277,11 @@
 (use-package ivy
   :ensure t
   :init
-  (ivy-mode t))
+  (ivy-mode t)
+  (with-eval-after-load 'ivy
+	(push (cons #'swiper (cdr (assq t ivy-re-builders-alist)))
+		  ivy-re-builders-alist)
+	(push (cons t #'ivy--regex-fuzzy) ivy-re-builders-alist)))
 
 (use-package swiper
   :ensure t
@@ -1207,7 +1212,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
-(load-very-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
