@@ -438,8 +438,9 @@
   (global-set-key (kbd "C-x y") 'company-yasnippet)
 
   :config
-  (define-key yas-minor-mode-map [(tab)] nil)
-  (define-key yas-minor-mode-map (kbd "TAB") nil))
+  ;(define-key yas-minor-mode-map [(tab)] nil)
+  ;(define-key yas-minor-mode-map (kbd "TAB") nil)
+  )
 
 (with-eval-after-load 'company
                       '(add-to-list 'company-backends 'company-yasnippet)
@@ -559,7 +560,8 @@
   (add-hook 'web-mode-hook #'prettier-js-mode)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   :config
-  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey"))
+  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
+  (setq indent-tabs-mode nil))
 
 (use-package prettier-js
   :ensure t
@@ -914,6 +916,7 @@
   (interactive)
   (web-mode)
   (flycheck-mode -1)
+  (setq indent-tabs-mode nil)
   (prettier-js-mode -1))
 ;;; End Ruby
 
@@ -1397,7 +1400,7 @@ Version 2016-01-12"
  '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
-	("b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
+	("a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
  '(doom-modeline-mode nil)
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
