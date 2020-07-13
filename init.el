@@ -208,9 +208,13 @@
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
+  (setq evil-insert-state-cursor '((bar . 2) "#aa4033")
+		evil-normal-state-cursor '(box "#22aa88"))
   :config
   ;; Don't use evil mode for org mode
   (evil-set-initial-state 'org-mode 'emacs)
+  (evil-set-initial-state 'ibuffer-mode 'normal)
+  (evil-set-initial-state 'dired-mode 'normal)
   (evil-mode 1)
   (key-chord-mode 1)
   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
@@ -225,7 +229,6 @@
   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
   ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
@@ -320,7 +323,7 @@
    "c c" 'company-complete
    "f" '(:ignore t :which-key "files")
    "f s" 'save-buffer
-   "f f" 'counse-find-file
+   "f f" 'counsel-find-file
    "g" '(:ignore t :which-key "git")
    "g" '(:ignore t :which-key "git")
    "g s" 'magit-status
