@@ -74,8 +74,11 @@
   :config
   (global-set-key (kbd "C-c ! v") 'flycheck-verify-setup)
   (add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'after-init-hook
+			(lambda ()
+			  (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
   (setq-default flycheck-temp-prefix ".flycheck")
-  ;; disable jshint since we prefer eslint checking
+  ;; disable jshint snce we prefer eslint checking
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
                         '(javascript-jshint))))
@@ -235,11 +238,13 @@
    "p s" 'projectile-ripgrep
    "s" '(:ignore t :which-key "shell")
    "s s" 'multi-term-dedicated-toggle
+   "s n" 'multi-term
    "u" '(:ignore t :which-key "UI")
    "u c" 'counsel-load-theme
    "u l" 'load-light
    "u d" 'load-dark
    "u D" 'load-very-dark
+   "u a" 'load-acme
    "u t" 'toggle-transparency
    "u n" 'global-display-line-numbers-mode
    "u z" 'writeroom-mode
@@ -269,6 +274,15 @@
   ;; :init
   ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   ;; (helm-projectile-on))
+
+(use-package ivy
+  :ensure t
+  :init
+  (ivy-mode t)
+  (with-eval-after-load 'ivy
+	(push (cons #'swiper (cdr (assq t ivy-re-builders-alist)))
+		  ivy-re-builders-alist)
+	(push (cons t #'ivy--regex-fuzzy) ivy-re-builders-alist)))
 
 (use-package swiper
   :ensure t
@@ -311,8 +325,12 @@
 
 ;; Magit
 (use-package magit
-             :ensure t)
+  :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
+
+(use-package forge
+  :ensure t
+  :after magit)
 
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
@@ -399,7 +417,7 @@
 ;; Expand Region
 (use-package expand-region
              :ensure t)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-]") 'er/expand-region)
 
 
 (use-package wrap-region
@@ -421,8 +439,9 @@
   (global-set-key (kbd "C-x y") 'company-yasnippet)
 
   :config
-  (define-key yas-minor-mode-map [(tab)] nil)
-  (define-key yas-minor-mode-map (kbd "TAB") nil))
+  ;(define-key yas-minor-mode-map [(tab)] nil)
+  ;(define-key yas-minor-mode-map (kbd "TAB") nil)
+  )
 
 (with-eval-after-load 'company
                       '(add-to-list 'company-backends 'company-yasnippet)
@@ -455,7 +474,11 @@
 (use-package rainbow-delimiters
   :ensure t)
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
-;; (add-hook 'racket-mode-hook #'rainbow-delimiters-mode)
+
+(use-package racket-mode
+  :ensure t)
+
+(add-hook 'racket-mode-hook #'rainbow-delimiters-mode)
 
 ;; Interactive search key bindings. By default, C-s runs
 ;; isearch-forward, so this swaps the bindings.
@@ -533,11 +556,13 @@
   (setq web-mode-script-padding 0)
   (setq web-mode-style-padding 0)
   (setq web-mode-markup-indent-offset 2)
+  (setq-default indent-tabs-mode nil)
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (add-hook 'web-mode-hook #'prettier-js-mode)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   :config
-  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey"))
+  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
+  (setq indent-tabs-mode nil))
 
 (use-package prettier-js
   :ensure t
@@ -604,6 +629,7 @@
 (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . my/setup-erb))
+(add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . my/setup-erb))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
@@ -837,6 +863,7 @@
   :init
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets))
+  (setq rspec-use-spring-when-possible nil)
   (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 
 (use-package enh-ruby-mode
@@ -865,6 +892,12 @@
   (global-rbenv-mode))
 
 (use-package robe
+  :ensure t
+  :init
+  ;; (global-robe-mode)
+  )
+
+(use-package erblint
   :ensure t)
 
 (use-package projectile-rails
@@ -876,7 +909,6 @@
 (add-hook 'ruby-mode-hook (lambda ()
                             (progn
                               (ruby-end-mode)
-                              ;; (robe-mode)
                               (ruby-test-mode)
 							  (rspec-mode)
                               )))
@@ -885,6 +917,7 @@
   (interactive)
   (web-mode)
   (flycheck-mode -1)
+  (setq indent-tabs-mode nil)
   (prettier-js-mode -1))
 ;;; End Ruby
 
@@ -924,8 +957,8 @@
 
 
 ;;; Lisp
-;; (load (expand-file-name "~/quicklisp/slime-helper.el"))
-;; (setq inferior-lisp-program "/home/linuxbrew/.linuxbrew/bin/sbcl")
+(when (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  (setq inferior-lisp-program "/home/linuxbrew/.linuxbrew/bin/sbcl"))
 ;;; End Lisp
 
 
@@ -1091,8 +1124,8 @@ Version 2016-01-12"
 (use-package multi-term
   :ensure t
   :init
-  (if (memq window-system '(ns))
-	  (setq multi-term-program "cmd.exe")
+  (if (memq window-system '(ns win32))
+	  (setq multi-term-program "ps.exe")
 	(setq multi-term-program "/home/linuxbrew/.linuxbrew/bin/fish")
 	))
 
@@ -1172,10 +1205,17 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
+(use-package night-owl-theme
+  :ensure t
+  :defer t)
+
+(use-package nofrils-acme-theme
+  :ensure t
+  :defer t)
+
 (defun load-dark ()
   (interactive)
-  (load-theme 'base16-nord t))
-
+  (load-theme 'night-owl t))
 
 (defun load-very-dark ()
   (interactive)
@@ -1183,15 +1223,24 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
+ (load-theme 'sanityinc-solarized-light t))
+
+(defun load-very-light ()
+  (interactive)
   (load-theme 'tsdh-light t))
 
 (defun load-blue ()
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
+(defun load-acme ()
+  (interactive)
+  (load-theme 'nofrils-acme t))
+
 (load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
+(global-set-key (kbd "C-c u L") 'load-very-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
 (global-set-key (kbd "C-c u D") 'load-very-dark)
 (global-set-key (kbd "C-c u b") 'load-blue)
@@ -1356,15 +1405,25 @@ Version 2016-01-12"
  '(beacon-color "#c82829")
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
+ '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
-	("b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
+	("5a45c8bf60607dfa077b3e23edfb8df0f37c4759356682adf7ab762ba6b10600" "a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
  '(doom-modeline-mode nil)
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
- '(global-robe-mode t)
- '(helm-completion-style (quote helm))
+ '(highlight-changes-colors (quote ("#EF5350" "#7E57C2")))
+ '(highlight-tail-colors
+   (quote
+	(("#010F1D" . 0)
+	 ("#B44322" . 20)
+	 ("#34A18C" . 30)
+	 ("#3172FC" . 50)
+	 ("#B49C34" . 60)
+	 ("#B44322" . 70)
+	 ("#8C46BC" . 85)
+	 ("#010F1D" . 100))))
  '(hl-paren-background-colors (quote ("#e8fce8" "#c1e7f8" "#f8e8e8")))
  '(hl-paren-colors (quote ("#40883f" "#0287c8" "#b85c57")))
  '(hl-todo-keyword-faces
@@ -1385,14 +1444,17 @@ Version 2016-01-12"
 	 ("XXX+" . "#dc752f")
 	 ("\\?\\?\\?+" . "#dc752f"))))
  '(linum-format " %7i ")
+ '(magit-diff-use-overlays nil)
  '(nrepl-message-colors
    (quote
 	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-	(helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(nofrils-acme-theme nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(pos-tip-background-color "#FFF9DC")
+ '(pos-tip-foreground-color "#011627")
  '(sml/active-background-color "#98ece8")
  '(sml/active-foreground-color "#424242")
  '(sml/inactive-background-color "#4fa8a8")
@@ -1419,6 +1481,9 @@ Version 2016-01-12"
 	 (340 . "#eab700")
 	 (360 . "#718c00"))))
  '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (quote
+	(unspecified "#011627" "#010F1D" "#DC2E29" "#EF5350" "#D76443" "#F78C6C" "#D8C15E" "#FFEB95" "#5B8FFF" "#82AAFF" "#AB69D7" "#C792EA" "#AFEFE2" "#7FDBCA" "#D6DEEB" "#FFFFFF")))
  '(window-divider-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -1431,3 +1496,4 @@ Version 2016-01-12"
 
 (setq ansi-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (setq ansi-term-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
+(put 'upcase-region 'disabled nil)
