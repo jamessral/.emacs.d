@@ -244,6 +244,7 @@
    "u l" 'load-light
    "u d" 'load-dark
    "u D" 'load-very-dark
+   "u a" 'load-acme
    "u t" 'toggle-transparency
    "u n" 'global-display-line-numbers-mode
    "u z" 'writeroom-mode
@@ -1208,10 +1209,13 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
+(use-package nofrils-acme-theme
+  :ensure t
+  :defer t)
+
 (defun load-dark ()
   (interactive)
   (load-theme 'night-owl t))
-
 
 (defun load-very-dark ()
   (interactive)
@@ -1219,7 +1223,7 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
- (load-theme 'base16-gruvbox-light-hard t))
+ (load-theme 'sanityinc-solarized-light t))
 
 (defun load-very-light ()
   (interactive)
@@ -1229,7 +1233,11 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
-(load-very-light)
+(defun load-acme ()
+  (interactive)
+  (load-theme 'nofrils-acme t))
+
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1400,7 +1408,7 @@ Version 2016-01-12"
  '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
-	("a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
+	("5a45c8bf60607dfa077b3e23edfb8df0f37c4759356682adf7ab762ba6b10600" "a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
  '(doom-modeline-mode nil)
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
@@ -1443,7 +1451,7 @@ Version 2016-01-12"
  '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-	(magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(nofrils-acme-theme nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#FFF9DC")
  '(pos-tip-foreground-color "#011627")
