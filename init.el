@@ -312,6 +312,7 @@
    :states '(normal visual insert emacs)
    :prefix "SPC"
    :non-normal-prefix "C-SPC"
+   "RET" 'save-buffer
    "a" 'org-agenda
    "b" '(:ignore t :which-key "buffer")
    "b b" 'ibuffer
@@ -319,19 +320,19 @@
    "c c" 'company-complete
    "f" '(:ignore t :which-key "files")
    "f s" 'save-buffer
+   "f f" 'counse-find-file
    "g" '(:ignore t :which-key "git")
    "g" '(:ignore t :which-key "git")
    "g s" 'magit-status
    "i" '(:ignore t :which-key "insert")
-   "i n" 'xah-insert-random-number
+   "i r" 'xah-insert-random-number
+   "i n" 'jas/insert-note
+   "i t" 'jas/insert-todo
    "j" '(:ingore t :which-key "jump")
    "j j" 'dumb-jump-back
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
-   "n" '(:ignore t :which-key "notes")
-   "n n" 'jas/insert-note
-   "n t" 'jas/insert-todo
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
@@ -369,15 +370,14 @@
    "g" '(:ignore t :which-key "git")
    "g s" 'magit-status
    "i" '(:ignore t :which-key "insert")
-   "i n" 'xah-insert-random-number
+   "i r" 'xah-insert-random-number
+   "i n" 'jas/insert-note
+   "i t" 'jas/insert-todo
    "j" '(:ingore t :which-key "jump")
    "j j" 'dumb-jump-back
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
-   "n" '(:ignore t :which-key "notes")
-   "n n" 'jas/insert-note
-   "n t" 'jas/insert-todo
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
