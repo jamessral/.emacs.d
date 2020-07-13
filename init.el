@@ -797,9 +797,9 @@
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
                            (local-set-key (kbd "C-c , s") 'mocha-test-at-point)
-                           ;; (evil-leader/set-key "t" 'mocha-test-at-point)
+                           (evil-leader/set-key "t" 'mocha-test-at-point)
                            (local-set-key (kbd "C-c , v") 'mocha-test-file)
-                           ;; (evil-leader/set-key "T" 'mocha-test-file)))
+                           (evil-leader/set-key "T" 'mocha-test-file)))
                            ))
 
 (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
@@ -1017,7 +1017,12 @@
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets))
   (setq rspec-use-spring-when-possible nil)
-  (add-hook 'after-init-hook 'inf-ruby-switch-setup))
+  (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+  :config
+  (evil-leader/set-key (kbd ", t") 'rspec-verify-matching)
+  (evil-leader/set-key (kbd ", T") 'rspec-verify-all)
+)
+
 
 (use-package enh-ruby-mode
   :ensure t)
