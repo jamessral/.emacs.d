@@ -68,6 +68,10 @@
 (use-package restart-emacs
   :ensure t)
 
+
+;; Ask before quiting
+(setq-default confirm-kill-emacs 'yes-or-no-p)
+
 (use-package flycheck
   :ensure t
   :diminish 'flycheck-mode
@@ -315,10 +319,6 @@
 ;; (global-set-key (kbd "C-c e f") 'disable-evil)
 ;; (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
 
-
-;; I don't really use this, so use it as a leader instead
-(global-unset-key (kbd "M-m"))
-
 (use-package general
   :ensure t
   :config
@@ -372,7 +372,7 @@
   ;;  ";" '(:ignore t :which-key "commenting")
   ;;  "; r" 'comment-region)
   (general-define-key
-   :prefix "M-m"
+   :prefix "C-c"
    "a" 'org-agenda
    "b" '(:ignore t :which-key "buffer")
    "b b" 'ibuffer
@@ -524,6 +524,9 @@
 ;; Use subword mode
 (global-subword-mode)
 (diminish 'subword-mode)
+
+(use-package fish-mode
+  :ensure t)
 
 ;; Fix Org Mode syntax stuff
 (setq org-src-fontify-natively t)
@@ -1029,10 +1032,14 @@
     '(rspec-install-snippets))
   (setq rspec-use-spring-when-possible nil)
   (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+  (add-hook 'ruby-mode-hook 'rspec-mode)
   :config
   ;; (evil-leader/set-key (kbd ", t") 'rspec-verify-single)
   ;; (evil-leader/set-key (kbd ", T") 'rspec-verify)
-)
+  )
+
+(use-package minitest
+  :ensure t)
 
 
 (use-package enh-ruby-mode
@@ -1079,7 +1086,6 @@
                             (progn
                               (ruby-end-mode)
                               (ruby-test-mode)
-							  (rspec-mode)
                               )))
 
 (defun my/setup-erb ()
@@ -1090,12 +1096,32 @@
   (prettier-js-mode -1))
 ;;; End Ruby
 
+
+;;; Python
+(use-package elpy
+  :ensure t
+  :config
+  (setq python-shell-interpreter "python"
+      python-shell-interpreter-args "-i"))
+;;; End Python
+
+;;; Coffeescript
+(use-package coffee-mode
+  :ensure t)
+;;; End Coffeescript
+
+
 ;;; Crystal
 (use-package crystal-mode
   :ensure t
   :init
   (add-hook 'crystal-mode-hook 'ruby-end-mode))
 ;;; End Crystal
+
+;;; Nim
+(use-package nim-mode
+  :ensure t)
+;;; End Nim
 
 ;;; Odin
 (load "~/.emacs.d/vendor/odin-mode.el")
@@ -1167,6 +1193,7 @@
 ;;   (add-hook 'go-mode-hook 'eglot-ensure)
 ;;   (add-hook 'ruby-mode-hook 'eglot-ensure)
 ;;   (add-hook 'rjsx-mode-hook 'eglot-ensure)
+;;   (add-hook 'elixir-mode-hook 'eglot-ensure)
 ;;   (add-hook 'erb-mode-hook 'eglot-ensure))
 ;;; End Rust
 
@@ -1384,7 +1411,8 @@ Version 2016-01-12"
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'night-owl t))
+  (if (window-system)
+	  (load-theme 'zenburn t)))
 
 (defun load-very-dark ()
   (interactive)
@@ -1406,7 +1434,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'nofrils-acme t))
 
-(load-light)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1416,9 +1444,14 @@ Version 2016-01-12"
 
 
 ;; Font
+(defun jas/load-font (font-name)
+  "Helper to make it easier to switch fonts"
+  (interactive)
+  (set-face-attribute 'default nil :font font-name))
+
 (if (memq window-system '(ns))
-  (set-face-attribute 'default nil :font "Cascadia Code")
-  (set-face-attribute 'default nil :font "IBM Plex Mono"))
+  (jas/load-font "Cascadia Code")
+  (jas/load-font "IBM Plex Mono"))
 
 (set-face-attribute 'default nil :height 105)
 
@@ -1480,8 +1513,12 @@ Version 2016-01-12"
                     erlang-compile-extra-opts '((i . "../include"))
                     erlang-root-dir "/usr/local/lib/erlang"))))
 
-(use-package alchemist
+(use-package elixir-mix
   :ensure t)
+
+(use-package flycheck-elixir
+  :ensure t)
+
 ;;; End Erlang/Elixir
 
 ;;; Golang
@@ -1577,7 +1614,7 @@ Version 2016-01-12"
  '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
-	("5a45c8bf60607dfa077b3e23edfb8df0f37c4759356682adf7ab762ba6b10600" "a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
+	("5a7830712d709a4fc128a7998b7fa963f37e960fd2e8aa75c76f692b36e6cf3c" "5a45c8bf60607dfa077b3e23edfb8df0f37c4759356682adf7ab762ba6b10600" "a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
  '(doom-modeline-mode nil)
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
@@ -1620,7 +1657,7 @@ Version 2016-01-12"
  '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-	(xah-fly-keys evil-magit evil-commentary evil-surround evil-collection evil-escape evil-leader evil nofrils-acme-theme nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(coffee-mode mix elixir-mix company-elixir nim-mode minitest xah-fly-keys evil-magit evil-commentary evil-surround evil-collection evil-escape evil-leader evil nofrils-acme-theme nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#FFF9DC")
  '(pos-tip-foreground-color "#011627")
