@@ -124,8 +124,8 @@
 (use-package olivetti
   :ensure t
   :init
-  (set-variable 'olivetti-body-width 80)
-  (global-set-key (kbd "C-c w z") 'olivetti))
+  (set-variable 'olivetti-body-width 150)
+  (global-set-key (kbd "C-c w z") 'olivetti-mode))
 
 (use-package undo-tree
   :ensure t
@@ -1204,13 +1204,13 @@
   (setq org-agenda-files (list "~/.emacs.d/org/work.org"
 							   "~/.emacs.d/org/personal.org"))
   (setq org-capture-templates
-      '(("wt" "Work todo" entry (file+headline "~/org/work.org" "Tasks")
+      '(("W" "Work todo" entry (file+headline "~/org/work.org" "Tasks")
          "* TODO %?\n  %i\n  %a")
-		("pt" "Personal todo" entry (file+headline "~/org/personal.org" "Tasks")
+		("P" "Personal todo" entry (file+headline "~/org/personal.org" "Tasks")
          "* TODO %?\n  %i\n  %a")
-        ("wn" "Work Notes" entry (file+datetree "~/org/work.org")
+        ("w" "Work Notes" entry (file+datetree "~/org/work.org")
          "* %?\nEntered on %U\n  %i\n  %a")
-		("pn" "Personal Notes" entry (file+datetree "~/org/personal.org")
+		("p" "Personal Notes" entry (file+datetree "~/org/personal.org")
          "* %?\nEntered on %U\n  %i\n  %a"))))
 
 (use-package org-bullets
@@ -1405,18 +1405,18 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
-(use-package nofrils-acme-theme
+(use-package acme-theme
   :ensure t
   :defer t)
 
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'zenburn t)))
+	  (load-theme 'spacemacs-dark t)))
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-bright t))
+  (load-theme 'base16-synth-midnight-dark t))
 
 (defun load-light ()
   (interactive)
@@ -1432,7 +1432,7 @@ Version 2016-01-12"
 
 (defun load-acme ()
   (interactive)
-  (load-theme 'nofrils-acme t))
+  (load-theme 'acme t))
 
 (load-dark)
 
@@ -1657,7 +1657,7 @@ Version 2016-01-12"
  '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-	(coffee-mode mix elixir-mix company-elixir nim-mode minitest xah-fly-keys evil-magit evil-commentary evil-surround evil-collection evil-escape evil-leader evil nofrils-acme-theme nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons ag add-node-modules-path)))
+	(acme-theme coffee-mode mix elixir-mix company-elixir nim-mode minitest xah-fly-keys evil-magit evil-commentary evil-surround evil-collection evil-escape evil-leader evil nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#FFF9DC")
  '(pos-tip-foreground-color "#011627")
