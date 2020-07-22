@@ -207,6 +207,18 @@
 (use-package ripgrep
   :ensure t)
 
+(use-package counsel-etags
+  :ensure t
+  :bind (("M-." . counsel-etags-find-tag-at-point))
+  :init
+  (add-hook 'prog-mode-hook
+        (lambda ()
+          (add-hook 'after-save-hook
+            'counsel-etags-virtual-update-tags 'append 'local)))
+  :config
+  (setq counsel-etags-update-interval 60)
+  (push "build" counsel-etags-ignore-directories))
+
 ;; (use-package xah-fly-keys
 ;;   :ensure t
 ;;   :init
@@ -571,6 +583,12 @@
 (global-set-key (kbd "C-'") 'company-complete)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
+
+(use-package company-ctags
+  :ensure t
+  :init
+  (with-eval-after-load 'company
+  (company-ctags-auto-setup)))
 
 ;; Enable paredit for Clojure
 (use-package paredit
