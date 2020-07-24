@@ -68,6 +68,10 @@
 (use-package restart-emacs
   :ensure t)
 
+
+;; Ask before quiting
+(setq-default confirm-kill-emacs 'yes-or-no-p)
+
 (use-package flycheck
   :ensure t
   :diminish 'flycheck-mode
@@ -120,8 +124,8 @@
 (use-package olivetti
   :ensure t
   :init
-  (set-variable 'olivetti-body-width 80)
-  (global-set-key (kbd "C-c w z") 'olivetti))
+  (set-variable 'olivetti-body-width 150)
+  (global-set-key (kbd "C-c w z") 'olivetti-mode))
 
 (use-package undo-tree
   :ensure t
@@ -203,9 +207,182 @@
 (use-package ripgrep
   :ensure t)
 
+(use-package counsel-etags
+  :ensure t
+  :bind (("M-." . counsel-etags-find-tag-at-point))
+  :init
+  (add-hook 'prog-mode-hook
+        (lambda ()
+          (add-hook 'after-save-hook
+            'counsel-etags-virtual-update-tags 'append 'local)))
+  :config
+  (setq counsel-etags-update-interval 60)
+  (push "build" counsel-etags-ignore-directories))
+
+;; (use-package xah-fly-keys
+;;   :ensure t
+;;   :init
+;;   (xah-fly-keys 1)
+;;   :config
+;;   (xah-fly-keys-set-layout 'qwerty))
+
+;; (use-package evil
+;;   :ensure t
+;;   :init
+;;   (setq evil-want-integration t)
+;;   (setq evil-want-keybinding nil)
+;;   (setq evil-insert-state-cursor '((bar . 2) "#aa4033")
+;; 		evil-normal-state-cursor '(box "#22aa88"))
+;;   :config
+;;   ;; Don't use evil mode for org mode
+;;   (evil-set-initial-state 'org-mode 'emacs)
+;;   (evil-set-initial-state 'ibuffer-mode 'normal)
+;;   (evil-set-initial-state 'dired-mode 'normal)
+;;   (evil-mode 1)
+;;   (key-chord-mode 1)
+;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+;;   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+;;   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+;;   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+;;   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+;;   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+;;   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+;;   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+;;   ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
+;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+;;   (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
+;;   (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
+
+;;                                         ; Shamelessly stolen from Amir Rajan
+;;   (global-set-key [escape] 'evil-exit-emacs-state)
+
+;;   (defun evil-send-string-to-terminal (string)
+;;     (unless (display-graphic-p) (send-string-to-terminal string)))
+
+;;   (defun evil-terminal-cursor-change ()
+;;     (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
+;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
+;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
+;;     (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
+;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
+;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
+
+;;   (evil-terminal-cursor-change)
+;; )
+
+;; (use-package evil-leader
+;;   :ensure t
+;;   :init
+;;   :config
+;;   (evil-leader/set-leader "<SPC>")
+;;   (evil-leader/set-key
+;;    "<SPC>" 'counsel-M-x
+;;    "n" 'neotree-toggle
+;;    "m" 'neotree-find
+;;    "<RET>" 'save-buffer
+;;    "v" 'evil-window-vsplit
+;;    "s" 'evil-window-split
+;;    "/" 'evil-ex-nohighlight)
+;;   (global-evil-leader-mode))
+
+;; (use-package evil-escape
+;;   :ensure t
+;;   :commands evil-escape-mode
+;;   :init
+;;   (setq-default evil-escape-key-sequence "jk")
+;;   (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
+;;         evil-escape-excluded-major-modes '(neotree-mode)
+;;         evil-escape-key-sequence "jk"
+;;         evil-escape-delay 0.25)
+;;   (add-hook 'after-init-hook #'evil-escape-mode)
+;;   :config
+;;   ;; no `evil-escape' in minibuffer
+;;   (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
+
+;;   (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
+;;   (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
+;;   (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
+;;   (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
+
+;; (use-package evil-collection
+;;   :after evil
+;;   :ensure t
+;;   :init
+;;   (with-eval-after-load 'evil-collection-init))
+
+;; (use-package evil-surround
+;;   :ensure t
+;;   :config
+;;   (global-evil-surround-mode 1))
+
+;; (use-package evil-commentary
+;;   :ensure t
+;;   :config
+;;   (evil-commentary-mode))
+
+;; (use-package evil-magit
+;;   :ensure t)
+
+;; (global-set-key (kbd "C-c e o") 'enable-evil)
+;; (global-set-key (kbd "C-c e f") 'disable-evil)
+;; (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
+
 (use-package general
   :ensure t
   :config
+  ;; (general-define-key
+  ;;  :states '(normal visual insert emacs)
+  ;;  :prefix "SPC"
+  ;;  :non-normal-prefix "C-SPC"
+  ;;  "RET" 'save-buffer
+  ;;  "a" 'org-agenda
+  ;;  "b" '(:ignore t :which-key "buffer")
+  ;;  "b b" 'ibuffer
+  ;;  "c" '(:ignore t :which-key "company")
+  ;;  "c c" 'company-complete
+  ;;  "f" '(:ignore t :which-key "files")
+  ;;  "f s" 'save-buffer
+  ;;  "f f" 'counsel-find-file
+  ;;  "g" '(:ignore t :which-key "git")
+  ;;  "g" '(:ignore t :which-key "git")
+  ;;  "g s" 'magit-status
+  ;;  "i" '(:ignore t :which-key "insert")
+  ;;  "i r" 'xah-insert-random-number
+  ;;  "i n" 'jas/insert-note
+  ;;  "i t" 'jas/insert-todo
+  ;;  "j" '(:ingore t :which-key "jump")
+  ;;  "j j" 'dumb-jump-back
+  ;;  "j j" 'dumb-jump-go
+  ;;  "j l" 'avy-goto-line
+  ;;  "j w" 'avy-goto-char-2
+  ;;  "o" '(:ignore t :which-key "org")
+  ;;  "o c" 'counsel-org-capture
+  ;;  "o p" 'jas/go-to-personal-org-file
+  ;;  "o w" 'jas/go-to-work-org-file
+  ;;  "p" '(:ignore t :which-key "project")
+  ;;  "p p" 'projectile-switch-project
+  ;;  "p f" 'projectile-find-file
+  ;;  "p s" 'projectile-ripgrep
+  ;;  "s" '(:ignore t :which-key "shell")
+  ;;  "s s" 'multi-term-dedicated-toggle
+  ;;  "s n" 'multi-term
+  ;;  "u" '(:ignore t :which-key "UI")
+  ;;  "u c" 'counsel-load-theme
+  ;;  "u l" 'load-light
+  ;;  "u d" 'load-dark
+  ;;  "u D" 'load-very-dark
+  ;;  "u a" 'load-acme
+  ;;  "u t" 'toggle-transparency
+  ;;  "u n" 'global-display-line-numbers-mode
+  ;;  "u z" 'writeroom-mode
+  ;;  "w" '(:ignore t :which-key "window")
+  ;;  "w z" 'olivetti-mode
+  ;;  ";" '(:ignore t :which-key "commenting")
+  ;;  "; r" 'comment-region)
   (general-define-key
    :prefix "C-c"
    "a" 'org-agenda
@@ -219,15 +396,14 @@
    "g" '(:ignore t :which-key "git")
    "g s" 'magit-status
    "i" '(:ignore t :which-key "insert")
-   "i n" 'xah-insert-random-number
+   "i r" 'xah-insert-random-number
+   "i n" 'jas/insert-note
+   "i t" 'jas/insert-todo
    "j" '(:ingore t :which-key "jump")
    "j j" 'dumb-jump-back
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
-   "n" '(:ignore t :which-key "notes")
-   "n n" 'jas/insert-note
-   "n t" 'jas/insert-todo
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
@@ -361,6 +537,9 @@
 (global-subword-mode)
 (diminish 'subword-mode)
 
+(use-package fish-mode
+  :ensure t)
+
 ;; Fix Org Mode syntax stuff
 (setq org-src-fontify-natively t)
 
@@ -404,6 +583,12 @@
 (global-set-key (kbd "C-'") 'company-complete)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
+
+(use-package company-ctags
+  :ensure t
+  :init
+  (with-eval-after-load 'company
+  (company-ctags-auto-setup)))
 
 ;; Enable paredit for Clojure
 (use-package paredit
@@ -646,7 +831,7 @@
                            (local-set-key (kbd "C-c , s") 'mocha-test-at-point)
                            ;; (evil-leader/set-key "t" 'mocha-test-at-point)
                            (local-set-key (kbd "C-c , v") 'mocha-test-file)
-                           ;; (evil-leader/set-key "T" 'mocha-test-file)))
+                           ;; (evil-leader/set-key "T" 'mocha-test-file)
                            ))
 
 (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
@@ -864,7 +1049,16 @@
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets))
   (setq rspec-use-spring-when-possible nil)
-  (add-hook 'after-init-hook 'inf-ruby-switch-setup))
+  (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+  (add-hook 'ruby-mode-hook 'rspec-mode)
+  :config
+  ;; (evil-leader/set-key (kbd ", t") 'rspec-verify-single)
+  ;; (evil-leader/set-key (kbd ", T") 'rspec-verify)
+  )
+
+(use-package minitest
+  :ensure t)
+
 
 (use-package enh-ruby-mode
   :ensure t)
@@ -910,7 +1104,6 @@
                             (progn
                               (ruby-end-mode)
                               (ruby-test-mode)
-							  (rspec-mode)
                               )))
 
 (defun my/setup-erb ()
@@ -921,12 +1114,32 @@
   (prettier-js-mode -1))
 ;;; End Ruby
 
+
+;;; Python
+(use-package elpy
+  :ensure t
+  :config
+  (setq python-shell-interpreter "python"
+      python-shell-interpreter-args "-i"))
+;;; End Python
+
+;;; Coffeescript
+(use-package coffee-mode
+  :ensure t)
+;;; End Coffeescript
+
+
 ;;; Crystal
 (use-package crystal-mode
   :ensure t
   :init
   (add-hook 'crystal-mode-hook 'ruby-end-mode))
 ;;; End Crystal
+
+;;; Nim
+(use-package nim-mode
+  :ensure t)
+;;; End Nim
 
 ;;; Odin
 (load "~/.emacs.d/vendor/odin-mode.el")
@@ -998,6 +1211,7 @@
 ;;   (add-hook 'go-mode-hook 'eglot-ensure)
 ;;   (add-hook 'ruby-mode-hook 'eglot-ensure)
 ;;   (add-hook 'rjsx-mode-hook 'eglot-ensure)
+;;   (add-hook 'elixir-mode-hook 'eglot-ensure)
 ;;   (add-hook 'erb-mode-hook 'eglot-ensure))
 ;;; End Rust
 
@@ -1008,13 +1222,13 @@
   (setq org-agenda-files (list "~/.emacs.d/org/work.org"
 							   "~/.emacs.d/org/personal.org"))
   (setq org-capture-templates
-      '(("wt" "Work todo" entry (file+headline "~/org/work.org" "Tasks")
+      '(("W" "Work todo" entry (file+headline "~/org/work.org" "Tasks")
          "* TODO %?\n  %i\n  %a")
-		("pt" "Personal todo" entry (file+headline "~/org/personal.org" "Tasks")
+		("P" "Personal todo" entry (file+headline "~/org/personal.org" "Tasks")
          "* TODO %?\n  %i\n  %a")
-        ("wn" "Work Notes" entry (file+datetree "~/org/work.org")
+        ("w" "Work Notes" entry (file+datetree "~/org/work.org")
          "* %?\nEntered on %U\n  %i\n  %a")
-		("pn" "Personal Notes" entry (file+datetree "~/org/personal.org")
+		("p" "Personal Notes" entry (file+datetree "~/org/personal.org")
          "* %?\nEntered on %U\n  %i\n  %a"))))
 
 (use-package org-bullets
@@ -1209,17 +1423,18 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
-(use-package nofrils-acme-theme
+(use-package acme-theme
   :ensure t
   :defer t)
 
 (defun load-dark ()
   (interactive)
-  (load-theme 'night-owl t))
+  (if (window-system)
+	  (load-theme 'spacemacs-dark t)))
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-bright t))
+  (load-theme 'base16-synth-midnight-dark t))
 
 (defun load-light ()
   (interactive)
@@ -1235,9 +1450,9 @@ Version 2016-01-12"
 
 (defun load-acme ()
   (interactive)
-  (load-theme 'nofrils-acme t))
+  (load-theme 'acme t))
 
-(load-light)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1247,9 +1462,14 @@ Version 2016-01-12"
 
 
 ;; Font
+(defun jas/load-font (font-name)
+  "Helper to make it easier to switch fonts"
+  (interactive)
+  (set-face-attribute 'default nil :font font-name))
+
 (if (memq window-system '(ns))
-  (set-face-attribute 'default nil :font "Cascadia Code")
-  (set-face-attribute 'default nil :font "IBM Plex Mono"))
+  (jas/load-font "Cascadia Code")
+  (jas/load-font "IBM Plex Mono"))
 
 (set-face-attribute 'default nil :height 105)
 
@@ -1311,8 +1531,12 @@ Version 2016-01-12"
                     erlang-compile-extra-opts '((i . "../include"))
                     erlang-root-dir "/usr/local/lib/erlang"))))
 
-(use-package alchemist
+(use-package elixir-mix
   :ensure t)
+
+(use-package flycheck-elixir
+  :ensure t)
+
 ;;; End Erlang/Elixir
 
 ;;; Golang
@@ -1408,7 +1632,7 @@ Version 2016-01-12"
  '(compilation-message-face (quote default))
  '(custom-safe-themes
    (quote
-	("5a45c8bf60607dfa077b3e23edfb8df0f37c4759356682adf7ab762ba6b10600" "a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
+	("5a7830712d709a4fc128a7998b7fa963f37e960fd2e8aa75c76f692b36e6cf3c" "5a45c8bf60607dfa077b3e23edfb8df0f37c4759356682adf7ab762ba6b10600" "a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
  '(doom-modeline-mode nil)
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
@@ -1451,7 +1675,7 @@ Version 2016-01-12"
  '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-	(nofrils-acme-theme nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons alchemist ag add-node-modules-path)))
+	(acme-theme coffee-mode mix elixir-mix company-elixir nim-mode minitest xah-fly-keys evil-magit evil-commentary evil-surround evil-collection evil-escape evil-leader evil nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#FFF9DC")
  '(pos-tip-foreground-color "#011627")
