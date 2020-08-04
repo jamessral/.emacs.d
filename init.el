@@ -207,22 +207,27 @@
 (use-package ripgrep
   :ensure t)
 
-(use-package counsel-etags
-  :ensure t
-  :bind (("M-." . counsel-etags-find-tag-at-point))
-  :init
-  (add-hook 'prog-mode-hook
-        (lambda ()
-          (add-hook 'after-save-hook
-            'counsel-etags-virtual-update-tags 'append 'local)))
-  :config
-  (setq counsel-etags-update-interval 60)
-  (push "build" counsel-etags-ignore-directories))
+;; (use-package counsel-etags
+;;   :ensure t
+;;   :bind (("M-." . counsel-etags-find-tag-at-point))
+;;   :init
+;;   ;; Don't ask before rereading the TAGS files if they have changed
+;;   (setq tags-revert-without-query t)
+;;   ;; Don't warn when TAGS files are large
+;;   (setq large-file-warning-threshold nil)
+;;   (add-hook 'prog-mode-hook
+;;         (lambda ()
+;;           (add-hook 'after-save-hook
+;;             'counsel-etags-virtual-update-tags 'append 'local)))
+;;   :config
+;;   (setq counsel-etags-update-interval 60)
+;;   (push "build" counsel-etags-ignore-directories))
 
 ;; (use-package xah-fly-keys
 ;;   :ensure t
 ;;   :init
-;;   (xah-fly-keys 1)
+;;   (define-key xah-fly-key-map (kbd "<f4>") 'xah-fly-command-mode-activate)
+;;   (xah-fly-keys)
 ;;   :config
 ;;   (xah-fly-keys-set-layout 'qwerty))
 
@@ -1182,16 +1187,19 @@
 ;;   (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
 
 ;;; Rust
-;; (use-package company-racer
-  ;; :ensure t)
+(use-package company-racer
+  :ensure t)
 
-;; (use-package flycheck-rust
-  ;; :ensure t)
+(use-package flycheck-rust
+  :ensure t
+  :init
+  (with-eval-after-load 'rust-mode
+	(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 
-;; (use-package rust-mode
-  ;; :ensure t
-  ;; :config
-  ;; (local-set-key (kbd "C-c C-c") 'recompile))
+(use-package rust-mode
+  :ensure t
+  :config
+  (local-set-key (kbd "C-c C-c") 'recompile))
 
 
 ;;; Haxe
@@ -1427,14 +1435,18 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
+(use-package nofrils-acme-theme
+  :ensure t
+  :defer t)
+
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'spacemacs-dark t)))
+	  (load-theme 'base16-ia-dark t)))
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'base16-synth-midnight-dark t))
+  (load-theme 'sanityinc-tomorrow-bright t))
 
 (defun load-light ()
   (interactive)
@@ -1452,6 +1464,10 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'acme t))
 
+(defun load-nofrils-acme ()
+  (interactive)
+  (load-theme 'nofrils-acme t))
+
 (load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
@@ -1459,6 +1475,8 @@ Version 2016-01-12"
 (global-set-key (kbd "C-c u d") 'load-dark)
 (global-set-key (kbd "C-c u D") 'load-very-dark)
 (global-set-key (kbd "C-c u b") 'load-blue)
+(global-set-key (kbd "C-c u a") 'load-acme)
+(global-set-key (kbd "C-c u n") 'load-nofrils-acme)
 
 
 ;; Font
@@ -1675,7 +1693,7 @@ Version 2016-01-12"
  '(org-agenda-files (quote ("~/todo.org")))
  '(package-selected-packages
    (quote
-	(acme-theme coffee-mode mix elixir-mix company-elixir nim-mode minitest xah-fly-keys evil-magit evil-commentary evil-surround evil-collection evil-escape evil-leader evil nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons ag add-node-modules-path)))
+	(acme-theme coffee-mode mix elixir-mix company-elixir nim-mode minitest xah-fly-keys evil-magit evil-commentary evil-surround evil-collection evil-escape evil-leader evil nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#FFF9DC")
  '(pos-tip-foreground-color "#011627")
@@ -1715,9 +1733,10 @@ Version 2016-01-12"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil))))
- '(sp-pair-overlay-face ((t nil))))
+)
 (put 'narrow-to-region 'disabled nil)
 
 (setq ansi-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (setq ansi-term-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
