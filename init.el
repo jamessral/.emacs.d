@@ -127,6 +127,8 @@
   (set-variable 'olivetti-body-width 150)
   (global-set-key (kbd "C-c w z") 'olivetti-mode))
 
+(global-unset-key (kbd "C-o"))
+
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
@@ -529,6 +531,7 @@
 
 (setq electric-indent-mode 1)
 ;;; End Basics
+
 
 ;;; Javascript
 (use-package add-node-modules-path
@@ -1226,7 +1229,7 @@ Version 2016-01-12"
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'base16-ia-dark t)))
+	  (load-theme 'base16-monokai t)))
 
 (defun load-very-dark ()
   (interactive)
@@ -1252,7 +1255,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'nofrils-acme t))
 
-(load-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1271,9 +1274,9 @@ Version 2016-01-12"
 
 (if (memq window-system '(ns))
   (jas/load-font "Cascadia Code")
-  (jas/load-font "IBM Plex Mono"))
+  (jas/load-font "Victor Mono"))
 
-(set-face-attribute 'default nil :height 105)
+(set-face-attribute 'default nil :height 110)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1401,10 +1404,16 @@ Version 2016-01-12"
       c-basic-offset 4)
 (setq-default c-basic-offset 4)
 
-(define-key irony-mode-map (kbd "C-c C-c") 'recompile)
 (define-key c-mode-map (kbd "C-c C-c") 'recompile)
 (define-key c++-mode-map (kbd "C-c C-c") 'recompile)
 ;; End C/C++
+
+
+;;; Restclient
+(use-package restclient-mode
+  :ensure t
+  :mode (("\\.http\\'" . restclient-mode)))
+;;; End Restclient
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
