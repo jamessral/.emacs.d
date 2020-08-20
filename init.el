@@ -261,11 +261,7 @@
 (use-package ivy
   :ensure t
   :init
-  (ivy-mode t)
-  (with-eval-after-load 'ivy
-	(push (cons #'swiper (cdr (assq t ivy-re-builders-alist)))
-		  ivy-re-builders-alist)
-	(push (cons t #'ivy--regex-fuzzy) ivy-re-builders-alist)))
+  (ivy-mode t))
 
 (use-package swiper
   :ensure t
@@ -1229,7 +1225,7 @@ Version 2016-01-12"
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'base16-monokai t)))
+	  (load-theme 'sanityinc-tomorrow-night t)))
 
 (defun load-very-dark ()
   (interactive)
@@ -1255,7 +1251,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'nofrils-acme t))
 
-(load-very-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
