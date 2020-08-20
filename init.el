@@ -304,7 +304,7 @@
 
 ;; All the Icons
 (use-package all-the-icons
-             :ensure t)
+  :ensure t)
 
 ;; Magit
 (use-package magit
@@ -1255,7 +1255,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'nofrils-acme t))
 
-(load-light)
+(load-very-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1264,6 +1264,13 @@ Version 2016-01-12"
 (global-set-key (kbd "C-c u b") 'load-blue)
 (global-set-key (kbd "C-c u a") 'load-acme)
 (global-set-key (kbd "C-c u n") 'load-nofrils-acme)
+
+(use-package doom-modeline
+  :ensure t
+  :init
+  (doom-modeline-mode 1))
+
+(global-prettify-symbols-mode t)
 
 
 ;; Font
@@ -1410,7 +1417,7 @@ Version 2016-01-12"
 
 
 ;;; Restclient
-(use-package restclient-mode
+(use-package restclient
   :ensure t
   :mode (("\\.http\\'" . restclient-mode)))
 ;;; End Restclient
