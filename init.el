@@ -127,6 +127,8 @@
   (set-variable 'olivetti-body-width 150)
   (global-set-key (kbd "C-c w z") 'olivetti-mode))
 
+(global-unset-key (kbd "C-o"))
+
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
@@ -207,182 +209,9 @@
 (use-package ripgrep
   :ensure t)
 
-(use-package counsel-etags
-  :ensure t
-  :bind (("M-." . counsel-etags-find-tag-at-point))
-  :init
-  (add-hook 'prog-mode-hook
-        (lambda ()
-          (add-hook 'after-save-hook
-            'counsel-etags-virtual-update-tags 'append 'local)))
-  :config
-  (setq counsel-etags-update-interval 60)
-  (push "build" counsel-etags-ignore-directories))
-
-;; (use-package xah-fly-keys
-;;   :ensure t
-;;   :init
-;;   (xah-fly-keys 1)
-;;   :config
-;;   (xah-fly-keys-set-layout 'qwerty))
-
-;; (use-package evil
-;;   :ensure t
-;;   :init
-;;   (setq evil-want-integration t)
-;;   (setq evil-want-keybinding nil)
-;;   (setq evil-insert-state-cursor '((bar . 2) "#aa4033")
-;; 		evil-normal-state-cursor '(box "#22aa88"))
-;;   :config
-;;   ;; Don't use evil mode for org mode
-;;   (evil-set-initial-state 'org-mode 'emacs)
-;;   (evil-set-initial-state 'ibuffer-mode 'normal)
-;;   (evil-set-initial-state 'dired-mode 'normal)
-;;   (evil-mode 1)
-;;   (key-chord-mode 1)
-;;   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-;;   (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
-;;   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-;;   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-;;   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-;;   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-;;   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-;;   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-;;   ; (define-key evil-normal-state-map (kbd "RET") 'save-buffer)
-;;   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-;;   (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
-;;   (define-key evil-visual-state-map (kbd "C-d") 'evil-delete-char)
-;;   (define-key evil-insert-state-map (kbd "C-d") 'evil-delete-char)
-
-;;                                         ; Shamelessly stolen from Amir Rajan
-;;   (global-set-key [escape] 'evil-exit-emacs-state)
-
-;;   (defun evil-send-string-to-terminal (string)
-;;     (unless (display-graphic-p) (send-string-to-terminal string)))
-
-;;   (defun evil-terminal-cursor-change ()
-;;     (when (string= (getenv "TERM_PROGRAM") "iTerm.app")
-;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=1\x7")))
-;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\e]50;CursorShape=0\x7"))))
-;;     (when (and (getenv "TMUX")  (string= (getenv "TERM_PROGRAM") "iTerm.app"))
-;;       (add-hook 'evil-insert-state-entry-hook (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=1\x7\e\\")))
-;;       (add-hook 'evil-insert-state-exit-hook  (lambda () (evil-send-string-to-terminal "\ePtmux;\e\e]50;CursorShape=0\x7\e\\")))))
-
-;;   (evil-terminal-cursor-change)
-;; )
-
-;; (use-package evil-leader
-;;   :ensure t
-;;   :init
-;;   :config
-;;   (evil-leader/set-leader "<SPC>")
-;;   (evil-leader/set-key
-;;    "<SPC>" 'counsel-M-x
-;;    "n" 'neotree-toggle
-;;    "m" 'neotree-find
-;;    "<RET>" 'save-buffer
-;;    "v" 'evil-window-vsplit
-;;    "s" 'evil-window-split
-;;    "/" 'evil-ex-nohighlight)
-;;   (global-evil-leader-mode))
-
-;; (use-package evil-escape
-;;   :ensure t
-;;   :commands evil-escape-mode
-;;   :init
-;;   (setq-default evil-escape-key-sequence "jk")
-;;   (setq evil-escape-excluded-states '(normal visual multiedit emacs motion)
-;;         evil-escape-excluded-major-modes '(neotree-mode)
-;;         evil-escape-key-sequence "jk"
-;;         evil-escape-delay 0.25)
-;;   (add-hook 'after-init-hook #'evil-escape-mode)
-;;   :config
-;;   ;; no `evil-escape' in minibuffer
-;;   (cl-pushnew #'minibufferp evil-escape-inhibit-functions :test #'eq)
-
-;;   (define-key evil-insert-state-map  (kbd "C-g") #'evil-escape)
-;;   (define-key evil-replace-state-map (kbd "C-g") #'evil-escape)
-;;   (define-key evil-visual-state-map  (kbd "C-g") #'evil-escape)
-;;   (define-key evil-operator-state-map (kbd "C-g") #'evil-escape))
-
-;; (use-package evil-collection
-;;   :after evil
-;;   :ensure t
-;;   :init
-;;   (with-eval-after-load 'evil-collection-init))
-
-;; (use-package evil-surround
-;;   :ensure t
-;;   :config
-;;   (global-evil-surround-mode 1))
-
-;; (use-package evil-commentary
-;;   :ensure t
-;;   :config
-;;   (evil-commentary-mode))
-
-;; (use-package evil-magit
-;;   :ensure t)
-
-;; (global-set-key (kbd "C-c e o") 'enable-evil)
-;; (global-set-key (kbd "C-c e f") 'disable-evil)
-;; (global-set-key (kbd "C-c e l") 'toggle-relative-lines)
-
 (use-package general
   :ensure t
   :config
-  ;; (general-define-key
-  ;;  :states '(normal visual insert emacs)
-  ;;  :prefix "SPC"
-  ;;  :non-normal-prefix "C-SPC"
-  ;;  "RET" 'save-buffer
-  ;;  "a" 'org-agenda
-  ;;  "b" '(:ignore t :which-key "buffer")
-  ;;  "b b" 'ibuffer
-  ;;  "c" '(:ignore t :which-key "company")
-  ;;  "c c" 'company-complete
-  ;;  "f" '(:ignore t :which-key "files")
-  ;;  "f s" 'save-buffer
-  ;;  "f f" 'counsel-find-file
-  ;;  "g" '(:ignore t :which-key "git")
-  ;;  "g" '(:ignore t :which-key "git")
-  ;;  "g s" 'magit-status
-  ;;  "i" '(:ignore t :which-key "insert")
-  ;;  "i r" 'xah-insert-random-number
-  ;;  "i n" 'jas/insert-note
-  ;;  "i t" 'jas/insert-todo
-  ;;  "j" '(:ingore t :which-key "jump")
-  ;;  "j j" 'dumb-jump-back
-  ;;  "j j" 'dumb-jump-go
-  ;;  "j l" 'avy-goto-line
-  ;;  "j w" 'avy-goto-char-2
-  ;;  "o" '(:ignore t :which-key "org")
-  ;;  "o c" 'counsel-org-capture
-  ;;  "o p" 'jas/go-to-personal-org-file
-  ;;  "o w" 'jas/go-to-work-org-file
-  ;;  "p" '(:ignore t :which-key "project")
-  ;;  "p p" 'projectile-switch-project
-  ;;  "p f" 'projectile-find-file
-  ;;  "p s" 'projectile-ripgrep
-  ;;  "s" '(:ignore t :which-key "shell")
-  ;;  "s s" 'multi-term-dedicated-toggle
-  ;;  "s n" 'multi-term
-  ;;  "u" '(:ignore t :which-key "UI")
-  ;;  "u c" 'counsel-load-theme
-  ;;  "u l" 'load-light
-  ;;  "u d" 'load-dark
-  ;;  "u D" 'load-very-dark
-  ;;  "u a" 'load-acme
-  ;;  "u t" 'toggle-transparency
-  ;;  "u n" 'global-display-line-numbers-mode
-  ;;  "u z" 'writeroom-mode
-  ;;  "w" '(:ignore t :which-key "window")
-  ;;  "w z" 'olivetti-mode
-  ;;  ";" '(:ignore t :which-key "commenting")
-  ;;  "; r" 'comment-region)
   (general-define-key
    :prefix "C-c"
    "a" 'org-agenda
@@ -429,36 +258,10 @@
    ";" '(:ignore t :which-key "commenting")
    "; r" 'comment-region))
 
-;; (use-package helm
-;;   :ensure t
-;;   :diminish 'helm-mode
-;;   :config
-;;   (global-set-key (kbd "M-x") 'helm-M-x)
-;;   (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;;   (global-set-key (kbd "C-x b") 'helm-buffers-list)
-;;   (global-set-key (kbd "C-s") 'swiper)
-;;   (helm-mode 1))
-
-;; (use-package helm-ag
-;;   :ensure t)
-
-;; (use-package helm-rg
-  ;; :ensure t)
-
-;; (use-package helm-projectile
-  ;; :ensure t
-  ;; :init
-  ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  ;; (helm-projectile-on))
-
 (use-package ivy
   :ensure t
   :init
-  (ivy-mode t)
-  (with-eval-after-load 'ivy
-	(push (cons #'swiper (cdr (assq t ivy-re-builders-alist)))
-		  ivy-re-builders-alist)
-	(push (cons t #'ivy--regex-fuzzy) ivy-re-builders-alist)))
+  (ivy-mode t))
 
 (use-package swiper
   :ensure t
@@ -497,7 +300,7 @@
 
 ;; All the Icons
 (use-package all-the-icons
-             :ensure t)
+  :ensure t)
 
 ;; Magit
 (use-package magit
@@ -583,12 +386,6 @@
 (global-set-key (kbd "C-'") 'company-complete)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
-
-(use-package company-ctags
-  :ensure t
-  :init
-  (with-eval-after-load 'company
-  (company-ctags-auto-setup)))
 
 ;; Enable paredit for Clojure
 (use-package paredit
@@ -730,6 +527,7 @@
 
 (setq electric-indent-mode 1)
 ;;; End Basics
+
 
 ;;; Javascript
 (use-package add-node-modules-path
@@ -1182,16 +980,19 @@
 ;;   (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
 
 ;;; Rust
-;; (use-package company-racer
-  ;; :ensure t)
+(use-package company-racer
+  :ensure t)
 
-;; (use-package flycheck-rust
-  ;; :ensure t)
+(use-package flycheck-rust
+  :ensure t
+  :init
+  (with-eval-after-load 'rust-mode
+	(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 
-;; (use-package rust-mode
-  ;; :ensure t
-  ;; :config
-  ;; (local-set-key (kbd "C-c C-c") 'recompile))
+(use-package rust-mode
+  :ensure t
+  :config
+  (local-set-key (kbd "C-c C-c") 'recompile))
 
 
 ;;; Haxe
@@ -1203,16 +1004,6 @@
 (add-hook 'gdb-mode-hook
           (lambda ()
             (gdb-many-windows)))
-
-;; (use-package eglot
-;;   :ensure t
-;;   :config
-;;   (add-hook 'rust-mode-hook 'eglot-ensure)
-;;   (add-hook 'go-mode-hook 'eglot-ensure)
-;;   (add-hook 'ruby-mode-hook 'eglot-ensure)
-;;   (add-hook 'rjsx-mode-hook 'eglot-ensure)
-;;   (add-hook 'elixir-mode-hook 'eglot-ensure)
-;;   (add-hook 'erb-mode-hook 'eglot-ensure))
 ;;; End Rust
 
 ;;; OrgMode
@@ -1427,14 +1218,18 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
+(use-package nofrils-acme-theme
+  :ensure t
+  :defer t)
+
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'spacemacs-dark t)))
+	  (load-theme 'sanityinc-tomorrow-night t)))
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'base16-synth-midnight-dark t))
+  (load-theme 'sanityinc-tomorrow-bright t))
 
 (defun load-light ()
   (interactive)
@@ -1452,13 +1247,26 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'acme t))
 
-(load-dark)
+(defun load-nofrils-acme ()
+  (interactive)
+  (load-theme 'nofrils-acme t))
+
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
 (global-set-key (kbd "C-c u D") 'load-very-dark)
 (global-set-key (kbd "C-c u b") 'load-blue)
+(global-set-key (kbd "C-c u a") 'load-acme)
+(global-set-key (kbd "C-c u n") 'load-nofrils-acme)
+
+(use-package doom-modeline
+  :ensure t
+  :init
+  (doom-modeline-mode 1))
+
+(global-prettify-symbols-mode t)
 
 
 ;; Font
@@ -1469,9 +1277,9 @@ Version 2016-01-12"
 
 (if (memq window-system '(ns))
   (jas/load-font "Cascadia Code")
-  (jas/load-font "IBM Plex Mono"))
+  (jas/load-font "Victor Mono"))
 
-(set-face-attribute 'default nil :height 105)
+(set-face-attribute 'default nil :height 110)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1599,21 +1407,16 @@ Version 2016-01-12"
       c-basic-offset 4)
 (setq-default c-basic-offset 4)
 
-;; (add-hook 'c-mode-hook 'irony-mode)
-
-;; (add-hook 'c++-mode-hook 'irony-mode)
-
-
-(use-package irony
-  :ensure t
-  :config
-  (add-hook 'irony-mode-hook (lambda () (flycheck-mode -1)))
-  )
-
-(define-key irony-mode-map (kbd "C-c C-c") 'recompile)
 (define-key c-mode-map (kbd "C-c C-c") 'recompile)
 (define-key c++-mode-map (kbd "C-c C-c") 'recompile)
 ;; End C/C++
+
+
+;;; Restclient
+(use-package restclient
+  :ensure t
+  :mode (("\\.http\\'" . restclient-mode)))
+;;; End Restclient
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -1673,9 +1476,6 @@ Version 2016-01-12"
    (quote
 	("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(org-agenda-files (quote ("~/todo.org")))
- '(package-selected-packages
-   (quote
-	(acme-theme coffee-mode mix elixir-mix company-elixir nim-mode minitest xah-fly-keys evil-magit evil-commentary evil-surround evil-collection evil-escape evil-leader evil nofrills-acme-theme magit-forge erblint night-owl-theme helm-mode erlang elixir gotest go-projectile oceanic-theme dumb-jump ripgrep counsel-projectile uuidgen diminish flycheck-crystal crystal-mode dracula-theme smart-modeline xterm-color ruby-refactor seeing-is-believing quack sly-quicklisp sly geiser psc-ide flycheck-purescript purescript-mode angular-html-mode fsharp-mode racket-mode cider rainbow-delimiters zenburn-theme yaml-mode yafolding xref-js2 writeroom-mode wrap-region window-numbering which-key web-mode vue-mode use-package undo-tree tide sublime-themes spotify spacemacs-theme smex smartparens scss-mode rust-mode ruby-test-mode ruby-end rubocopfmt rspec-mode robe rjsx-mode restart-emacs rbenv pyenv-mode-auto projectile-rails prettier-js poly-R paredit ox-reveal org-bullets omnisharp olivetti neotree naysayer-theme multi-term mocha lush-theme luarocks lsp-vue lsp-treemacs lsp-ruby lsp-haskell lsp-elixir linum-relative key-chord json-mode jedi irony indium htmlize helm-ag haml-mode gruvbox-theme graphql-mode goto-last-change go-autocomplete git-gutter-fringe+ general forge flymake-lua flycheck-rust flycheck-haskell flycheck-elm flycheck-elixir fish-mode fiplr expand-region exec-path-from-shell ess enh-ruby-mode emmet-mode elpy elm-mode ein dap-mode d-mode counsel company-racer company-lua company-lsp company-jedi company-go color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized better-defaults beacon base16-theme all-the-icons ag add-node-modules-path)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#FFF9DC")
  '(pos-tip-foreground-color "#011627")
@@ -1715,9 +1515,10 @@ Version 2016-01-12"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil))))
- '(sp-pair-overlay-face ((t nil))))
+)
 (put 'narrow-to-region 'disabled nil)
 
 (setq ansi-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (setq ansi-term-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
