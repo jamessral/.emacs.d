@@ -1222,10 +1222,14 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
+(use-package doom-themes
+  :ensure t
+  :defer t)
+
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'sanityinc-tomorrow-night t)))
+	  (load-theme 'doom-dark+ t)))
 
 (defun load-very-dark ()
   (interactive)
@@ -1264,7 +1268,9 @@ Version 2016-01-12"
 (use-package doom-modeline
   :ensure t
   :init
-  (doom-modeline-mode 1))
+  (add-hook 'after-init-hook
+			(lambda ()
+			    (doom-modeline-mode 1))))
 
 (global-prettify-symbols-mode t)
 
