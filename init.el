@@ -808,6 +808,27 @@
 ;;; End Typescript
 
 
+;;; Java
+(use-package meghanada
+  :ensure t
+  :init
+  (add-hook 'java-mode-hook
+			(lambda ()
+			  ;; meghanada-mode on
+			  (meghanada-mode t)
+			  (flycheck-mode +1)
+			  (setq c-basic-offset 2)
+			  ;; use code format
+			  (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+  (cond
+   ((eq system-type 'windows-nt)
+    (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
+    (setq meghanada-maven-path "mvn.cmd"))
+   (t
+    (setq meghanada-java-path "java")
+    (setq meghanada-maven-path "mvn"))))
+;;; End Java
+
 (use-package graphql-mode
   :ensure t)
 
@@ -1229,7 +1250,7 @@ Version 2016-01-12"
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'doom-dark+ t)))
+	  (load-theme 'doom-horizon t)))
 
 (defun load-very-dark ()
   (interactive)
@@ -1237,7 +1258,7 @@ Version 2016-01-12"
 
 (defun load-light ()
   (interactive)
- (load-theme 'sanityinc-solarized-light t))
+ (load-theme 'doom-solarized-light t))
 
 (defun load-very-light ()
   (interactive)
@@ -1251,6 +1272,10 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'acme t))
 
+(defun load-neutral ()
+  (interactive)
+  (load-theme 'doom-zenburn t))
+
 (defun load-nofrils-acme ()
   (interactive)
   (load-theme 'nofrils-acme t))
@@ -1263,14 +1288,12 @@ Version 2016-01-12"
 (global-set-key (kbd "C-c u D") 'load-very-dark)
 (global-set-key (kbd "C-c u b") 'load-blue)
 (global-set-key (kbd "C-c u a") 'load-acme)
-(global-set-key (kbd "C-c u n") 'load-nofrils-acme)
+(global-set-key (kbd "C-c u n") 'load-neutral)
 
 (use-package doom-modeline
   :ensure t
   :init
-  (add-hook 'after-init-hook
-			(lambda ()
-			    (doom-modeline-mode 1))))
+  (doom-modeline-mode t))
 
 (global-prettify-symbols-mode t)
 
