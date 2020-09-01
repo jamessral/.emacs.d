@@ -1308,7 +1308,7 @@ Version 2016-01-12"
   (jas/load-font "Cascadia Code")
   (jas/load-font "JetBrains Mono"))
 
-(-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 105)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
