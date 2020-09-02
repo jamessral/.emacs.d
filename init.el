@@ -214,6 +214,7 @@
   :config
   (general-define-key
    :prefix "C-c"
+   "C-c" 'recompile
    "a" 'org-agenda
    "b" '(:ignore t :which-key "buffer")
    "b b" 'ibuffer
@@ -1411,15 +1412,15 @@ Version 2016-01-12"
 ;;; End Golang
 
 ;;; C#
-;; (use-package omnisharp
-;;   :ensure t
-;;   :init
-;;   (add-hook 'csharp-mode-hook 'omnisharp-mode)
-;;   (add-hook 'csharp-mode-hook #'company-mode)
-;;   (add-hook 'csharp-mode-hook #'flycheck-mode)
-;;   :config
-;;   (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
-;;   (local-set-key (kbd "C-c C-c") 'recompile))
+(use-package omnisharp
+  :ensure t
+  :init
+  (add-hook 'csharp-mode-hook 'omnisharp-mode)
+  (add-hook 'csharp-mode-hook #'company-mode)
+  (add-hook 'csharp-mode-hook #'flycheck-mode)
+  :config
+  (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+  (local-set-key (kbd "C-c C-c") 'recompile))
 
 ;;; End C#
 
