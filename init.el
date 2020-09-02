@@ -388,6 +388,31 @@
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
 
+;;; LSP
+(use-package lsp-mode
+  :ensure t
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((ruby-mode . lsp)
+		 (java-mode . lsp)
+		 (typescript-mode . lsp)
+		 (js-mode . lsp)
+		 (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+;; optionally
+(use-package lsp-ui :ensure t :commands lsp-ui-mode)
+;; if you are ivy user
+(use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
+;; optionally if you want to use debugger
+(use-package dap-mode :ensure t)
+;; optional if you want which-key integration
+(use-package which-key
+  :config
+  (which-key-mode))
+;;; End LSP
+
 ;; Enable paredit for Clojure
 (use-package paredit
   :ensure t
