@@ -394,9 +394,11 @@
   :init
   (setq lsp-keymap-prefix "C-c l")
   :hook ((ruby-mode . lsp)
+		 (rspec-mode . lsp)
 		 (java-mode . lsp)
 		 (typescript-mode . lsp)
 		 (js-mode . lsp)
+		 (php-mode . lsp)
 		 (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
@@ -405,6 +407,7 @@
 ;; if you are ivy user
 (use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
+(use-package company-lsp :ensure t)
 ;; optionally if you want to use debugger
 (use-package dap-mode :ensure t)
 ;; optional if you want which-key integration
@@ -457,6 +460,7 @@
                       '(add-to-list 'company-backends 'company-css)
                       '(add-to-list 'company-backends 'company-go)
                       '(add-to-list 'company-backends 'company-lua)
+					  '(add-to-list 'company-backends 'company-php)
                       ;; '(add-to-list 'company-backends 'company-irony)
                       '(add-to-list 'company-backends 'company-racer)
                       '(add-to-list 'company-backends 'company-elm)
@@ -557,6 +561,9 @@
 
 ;;; Javascript
 (use-package add-node-modules-path
+  :ensure t)
+
+(use-package pug-mode
   :ensure t)
 
 (use-package web-mode
@@ -959,6 +966,14 @@
   (prettier-js-mode -1))
 ;;; End Ruby
 
+;;; Php
+(use-package company-php
+  :ensure t)
+
+(use-package phpunit
+  :ensure t)
+;;; Php
+
 
 ;;; Python
 (use-package elpy
@@ -1288,7 +1303,7 @@ Version 2016-01-12"
 
 (defun load-very-light ()
   (interactive)
-  (load-theme 'tsdh-light t))
+  (load-theme 'doom-acario-light t))
 
 (defun load-blue ()
   (interactive)
@@ -1306,7 +1321,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'nofrils-acme t))
 
-(load-dark)
+(load-very-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
