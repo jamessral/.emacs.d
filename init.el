@@ -234,6 +234,7 @@
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
+   "l T i" 'lsp-ui-imenu
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
@@ -403,7 +404,9 @@
   :commands lsp)
 
 ;; optionally
-(use-package lsp-ui :ensure t :commands lsp-ui-mode)
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
 ;; if you are ivy user
 (use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
@@ -1295,7 +1298,7 @@ Version 2016-01-12"
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-bright t))
+  (load-theme 'doom-old-hope t))
 
 (defun load-light ()
   (interactive)
