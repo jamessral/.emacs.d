@@ -214,6 +214,7 @@
   :config
   (general-define-key
    :prefix "C-c"
+   "C-c" 'recompile
    "a" 'org-agenda
    "b" '(:ignore t :which-key "buffer")
    "b b" 'ibuffer
@@ -233,6 +234,7 @@
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
+   "l T i" 'lsp-ui-imenu
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
@@ -387,6 +389,36 @@
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-t") 'transpose-chars)
 
+;;; LSP
+(use-package lsp-mode
+  :ensure t
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((ruby-mode . lsp)
+		 (rspec-mode . lsp)
+		 (java-mode . lsp)
+		 (typescript-mode . lsp)
+		 (js-mode . lsp)
+		 (php-mode . lsp)
+		 (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+;; optionally
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+;; if you are ivy user
+(use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
+(use-package company-lsp :ensure t)
+;; optionally if you want to use debugger
+(use-package dap-mode :ensure t)
+;; optional if you want which-key integration
+(use-package which-key
+  :config
+  (which-key-mode))
+;;; End LSP
+
 ;; Enable paredit for Clojure
 (use-package paredit
   :ensure t
@@ -431,6 +463,7 @@
                       '(add-to-list 'company-backends 'company-css)
                       '(add-to-list 'company-backends 'company-go)
                       '(add-to-list 'company-backends 'company-lua)
+					  '(add-to-list 'company-backends 'company-php)
                       ;; '(add-to-list 'company-backends 'company-irony)
                       '(add-to-list 'company-backends 'company-racer)
                       '(add-to-list 'company-backends 'company-elm)
@@ -531,6 +564,9 @@
 
 ;;; Javascript
 (use-package add-node-modules-path
+  :ensure t)
+
+(use-package pug-mode
   :ensure t)
 
 (use-package web-mode
@@ -808,6 +844,27 @@
 ;;; End Typescript
 
 
+;;; Java
+(use-package meghanada
+  :ensure t
+  :init
+  (add-hook 'java-mode-hook
+			(lambda ()
+			  ;; meghanada-mode on
+			  (meghanada-mode t)
+			  (flycheck-mode +1)
+			  (setq c-basic-offset 2)
+			  ;; use code format
+			  (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+  (cond
+   ((eq system-type 'windows-nt)
+    (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
+    (setq meghanada-maven-path "mvn.cmd"))
+   (t
+    (setq meghanada-java-path "java")
+    (setq meghanada-maven-path "mvn"))))
+;;; End Java
+
 (use-package graphql-mode
   :ensure t)
 
@@ -911,6 +968,14 @@
   (setq indent-tabs-mode nil)
   (prettier-js-mode -1))
 ;;; End Ruby
+
+;;; Php
+(use-package company-php
+  :ensure t)
+
+(use-package phpunit
+  :ensure t)
+;;; Php
 
 
 ;;; Python
@@ -1222,22 +1287,26 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
+(use-package doom-themes
+  :ensure t
+  :defer t)
+
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'sanityinc-tomorrow-night t)))
+	  (load-theme 'doom-horizon t)))
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-bright t))
+  (load-theme 'doom-old-hope t))
 
 (defun load-light ()
   (interactive)
- (load-theme 'sanityinc-solarized-light t))
+ (load-theme 'doom-solarized-light t))
 
 (defun load-very-light ()
   (interactive)
-  (load-theme 'tsdh-light t))
+  (load-theme 'doom-acario-light t))
 
 (defun load-blue ()
   (interactive)
@@ -1247,11 +1316,15 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'acme t))
 
+(defun load-neutral ()
+  (interactive)
+  (load-theme 'doom-zenburn t))
+
 (defun load-nofrils-acme ()
   (interactive)
   (load-theme 'nofrils-acme t))
 
-(load-light)
+(load-very-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1259,12 +1332,12 @@ Version 2016-01-12"
 (global-set-key (kbd "C-c u D") 'load-very-dark)
 (global-set-key (kbd "C-c u b") 'load-blue)
 (global-set-key (kbd "C-c u a") 'load-acme)
-(global-set-key (kbd "C-c u n") 'load-nofrils-acme)
+(global-set-key (kbd "C-c u n") 'load-neutral)
 
 (use-package doom-modeline
   :ensure t
   :init
-  (doom-modeline-mode 1))
+  (doom-modeline-mode t))
 
 (global-prettify-symbols-mode t)
 
@@ -1277,9 +1350,9 @@ Version 2016-01-12"
 
 (if (memq window-system '(ns))
   (jas/load-font "Cascadia Code")
-  (jas/load-font "Victor Mono"))
+  (jas/load-font "JetBrains Mono"))
 
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 105)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1382,15 +1455,15 @@ Version 2016-01-12"
 ;;; End Golang
 
 ;;; C#
-;; (use-package omnisharp
-;;   :ensure t
-;;   :init
-;;   (add-hook 'csharp-mode-hook 'omnisharp-mode)
-;;   (add-hook 'csharp-mode-hook #'company-mode)
-;;   (add-hook 'csharp-mode-hook #'flycheck-mode)
-;;   :config
-;;   (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
-;;   (local-set-key (kbd "C-c C-c") 'recompile))
+(use-package omnisharp
+  :ensure t
+  :init
+  (add-hook 'csharp-mode-hook 'omnisharp-mode)
+  (add-hook 'csharp-mode-hook #'company-mode)
+  (add-hook 'csharp-mode-hook #'flycheck-mode)
+  :config
+  (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+  (local-set-key (kbd "C-c C-c") 'recompile))
 
 ;;; End C#
 
@@ -1436,7 +1509,6 @@ Version 2016-01-12"
  '(custom-safe-themes
    (quote
 	("5a7830712d709a4fc128a7998b7fa963f37e960fd2e8aa75c76f692b36e6cf3c" "5a45c8bf60607dfa077b3e23edfb8df0f37c4759356682adf7ab762ba6b10600" "a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" "b3bcf1b12ef2a7606c7697d71b934ca0bdd495d52f901e73ce008c4c9825a3aa" "b374cf418400fd9a34775d3ce66db6ee0fb1f9ab8e13682db5c9016146196e9c" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "30289fa8d502f71a392f40a0941a83842152a68c54ad69e0638ef52f04777a4c" "99c86852decaeb0c6f51ce8bd46e4906a4f28ab4c5b201bdc3fdf85b24f88518" default)))
- '(doom-modeline-mode nil)
  '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote light))
