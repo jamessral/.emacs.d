@@ -400,6 +400,7 @@
 		 (typescript-mode . lsp)
 		 (js-mode . lsp)
 		 (php-mode . lsp)
+		 (elm-mode . lsp)
 		 (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
@@ -427,6 +428,9 @@
   (global-set-key (kbd "C-)") 'paredit-forward-slurp-sexp)
   (define-key paredit-mode-map (kbd "C-j") 'concat-lines)
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
+
+(use-package cider
+  :ensure t)
 
 ;; Expand Region
 (use-package expand-region
@@ -844,6 +848,11 @@
 ;;; End Typescript
 
 
+;;; Elm
+(use-package elm-mode
+  :ensure t)
+;;; End Elm
+
 ;;; Java
 (use-package meghanada
   :ensure t
@@ -1075,8 +1084,8 @@
 (use-package org
   :ensure t
   :config
-  (setq org-agenda-files (list "~/.emacs.d/org/work.org"
-							   "~/.emacs.d/org/personal.org"))
+  (setq org-agenda-files (list "~/org/work.org"
+							   "~/org/personal.org"))
   (setq org-capture-templates
       '(("W" "Work todo" entry (file+headline "~/org/work.org" "Tasks")
          "* TODO %?\n  %i\n  %a")
@@ -1180,7 +1189,6 @@ Version 2016-01-12"
         vc-mode
         " "
         mode-line-modes))
-
 
 ;; Set frame background to dark for terminal mode
 ;; (setq frame-background-mode 'dark)
@@ -1577,9 +1585,6 @@ Version 2016-01-12"
 	 (340 . "#eab700")
 	 (360 . "#718c00"))))
  '(vc-annotate-very-old-color nil)
- '(weechat-color-list
-   (quote
-	(unspecified "#011627" "#010F1D" "#DC2E29" "#EF5350" "#D76443" "#F78C6C" "#D8C15E" "#FFEB95" "#5B8FFF" "#82AAFF" "#AB69D7" "#C792EA" "#AFEFE2" "#7FDBCA" "#D6DEEB" "#FFFFFF")))
  '(window-divider-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
