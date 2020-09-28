@@ -263,7 +263,11 @@
 (use-package ivy
   :ensure t
   :init
-  (ivy-mode t))
+  (ivy-mode t)
+
+ (setq ivy-re-builders-alist
+      '((swiper . ivy--regex-plus)
+        (t      . ivy--regex-fuzzy))))
 
 (use-package swiper
   :ensure t
@@ -1299,14 +1303,18 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
+(use-package srcery-theme
+  :ensure t
+  :defer t)
+
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'doom-horizon t)))
+	  (load-theme 'doom-dracula t)))
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'doom-old-hope t))
+  (load-theme 'base16-synth-midnight-dark t))
 
 (defun load-light ()
   (interactive)
@@ -1332,7 +1340,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'nofrils-acme t))
 
-(load-very-dark)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1358,7 +1366,8 @@ Version 2016-01-12"
 
 (if (memq window-system '(ns))
   (jas/load-font "Cascadia Code")
-  (jas/load-font "JetBrains Mono"))
+  ;; (jas/load-font "JetBrains Mono"))
+  (jas/load-font "Cascadia Code"))
 
 (set-face-attribute 'default nil :height 105)
 
