@@ -121,13 +121,7 @@
   (when (fboundp 'windmove-default-keybindings)
     (windmove-default-keybindings)))
 
-(use-package olivetti
-  :ensure t
-  :init
-  (set-variable 'olivetti-body-width 150)
-  (global-set-key (kbd "C-c w z") 'olivetti-mode))
-
-(global-unset-key (kbd "C-o"))
+;; (global-unset-key (kbd "C-o"))
 
 (use-package undo-tree
   :ensure t
@@ -168,17 +162,12 @@
 (use-package goto-last-change
   :ensure t
   :init
-  (global-set-key (kbd "C-c l c") 'goto-last-change)
-  )
+  (global-set-key (kbd "C-c l c") 'goto-last-change))
 
 ;;; Avy mode (vim easymotion-esque)
 (use-package avy
-             :ensure t)
-(global-set-key (kbd "C-:") 'avy-goto-char)
+  :ensure t)
 (global-set-key (kbd "C-\\") 'avy-goto-char-2)
-(global-set-key (kbd "M-g f") 'avy-goto-line)
-(global-set-key (kbd "M-g w") 'avy-goto-word-1)
-
 
 (use-package uuidgen
   :ensure t)
@@ -296,14 +285,6 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; Enhances M-x to allow easier execution of commands. Provides
-;; a filterable list of possible commands in the minibuffer
-;; http://www.emacswiki.org/emacs/Smex
-(use-package smex
-             :ensure t)
-(setq smex-save-file (concat user-emacs-directory ".smex-items"))
-(smex-initialize)
-
 ;; All the Icons
 (use-package all-the-icons
   :ensure t)
@@ -312,10 +293,6 @@
 (use-package magit
   :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
-
-(use-package forge
-  :ensure t
-  :after magit)
 
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
@@ -418,10 +395,6 @@
 (use-package company-lsp :ensure t)
 ;; optionally if you want to use debugger
 (use-package dap-mode :ensure t)
-;; optional if you want which-key integration
-(use-package which-key
-  :config
-  (which-key-mode))
 ;;; End LSP
 
 ;; Enable paredit for Clojure
@@ -953,12 +926,6 @@
   :init
   (global-rbenv-mode))
 
-(use-package robe
-  :ensure t
-  :init
-  ;; (global-robe-mode)
-  )
-
 (use-package erblint
   :ensure t)
 
@@ -1046,8 +1013,8 @@
 
 
 ;;; Lisp
-(when (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  (setq inferior-lisp-program "/home/linuxbrew/.linuxbrew/bin/sbcl"))
+;; (when (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  ;; (setq inferior-lisp-program "/home/linuxbrew/.linuxbrew/bin/sbcl"))
 ;;; End Lisp
 
 
@@ -1058,19 +1025,19 @@
 ;;   (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
 
 ;;; Rust
-(use-package company-racer
-  :ensure t)
+;; (use-package company-racer
+;;   :ensure t)
 
-(use-package flycheck-rust
-  :ensure t
-  :init
-  (with-eval-after-load 'rust-mode
-	(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+;; (use-package flycheck-rust
+;;   :ensure t
+;;   :init
+;;   (with-eval-after-load 'rust-mode
+;; 	(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 
-(use-package rust-mode
-  :ensure t
-  :config
-  (local-set-key (kbd "C-c C-c") 'recompile))
+;; (use-package rust-mode
+;;   :ensure t
+;;   :config
+;;   (local-set-key (kbd "C-c C-c") 'recompile))
 
 
 ;;; Haxe
@@ -1287,7 +1254,7 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
-(use-package night-owl-theme
+(use-package grandshell-theme
   :ensure t
   :defer t)
 
@@ -1314,7 +1281,7 @@ Version 2016-01-12"
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'base16-synth-midnight-dark t))
+  (load-theme 'grandshell t))
 
 (defun load-light ()
   (interactive)
@@ -1334,13 +1301,13 @@ Version 2016-01-12"
 
 (defun load-neutral ()
   (interactive)
-  (load-theme 'doom-zenburn t))
+  (load-theme 'naysayer t))
 
 (defun load-nofrils-acme ()
   (interactive)
   (load-theme 'nofrils-acme t))
 
-(load-dark)
+(load-very-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1500,13 +1467,6 @@ Version 2016-01-12"
 (define-key c-mode-map (kbd "C-c C-c") 'recompile)
 (define-key c++-mode-map (kbd "C-c C-c") 'recompile)
 ;; End C/C++
-
-
-;;; Restclient
-(use-package restclient
-  :ensure t
-  :mode (("\\.http\\'" . restclient-mode)))
-;;; End Restclient
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
