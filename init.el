@@ -96,8 +96,6 @@
     (exec-path-from-shell-copy-envs
      '("PATH" "ANDROID_HOME"))))
 
-
-
 ;; Mac key admustments
 (setq mac-option-modifier 'control)
 (setq mac-command-modifier 'meta)
@@ -252,11 +250,7 @@
 (use-package ivy
   :ensure t
   :init
-  (ivy-mode t)
-
- (setq ivy-re-builders-alist
-      '((swiper . ivy--regex-plus)
-        (t      . ivy--regex-fuzzy))))
+  (ivy-mode t))
 
 (use-package swiper
   :ensure t
@@ -268,8 +262,6 @@
   :ensure t
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
@@ -1254,10 +1246,6 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
-(use-package grandshell-theme
-  :ensure t
-  :defer t)
-
 (use-package acme-theme
   :ensure t
   :defer t)
@@ -1281,7 +1269,7 @@ Version 2016-01-12"
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'grandshell t))
+  (load-theme 'wheatgrass t))
 
 (defun load-light ()
   (interactive)
