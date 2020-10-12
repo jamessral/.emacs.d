@@ -374,6 +374,9 @@
 		 (js-mode . lsp)
 		 (php-mode . lsp)
 		 (elm-mode . lsp)
+		 (typescript-mode . lsp)
+		 (rjsx-mode . lsp)
+		 (web-mode . lsp)
 		 (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
@@ -1310,7 +1313,7 @@ Version 2016-01-12"
   :init
   (doom-modeline-mode t))
 
-(global-prettify-symbols-mode t)
+;; (global-prettify-symbols-mode t)
 
 
 ;; Font
