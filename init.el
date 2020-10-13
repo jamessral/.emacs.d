@@ -1311,7 +1311,8 @@ Version 2016-01-12"
 (use-package doom-modeline
   :ensure t
   :init
-  (doom-modeline-mode t))
+  ;; (doom-modeline-mode t)
+  )
 
 ;; (global-prettify-symbols-mode t)
 
@@ -1323,11 +1324,11 @@ Version 2016-01-12"
   (set-face-attribute 'default nil :font font-name))
 
 (if (memq window-system '(ns))
-  (jas/load-font "Cascadia Code")
+  (jas/load-font "Liberation Mono")
   ;; (jas/load-font "JetBrains Mono"))
-  (jas/load-font "Cascadia Code"))
+  (jas/load-font "Liberation Mono"))
 
-(set-face-attribute 'default nil :height 105)
+(set-face-attribute 'default nil :height 110)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
