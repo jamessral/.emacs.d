@@ -249,6 +249,7 @@
 
 (use-package ivy
   :ensure t
+  :diminish ivy-mode
   :init
   (ivy-mode t))
 
@@ -561,6 +562,7 @@
 
 (use-package prettier-js
   :ensure t
+  :diminish prettier-js-mode
   :init
   (add-hook 'js-mode-hook #'prettier-js-mode)
   (add-hook 'typescript-mode-hook #'prettier-js-mode))
