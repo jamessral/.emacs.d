@@ -207,8 +207,6 @@
    "b b" 'ibuffer
    "c" '(:ignore t :which-key "company")
    "c c" 'company-complete
-   "f" '(:ignore t :which-key "files")
-   "f s" 'save-buffer
    "g" '(:ignore t :which-key "git")
    "g" '(:ignore t :which-key "git")
    "g s" 'magit-status
@@ -217,7 +215,6 @@
    "i n" 'jas/insert-note
    "i t" 'jas/insert-todo
    "j" '(:ingore t :which-key "jump")
-   "j j" 'dumb-jump-back
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
@@ -231,27 +228,42 @@
    "p f" 'projectile-find-file
    "p s" 'projectile-ripgrep
    "s" '(:ignore t :which-key "shell")
+   "s e" 'eshell
    "s s" 'multi-term-dedicated-toggle
    "s n" 'multi-term
    "u" '(:ignore t :which-key "UI")
    "u c" 'counsel-load-theme
+   "u b" 'load-blue
+   "u L" 'load-very-light
    "u l" 'load-light
    "u d" 'load-dark
    "u D" 'load-very-dark
    "u a" 'load-acme
+   "u m" 'load-basic
    "u t" 'toggle-transparency
    "u n" 'global-display-line-numbers-mode
-   "u z" 'writeroom-mode
-   "w" '(:ignore t :which-key "window")
-   "w z" 'olivetti-mode
    ";" '(:ignore t :which-key "commenting")
-   "; r" 'comment-region))
+   "; r" 'comment-region
+   "; u" 'uncomment-region))
+
+(use-package prescient
+  :ensure t)
+
+(use-package ivy-prescient
+  :ensure t)
+
+(use-package company-prescient
+  :ensure t)
 
 (use-package ivy
   :ensure t
   :diminish ivy-mode
   :init
-  (ivy-mode t))
+  (ivy-mode t)
+  (ivy-prescient-mode t)
+  (setq ivy-re-builders-alist
+      '((swiper . ivy--regex-plus)
+        (t      . ivy--regex-fuzzy))))
 
 (use-package swiper
   :ensure t
@@ -357,7 +369,8 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (global-set-key (kbd "C-.") 'company-files)
-  (setq company-idle-delay 0.2))
+  (setq company-idle-delay 0.2)
+  (company-prescient-mode t))
 
 (global-set-key (kbd "C-'") 'company-complete)
 (global-set-key (kbd "M-/") 'hippie-expand)
@@ -370,14 +383,18 @@
   (setq lsp-keymap-prefix "C-c l")
   :hook (;(ruby-mode . lsp)
 		 ;(rspec-mode . lsp)
+		 (go-mode . lsp-deferred)
 		 (java-mode . lsp)
 		 (typescript-mode . lsp)
+		 (web-mode . lsp)
 		 (js-mode . lsp)
 		 (php-mode . lsp)
 		 (elm-mode . lsp)
 		 (typescript-mode . lsp)
 		 (rjsx-mode . lsp)
 		 (web-mode . lsp)
+		 (c-mode . lsp)
+		 (c++-mode . lsp)
 		 (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
@@ -554,18 +571,18 @@
   (setq web-mode-markup-indent-offset 2)
   (setq-default indent-tabs-mode nil)
   (add-hook 'web-mode-hook #'add-node-modules-path)
-  (add-hook 'web-mode-hook #'prettier-js-mode)
+  (add-hook 'web-mode-hook #'prettier-mode)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
   (setq indent-tabs-mode nil))
 
-(use-package prettier-js
+(use-package prettier
   :ensure t
-  :diminish prettier-js-mode
+  :diminish prettier-mode
   :init
-  (add-hook 'js-mode-hook #'prettier-js-mode)
-  (add-hook 'typescript-mode-hook #'prettier-js-mode))
+  (add-hook 'js-mode-hook #'prettier-mode)
+  (add-hook 'typescript-mode-hook #'prettier-mode))
 
 (use-package rjsx-mode
   :ensure t
@@ -687,7 +704,7 @@
 (use-package vue-mode
   :ensure t
   :init
-  (add-hook 'vue-mode-hook #'prettier-js-mode)
+  (add-hook 'vue-mode-hook #'prettier-mode)
   :config
   (setq mmm-submode-decoration-level 0)
   (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
@@ -943,7 +960,7 @@
   (web-mode)
   (flycheck-mode -1)
   (setq indent-tabs-mode nil)
-  (prettier-js-mode -1))
+  (prettier-mode -1))
 ;;; End Ruby
 
 ;;; Php
@@ -1130,7 +1147,7 @@ Version 2016-01-12"
 ;; Turn off the menu bar at the top of each frame because it's distracting
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(global-hl-line-mode)
+(global-hl-line-mode -1)
 
 ;; (set-frame-parameter (selected-frame) 'alpha '(98 . 50))
 ;; (add-to-list 'default-frame-alist '(alpha . (98 . 50)))
@@ -1175,6 +1192,8 @@ Version 2016-01-12"
 	(setq multi-term-program "/home/linuxbrew/.linuxbrew/bin/fish")
 	))
 
+;; (use-package vterm
+  ;; :ensure t)
 ;; Show time on status bar
 (display-time-mode 1)
 
@@ -1235,19 +1254,7 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
-(use-package zenburn-theme
-  :ensure t
-  :defer t)
-
-(use-package spacemacs-theme
-  :defer t
-  :ensure t)
-
 (use-package dracula-theme
-  :ensure t
-  :defer t)
-
-(use-package oceanic-theme
   :ensure t
   :defer t)
 
@@ -1255,34 +1262,34 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
-(use-package nofrils-acme-theme
-  :ensure t
-  :defer t)
-
-(use-package doom-themes
-  :ensure t
-  :defer t)
-
 (use-package srcery-theme
+  :ensure t
+  :defer t)
+
+(use-package cyberpunk-theme
+  :ensure t
+  :defer t)
+
+(use-package material-theme
   :ensure t
   :defer t)
 
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'doom-dracula t)))
+	  (load-theme 'material t)))
 
 (defun load-very-dark ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-bright t))
+  (load-theme 'cyberpunk t))
 
 (defun load-light ()
   (interactive)
- (load-theme 'doom-solarized-light t))
+ (load-theme 'gruvbox-light-hard t))
 
 (defun load-very-light ()
   (interactive)
-  (mapc #'disable-theme custom-enabled-themes))
+  (load-theme 'sanityinc-tomorrow-day))
 
 (defun load-blue ()
   (interactive)
@@ -1296,11 +1303,11 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'naysayer t))
 
-(defun load-nofrils-acme ()
+(defun load-minimal ()
   (interactive)
-  (load-theme 'nofrils-acme t))
+  (load-theme 'wheatgrass t))
 
-(load-very-dark)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1309,12 +1316,7 @@ Version 2016-01-12"
 (global-set-key (kbd "C-c u b") 'load-blue)
 (global-set-key (kbd "C-c u a") 'load-acme)
 (global-set-key (kbd "C-c u n") 'load-neutral)
-
-(use-package doom-modeline
-  :ensure t
-  :init
-  ;; (doom-modeline-mode t)
-  )
+(global-set-key (kbd "C-c u m") 'load-minimal)
 
 ;; (global-prettify-symbols-mode t)
 
@@ -1326,11 +1328,11 @@ Version 2016-01-12"
   (set-face-attribute 'default nil :font font-name))
 
 (if (memq window-system '(ns))
-  (jas/load-font "Liberation Mono")
+  (jas/load-font "Ubuntu Mono")
   ;; (jas/load-font "JetBrains Mono"))
-  (jas/load-font "Liberation Mono"))
+  (jas/load-font "Ubuntu Mono"))
 
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 120)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
