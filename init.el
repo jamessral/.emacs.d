@@ -571,7 +571,6 @@
   (setq web-mode-markup-indent-offset 2)
   (setq-default indent-tabs-mode nil)
   (add-hook 'web-mode-hook #'add-node-modules-path)
-  (add-hook 'web-mode-hook #'prettier-mode)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
@@ -582,6 +581,7 @@
   :diminish prettier-mode
   :init
   (add-hook 'js-mode-hook #'prettier-mode)
+  (add-hook 'web-mode-hook #'prettier-mode)
   (add-hook 'typescript-mode-hook #'prettier-mode))
 
 (use-package rjsx-mode
@@ -1307,7 +1307,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
