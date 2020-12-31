@@ -1277,7 +1277,7 @@ Version 2016-01-12"
 (defun load-dark ()
   (interactive)
   (if (window-system)
-	  (load-theme 'material t)))
+	  (load-theme 'sanityinc-tomorrow-night t)))
 
 (defun load-very-dark ()
   (interactive)
@@ -1307,7 +1307,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-light)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
