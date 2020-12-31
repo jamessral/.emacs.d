@@ -906,6 +906,11 @@
   (setq rspec-use-spring-when-possible nil)
   (add-hook 'after-init-hook 'inf-ruby-switch-setup)
   (add-hook 'ruby-mode-hook 'rspec-mode)
+  ;; use bundle exec for rubocop
+  (add-hook 'ruby-mode-hook
+			(lambda ()
+			  (setq-local flycheck-command-wrapper-function
+						  (lambda (command) (append '("bundle" "exec") command)))))
   :config
   ;; (evil-leader/set-key (kbd ", t") 'rspec-verify-single)
   ;; (evil-leader/set-key (kbd ", T") 'rspec-verify)
