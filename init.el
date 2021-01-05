@@ -82,6 +82,10 @@
 			(lambda ()
 			  (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
   (setq-default flycheck-temp-prefix ".flycheck")
+  (add-hook 'flycheck-mode
+			(lambda ()
+			  (if (and flycheck-mode lsp-mode)
+				  (flycheck-add-next-checker 'lsp 'javascript-eslint))))
   ;; disable jshint snce we prefer eslint checking
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
@@ -381,11 +385,10 @@
   :ensure t
   :init
   (setq lsp-keymap-prefix "C-c l")
-  :hook (;(ruby-mode . lsp)
-		 ;(rspec-mode . lsp)
+  :hook ((ruby-mode . lsp)
+		 (rspec-mode . lsp)
 		 (go-mode . lsp-deferred)
 		 (java-mode . lsp)
-		 (typescript-mode . lsp)
 		 (web-mode . lsp)
 		 (js-mode . lsp)
 		 (php-mode . lsp)
@@ -572,6 +575,7 @@
   (setq-default indent-tabs-mode nil)
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)
   :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
   (setq indent-tabs-mode nil))
@@ -805,6 +809,7 @@
   (setq typescript-indent-level 2)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+  (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)
   (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
   (flycheck-add-next-checker 'javascript-eslint 'typescript-tide 'append)
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
