@@ -1338,11 +1338,11 @@ Version 2016-01-12"
   (set-face-attribute 'default nil :font font-name))
 
 (if (memq window-system '(ns))
-  (jas/load-font "Ubuntu Mono")
+  (jas/load-font "Victor Mono")
   ;; (jas/load-font "JetBrains Mono"))
-  (jas/load-font "Ubuntu Mono"))
+  (jas/load-font "Victor Mono"))
 
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :height 110)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
