@@ -575,7 +575,6 @@
   (setq-default indent-tabs-mode nil)
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)
   :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
   (setq indent-tabs-mode nil))
@@ -809,7 +808,6 @@
   (setq typescript-indent-level 2)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-  (flycheck-add-next-checker 'lsp 'javascript-eslint 'append)
   (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
   (flycheck-add-next-checker 'javascript-eslint 'typescript-tide 'append)
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
@@ -1338,9 +1336,9 @@ Version 2016-01-12"
   (set-face-attribute 'default nil :font font-name))
 
 (if (memq window-system '(ns))
-  (jas/load-font "Victor Mono")
+  (jas/load-font "Liberation Mono")
   ;; (jas/load-font "JetBrains Mono"))
-  (jas/load-font "Victor Mono"))
+  (jas/load-font "Liberation Mono"))
 
 (set-face-attribute 'default nil :height 110)
 
