@@ -79,13 +79,9 @@
   (global-set-key (kbd "C-c ! v") 'flycheck-verify-setup)
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (add-hook 'after-init-hook
-			(lambda ()
-			  (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
+            (lambda ()
+              (flycheck-add-mode 'ruby-rubocop 'ruby-mode)))
   (setq-default flycheck-temp-prefix ".flycheck")
-  (add-hook 'flycheck-mode
-			(lambda ()
-			  (if (and flycheck-mode lsp-mode)
-				  (flycheck-add-next-checker 'lsp 'javascript-eslint))))
   ;; disable jshint snce we prefer eslint checking
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
@@ -389,7 +385,6 @@
 		 (rspec-mode . lsp)
 		 (go-mode . lsp-deferred)
 		 (java-mode . lsp)
-		 (web-mode . lsp)
 		 (js-mode . lsp)
 		 (php-mode . lsp)
 		 (elm-mode . lsp)
@@ -817,7 +812,6 @@
             (lambda ()
               (when (string-equal "tsx" (file-name-extension buffer-file-name))
                 (setup-tide-mode))))
-
   (add-to-list 'magic-mode-alist '("\\.tsx\\'" . tide-mode))
   (add-to-list 'magic-mode-alist '("\\.ts\\'" . tide-mode))
   (add-to-list 'magic-mode-alist '("\\.routes.ts\\'" . tide-mode))
