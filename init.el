@@ -218,7 +218,7 @@
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
-   "l T i" 'lsp-ui-imenu
+;   "l T i" 'lsp-ui-imenu
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
@@ -377,35 +377,35 @@
 (global-set-key (kbd "C-t") 'transpose-chars)
 
 ;;; LSP
-(use-package lsp-mode
-  :ensure t
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :hook ((ruby-mode . lsp)
-		 (rspec-mode . lsp)
-		 (go-mode . lsp-deferred)
-		 (java-mode . lsp)
-		 (js-mode . lsp)
-		 (php-mode . lsp)
-		 (elm-mode . lsp)
-		 (typescript-mode . lsp)
-		 (rjsx-mode . lsp)
-		 (web-mode . lsp)
-		 (c-mode . lsp)
-		 (c++-mode . lsp)
-		 (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp)
+;(use-package lsp-mode
+;  :ensure t
+;  :init
+;  (setq lsp-keymap-prefix "C-c l")
+;  :hook ((ruby-mode . lsp)
+;		 (rspec-mode . lsp)
+;		 (go-mode . lsp-deferred)
+;		 (java-mode . lsp)
+;		 (js-mode . lsp)
+;		 (php-mode . lsp)
+;		 (elm-mode . lsp)
+;		 (typescript-mode . lsp)
+;		 (rjsx-mode . lsp)
+;		 (web-mode . lsp)
+;		 (c-mode . lsp)
+;		 (c++-mode . lsp)
+;		 (lsp-mode . lsp-enable-which-key-integration))
+;   :commands lsp)
 
 ;; optionally
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
+;(use-package lsp-ui
+;  :ensure t
+;  :commands lsp-ui-mode)
 ;; if you are ivy user
-(use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
-(use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
-(use-package company-lsp :ensure t)
+;(use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
+;(use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
+;(use-package company-lsp :ensure t)
 ;; optionally if you want to use debugger
-(use-package dap-mode :ensure t)
+;(use-package dap-mode :ensure t)
 ;;; End LSP
 
 ;; Enable paredit for Clojure
@@ -1309,7 +1309,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-dark)
+(load-very-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1330,11 +1330,11 @@ Version 2016-01-12"
   (set-face-attribute 'default nil :font font-name))
 
 (if (memq window-system '(ns))
-  (jas/load-font "Liberation Mono")
+  (jas/load-font "Inconsolata")
   ;; (jas/load-font "JetBrains Mono"))
-  (jas/load-font "Liberation Mono"))
+  (jas/load-font "Inconsolata"))
 
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 150)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1393,9 +1393,6 @@ Version 2016-01-12"
               (setq mode-name "erl"
                     erlang-compile-extra-opts '((i . "../include"))
                     erlang-root-dir "/usr/local/lib/erlang"))))
-
-(use-package elixir-mix
-  :ensure t)
 
 (use-package flycheck-elixir
   :ensure t)
