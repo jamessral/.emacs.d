@@ -1309,7 +1309,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-very-light)
+(load-very-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1329,12 +1329,14 @@ Version 2016-01-12"
   (interactive)
   (set-face-attribute 'default nil :font font-name))
 
-(if (memq window-system '(ns))
-  (jas/load-font "Inconsolata")
-  ;; (jas/load-font "JetBrains Mono"))
-  (jas/load-font "Inconsolata"))
-
-(set-face-attribute 'default nil :height 150)
+(add-hook 'after-init-hook
+		  (lambda ()
+			(if (memq window-system '(ns))
+				(jas/load-font "Inconsolata")
+			  ;; (jas/load-font "JetBrains Mono"))
+			  (jas/load-font "Inconsolata"))
+			(set-face-attribute 'default nil :height 150)
+			))
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
