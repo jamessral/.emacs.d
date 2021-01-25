@@ -1335,7 +1335,7 @@ Version 2016-01-12"
 				(jas/load-font "Inconsolata")
 			  ;; (jas/load-font "JetBrains Mono"))
 			  (jas/load-font "Inconsolata"))
-			(set-face-attribute 'default nil :height 150)
+			(set-face-attribute 'default nil :height 160)
 			))
 
 ;; These settings relate to how emacs interacts with your operating system
