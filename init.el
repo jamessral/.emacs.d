@@ -708,6 +708,8 @@
   (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 )
 
+(use-package svelte-mode
+  :ensure t)
 
 (use-package scss-mode
   :ensure t
@@ -1309,7 +1311,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-very-dark)
+(load-neutral)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
