@@ -1282,7 +1282,7 @@ Version 2016-01-12"
   "Load Dark Color Scheme."
   (interactive)
   (if (window-system)
-	  (load-theme 'srcery-theme t)))
+	  (load-theme 'dracula t)))
 
 (defun load-very-dark ()
   "Load Very Dark Color Scheme."
