@@ -1279,39 +1279,47 @@ Version 2016-01-12"
   :defer t)
 
 (defun load-dark ()
+  "Load Dark Color Scheme."
   (interactive)
   (if (window-system)
-	  (load-theme 'sanityinc-tomorrow-night t)))
+	  (load-theme 'srcery-theme t)))
 
 (defun load-very-dark ()
+  "Load Very Dark Color Scheme."
   (interactive)
   (load-theme 'cyberpunk t))
 
 (defun load-light ()
+  "Load Light Color Scheme."
   (interactive)
  (load-theme 'gruvbox-light-hard t))
 
 (defun load-very-light ()
+  "Load Very Light Color Scheme."
   (interactive)
   (load-theme 'sanityinc-tomorrow-day))
 
 (defun load-blue ()
+  "Load Blue Color Scheme."
   (interactive)
   (load-theme 'sanityinc-tomorrow-blue t))
 
 (defun load-acme ()
+  "Load Acme Color Scheme."
   (interactive)
   (load-theme 'acme t))
 
 (defun load-neutral ()
+  "Load Neutral Color Scheme."
   (interactive)
   (load-theme 'naysayer t))
 
 (defun load-minimal ()
+  "Load Minimal Color Scheme."
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-neutral)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1331,14 +1339,16 @@ Version 2016-01-12"
   (interactive)
   (set-face-attribute 'default nil :font font-name))
 
-(add-hook 'after-init-hook
-		  (lambda ()
-			(if (memq window-system '(ns))
-				(jas/load-font "Inconsolata")
-			  ;; (jas/load-font "JetBrains Mono"))
-			  (jas/load-font "Inconsolata"))
-			(set-face-attribute 'default nil :height 160)
-			))
+(defun jas/initialize-fonts ()
+	"Fonts setup"
+  (interactive)
+  (if (memq window-system '(ns))
+	  (jas/load-font "Inconsolata")
+	;; (jas/load-font "JetBrains Mono"))
+	(jas/load-font "Inconsolata"))
+  (set-face-attribute 'default nil :height 160))
+
+(add-hook 'after-init-hook #'jas/initialize-fonts)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
