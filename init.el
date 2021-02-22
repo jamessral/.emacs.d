@@ -312,6 +312,15 @@
          try-complete-lisp-symbol-partially
          try-complete-lisp-symbol))
 
+(defun jas/expand-lines ()
+  "Hippie expand line like vim."
+  (interactive)
+  (let ((hippie-expand-try-functions-list
+		 '(try-expand-line-all-buffers)))
+	(call-interactively 'hippie-expand)))
+
+(define-key global-map (kbd "M-s-/") 'jas/expand-lines)
+
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
 (setq create-lockfiles nil)
