@@ -1357,7 +1357,7 @@ Version 2016-01-12"
 	(jas/load-font "Roboto Mono"))
   (set-face-attribute 'default nil :height 120))
 
-(add-hook 'after-init-hook 'jas/initialize-fonts)
+(jas/initialize-fonts)
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
