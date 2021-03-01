@@ -814,6 +814,7 @@
   (setq typescript-indent-level 2)
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
   (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
   (flycheck-add-next-checker 'javascript-eslint 'typescript-tide 'append)
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
@@ -1328,7 +1329,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-very-dark)
+(load-very-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1349,13 +1350,13 @@ Version 2016-01-12"
   (set-face-attribute 'default nil :font font-name))
 
 (defun jas/initialize-fonts ()
-	"Fonts setup"
+  "Fonts setup"
   (interactive)
   (if (memq window-system '(ns))
 	  (jas/load-font "Roboto Mono")
 	;; (jas/load-font "JetBrains Mono"))
 	(jas/load-font "Roboto Mono"))
-  (set-face-attribute 'default nil :height 120))
+  (set-face-attribute 'default nil :height 110))
 
 (jas/initialize-fonts)
 
