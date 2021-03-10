@@ -815,8 +815,8 @@
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
-  (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)
-  (flycheck-add-next-checker 'javascript-eslint 'typescript-tide 'append)
+  (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
+  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.routes.ts\\'" . typescript-mode))
   (add-to-list 'auto-mode-alist '("\\.module.ts\\'" . typescript-mode))
@@ -887,13 +887,10 @@
   :ensure t
   :init
   (dumb-jump-mode t)
-  :bind (("C-c j o" . dumb-jump-go-other-window)
-         ("C-c j j" . dumb-jump-go)
-         ("C-c j b" . dumb-jump-back)
-         ("C-c j i" . dumb-jump-go-prompt)
-         ("C-c j x" . dumb-jump-go-prefer-external)
-         ("C-c j z" . dumb-jump-go-prefer-external-other-window))
-  :config (setq dumb-jump-selector 'ivy))
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  :config
+  (setq dumb-jump-selector 'ivy))
+
 
 ;;; Ruby
 (use-package ruby-end
@@ -1131,6 +1128,11 @@
 
 
 ;;; Utils
+(use-package olivetti
+  :ensure t
+  :init
+  (global-set-key (kbd "C-c u z") 'olivetti-mode))
+
 (defun xah-insert-random-number (*n)
   "Insert *N random digits.
 *n default to 5.
@@ -1329,7 +1331,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-very-light)
+(load-neutral)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
