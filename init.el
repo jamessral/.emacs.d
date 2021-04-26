@@ -1208,7 +1208,7 @@ Version 2016-01-12"
   :init
   (if (memq window-system '(ns win32))
 	  (setq multi-term-program "ps.exe")
-	(setq multi-term-program "/home/linuxbrew/.linuxbrew/bin/fish")
+	(setq multi-term-program "zsh")
 	))
 
 ;; (use-package vterm
@@ -1312,7 +1312,7 @@ Version 2016-01-12"
 (defun load-very-light ()
   "Load Very Light Color Scheme."
   (interactive)
-  (load-theme 'sanityinc-tomorrow-day))
+  (load-theme 'sanityinc-tomorrow-day t))
 
 (defun load-blue ()
   "Load Blue Color Scheme."
@@ -1361,7 +1361,7 @@ Version 2016-01-12"
 	  (jas/load-font "Roboto Mono")
 	;; (jas/load-font "JetBrains Mono"))
 	(jas/load-font "Roboto Mono"))
-  (set-face-attribute 'default nil :height 110))
+  (set-face-attribute 'default nil :height 130))
 
 (jas/initialize-fonts)
 
