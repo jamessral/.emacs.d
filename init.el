@@ -218,7 +218,7 @@
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
-;   "l T i" 'lsp-ui-imenu
+   "l" '(:ignore t :which-key "eglot")
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
@@ -387,7 +387,17 @@
 
 ;;; LSP
 (use-package eglot
-  :ensure t)
+  :ensure t
+  :init
+  (add-hook 'typescript-mode-hook 'eglot-ensure)
+  (add-hook 'rjsx-mode-hook 'eglot-ensure)
+  (add-hook 'web-mode-hook 'eglot-ensure)
+  (add-hook 'c-mode-hook 'eglot-ensure)
+  (add-hook 'rust-mode-hook 'eglot-ensure)
+  :config
+  (define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
+  (define-key eglot-mode-map (kbd "C-c l o") 'eglot-code-action-organize-imports)
+  (define-key eglot-mode-map (kbd "C-c l h") 'eldoc))
 
 ;; (use-package lsp-mode
 ;;   :ensure t
