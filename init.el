@@ -395,6 +395,7 @@
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'rust-mode-hook 'eglot-ensure)
   :config
+  (define-key eglot-mode-map (kbd "C-c l a") 'eglot-code-actions)
   (define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c l o") 'eglot-code-action-organize-imports)
   (define-key eglot-mode-map (kbd "C-c l h") 'eldoc))
