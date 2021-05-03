@@ -1,3 +1,6 @@
+;;; Gotta go fast
+
+(let ((file-name-handler-alist nil))
 ;;; Turn off mouse interface early in startup to avoid momentary display
 (menu-bar-mode -1)
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -5,6 +8,7 @@
 
 (require 'cl)
 
+(setf gc-cons-threshold 100000000)
 ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 ;; Define package repositories
 (require 'package)
@@ -378,7 +382,7 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (global-set-key (kbd "C-.") 'company-files)
-  (setq company-idle-delay 0.2)
+  (setq company-idle-delay 0.01)
   (company-prescient-mode t))
 
 (global-set-key (kbd "C-'") 'company-complete)
@@ -391,7 +395,7 @@
   :init
   (add-hook 'typescript-mode-hook 'eglot-ensure)
   (add-hook 'rjsx-mode-hook 'eglot-ensure)
-  (add-hook 'web-mode-hook 'eglot-ensure)
+  (add-hook 'tide-mode-hook 'eglot-ensure)
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'rust-mode-hook 'eglot-ensure)
   :config
@@ -1513,4 +1517,4 @@ Version 2016-01-12"
 (setq ansi-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (setq ansi-term-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil))
