@@ -1217,7 +1217,7 @@ Version 2016-01-12"
 (use-package multi-term
   :ensure t
   :init
-  (if (memq window-system '(ns win32))
+  (if (memq window-system '(win32))
 	  (setq multi-term-program "ps.exe")
 	(setq multi-term-program "zsh")
 	))
