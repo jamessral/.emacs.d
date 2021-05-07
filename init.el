@@ -7,6 +7,8 @@
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 (require 'cl)
+(require 'loadhist)
+(file-dependents (feature-file 'cl))
 
 (setf gc-cons-threshold 100000000)
 ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
@@ -585,9 +587,6 @@
 (use-package add-node-modules-path
   :ensure t)
 
-(use-package pug-mode
-  :ensure t)
-
 (use-package web-mode
   :ensure t
   :init
@@ -865,12 +864,6 @@
 
 ;;; End Typescript
 
-
-;;; Elm
-(use-package elm-mode
-  :ensure t)
-;;; End Elm
-
 ;;; Java
 (use-package meghanada
   :ensure t
@@ -935,14 +928,10 @@
 			(lambda ()
 			  (setq-local flycheck-command-wrapper-function
 						  (lambda (command) (append '("bundle" "exec") command)))))
-  :config
-  ;; (evil-leader/set-key (kbd ", t") 'rspec-verify-single)
-  ;; (evil-leader/set-key (kbd ", T") 'rspec-verify)
   )
 
 (use-package minitest
   :ensure t)
-
 
 (use-package enh-ruby-mode
   :ensure t)
@@ -1065,28 +1054,23 @@
 ;; (use-package geiser
 ;;   :ensure t
 ;;   :init
-;;   (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
+  ;; (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
 
 ;;; Rust
-;; (use-package company-racer
-;;   :ensure t)
+(use-package company-racer
+  :ensure t)
 
-;; (use-package flycheck-rust
-;;   :ensure t
-;;   :init
-;;   (with-eval-after-load 'rust-mode
-;; 	(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+(use-package flycheck-rust
+  :ensure t
+  :init
+  (with-eval-after-load 'rust-mode
+	(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 
-;; (use-package rust-mode
-;;   :ensure t
-;;   :config
-;;   (local-set-key (kbd "C-c C-c") 'recompile))
+(use-package rust-mode
+  :ensure t
+  :config
+  (local-set-key (kbd "C-c C-c") 'recompile))
 
-
-;;; Haxe
-;; (use-package battle-haxe
-  ;; :ensure t)
-;;; End Haxe
 
 ;; debugging
 (add-hook 'gdb-mode-hook
@@ -1226,9 +1210,6 @@ Version 2016-01-12"
 	(setq multi-term-program "zsh")
 	))
 
-;; (use-package vterm
-  ;; :ensure t)
-;; Show time on status bar
 (display-time-mode 1)
 
 ;; Show line numbers if activated manually
@@ -1372,13 +1353,11 @@ Version 2016-01-12"
 (defun jas/initialize-fonts ()
   "Fonts setup"
   (interactive)
-  (if (memq window-system '(ns))
-	  (jas/load-font "Roboto Mono")
-	;; (jas/load-font "JetBrains Mono"))
-	(jas/load-font "Roboto Mono"))
+  (jas/load-font "Roboto Mono")
   (set-face-attribute 'default nil :height 130))
 
-(jas/initialize-fonts)
+(add-hook 'find-file-hook #'jas/initialize-fonts)
+;; Set default font
 
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
@@ -1518,3 +1497,5 @@ Version 2016-01-12"
 (setq ansi-term-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil))
+
+(jas/initialize-fonts)
