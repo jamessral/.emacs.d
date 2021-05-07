@@ -1327,7 +1327,7 @@ Version 2016-01-12"
 (defun load-very-light ()
   "Load Very Light Color Scheme."
   (interactive)
-  (load-theme 'sanityinc-tomorrow-day t))
+  (load-theme 'adwaita t))
 
 (defun load-blue ()
   "Load Blue Color Scheme."
@@ -1349,7 +1349,7 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-acme)
+(load-very-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
