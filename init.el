@@ -11,7 +11,7 @@
 (file-dependents (feature-file 'cl))
 
 (setf gc-cons-threshold 100000000)
-;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 ;; Define package repositories
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -1289,6 +1289,10 @@ Version 2016-01-12"
   :ensure t
   :defer t)
 
+(use-package spacemacs-theme
+  :ensure t
+  :defer t)
+
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
@@ -1308,7 +1312,7 @@ Version 2016-01-12"
 (defun load-very-light ()
   "Load Very Light Color Scheme."
   (interactive)
-  (load-theme 'adwaita t))
+  (load-theme 'spacemacs-light t))
 
 (defun load-blue ()
   "Load Blue Color Scheme."
