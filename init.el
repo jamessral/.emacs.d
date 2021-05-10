@@ -1167,6 +1167,11 @@ Version 2016-01-12"
 (tool-bar-mode -1)
 (global-hl-line-mode -1)
 
+;; Add some margins
+(setq-default left-margin-width 2 right-margin-width 2)
+(setq-default header-line-format " ")
+(custom-set-faces
+ '(header-line ((t (:background nil)))))
 ;; (set-frame-parameter (selected-frame) 'alpha '(98 . 50))
 ;; (add-to-list 'default-frame-alist '(alpha . (98 . 50)))
 (defun toggle-transparency ()
