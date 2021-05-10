@@ -400,6 +400,8 @@
   (add-hook 'tide-mode-hook 'eglot-ensure)
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'rust-mode-hook 'eglot-ensure)
+  (add-to-list 'eglot-server-programs
+			   '(web-mode "typescript-language-server" "--stdio"))
   :config
   (define-key eglot-mode-map (kbd "C-c e a") 'eglot-code-actions)
   (define-key eglot-mode-map (kbd "C-c e r") 'eglot-rename)
