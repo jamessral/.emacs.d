@@ -34,21 +34,11 @@
 (add-to-list 'package-archives
              '("org" . "https://orgmode.org/elpa/") t)
 
-(setq load-prefer-newer t)
-
-(package-initialize)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
 (require 'use-package)
-
-(use-package auto-compile
-  :ensure t
-  :init
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
-
 
 (use-package better-defaults
   :ensure t)
