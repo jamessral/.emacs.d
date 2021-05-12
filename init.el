@@ -34,12 +34,21 @@
 (add-to-list 'package-archives
              '("org" . "https://orgmode.org/elpa/") t)
 
+(setq load-prefer-newer t)
+
 (package-initialize)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
 (require 'use-package)
+
+(use-package auto-compile
+  :ensure t
+  :init
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
+
 
 (use-package better-defaults
   :ensure t)
@@ -400,13 +409,13 @@
   (add-hook 'tide-mode-hook 'eglot-ensure)
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'rust-mode-hook 'eglot-ensure)
-  (add-to-list 'eglot-server-programs
-			   '(web-mode "typescript-language-server" "--stdio"))
   :config
   (define-key eglot-mode-map (kbd "C-c e a") 'eglot-code-actions)
   (define-key eglot-mode-map (kbd "C-c e r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c e o") 'eglot-code-action-organize-imports)
-  (define-key eglot-mode-map (kbd "C-c e h") 'eldoc))
+  (define-key eglot-mode-map (kbd "C-c e h") 'eldoc)
+  (add-to-list 'eglot-server-programs
+			   '(web-mode "typescript-language-server" "--stdio")))
 
 ;; (use-package lsp-mode
 ;;   :ensure t
@@ -1212,6 +1221,7 @@ Version 2016-01-12"
 (use-package multi-term
   :ensure t
   :init
+  (set-default 'multi-term-dedicated-window-height 30)
   (if (memq window-system '(win32))
 	  (setq multi-term-program "ps.exe")
 	(setq multi-term-program "zsh")
@@ -1449,7 +1459,7 @@ Version 2016-01-12"
 (use-package go-mode
              :ensure t
              :config
-			 (go-eldoc-setup)
+			 ;; (go-eldoc-setup)
 			 (local-set-key (kbd "M-.") #'godef-jump)
              (setq gofmt-command "goimports")
              (setq tab-width 4)
