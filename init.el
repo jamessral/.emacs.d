@@ -247,6 +247,8 @@
    "u m" 'load-basic
    "u t" 'toggle-transparency
    "u n" 'global-display-line-numbers-mode
+   ">" 'mc/mark-next-like-this
+   "<" 'mc/mark-next-like-this
    ";" '(:ignore t :which-key "commenting")
    "; r" 'comment-region
    "; u" 'uncomment-region))
@@ -1342,7 +1344,8 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(load-very-light)
+(if (window-system)
+	(load-very-light))
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1365,8 +1368,8 @@ Version 2016-01-12"
 (defun jas/initialize-fonts ()
   "Fonts setup"
   (interactive)
-  (jas/load-font "Roboto Mono")
-  (set-face-attribute 'default nil :height 130))
+  (jas/load-font "Inconsolata")
+  (set-face-attribute 'default nil :height 150))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
