@@ -1345,7 +1345,7 @@ Version 2016-01-12"
   (load-theme 'wheatgrass t))
 
 (if (window-system)
-	(load-very-light))
+	(load-neutral))
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
