@@ -1038,8 +1038,8 @@
 
 
 ;;; Lisp
-;; (when (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  ;; (setq inferior-lisp-program "/home/linuxbrew/.linuxbrew/bin/sbcl"))
+(when (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  (setq inferior-lisp-program "sbcl"))
 ;;; End Lisp
 
 
@@ -1299,7 +1299,7 @@ Version 2016-01-12"
   "Load Dark Color Scheme."
   (interactive)
   (if (window-system)
-	  (load-theme 'dracula t)))
+	  (load-theme 'spolsky t)))
 
 (defun load-very-dark ()
   "Load Very Dark Color Scheme."
@@ -1337,7 +1337,7 @@ Version 2016-01-12"
   (load-theme 'wheatgrass t))
 
 (if (window-system)
-	(load-neutral))
+	(load-dark))
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
