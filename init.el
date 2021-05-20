@@ -94,6 +94,7 @@
 
 ;;; Some Bascis
 (use-package exec-path-from-shell
+  :commands (exec-path-from-shell-initialize exec-path-from-shell-copy-env)
   :ensure t
   :init
   (when (memq window-system '(mac ns x))
@@ -128,6 +129,7 @@
 
 (use-package undo-tree
   :ensure t
+  :defer t
   :diminish undo-tree-mode
   :config
   (add-hook 'after-init-hook 'global-undo-tree-mode))
@@ -169,10 +171,12 @@
 
 ;;; Avy mode (vim easymotion-esque)
 (use-package avy
+  :commands (avy-goto-char-2)
   :ensure t)
 (global-set-key (kbd "C-\\") 'avy-goto-char-2)
 
 (use-package uuidgen
+  :commands (uuidgen)
   :ensure t)
 
 ;; Which key to show keybindings for partially completed
@@ -192,6 +196,7 @@
   (add-hook 'after-init-hook (projectile-mode)))
 
 (use-package counsel-projectile
+  :after projectile
   :ensure t
   :init
   (counsel-projectile-mode t)
@@ -257,12 +262,15 @@
   :ensure t)
 
 (use-package ivy-prescient
+  :after ivy
   :ensure t)
 
 (use-package company-prescient
+  :after prescient
   :ensure t)
 
 (use-package ivy
+  :after prescient
   :ensure t
   :diminish ivy-mode
   :init
@@ -273,12 +281,14 @@
         (t      . ivy--regex-fuzzy))))
 
 (use-package swiper
+  :commands (swiper)
   :ensure t
   :config
   (global-set-key (kbd "C-s") 'swiper)
   )
 
 (use-package counsel
+  :after ivy
   :ensure t
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -287,22 +297,21 @@
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
 (use-package counsel-projectile
+  :after counsel
   :ensure t
   :init
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (counsel-projectile-mode t))
 
 (use-package ag
+  :after ivy
   :ensure t)
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; All the Icons
-(use-package all-the-icons
-  :ensure t)
-
 ;; Magit
 (use-package magit
+  :commands (magit-status)
   :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 
@@ -344,9 +353,6 @@
 (global-subword-mode)
 (diminish 'subword-mode)
 
-(use-package fish-mode
-  :ensure t)
-
 ;; Fix Org Mode syntax stuff
 (setq org-src-fontify-natively t)
 
@@ -364,6 +370,7 @@
 (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
 
 (use-package xterm-color
+  :after term
   :ensure t
   :init
   (add-hook 'shell-mode-hook #'my/setup-shells)
@@ -394,14 +401,13 @@
 
 ;;; LSP
 (use-package eglot
+  :hook ((typescript-mode . eglot-ensure)
+		  (rjsx-mode . eglot-ensure)
+		  (tide-mode . eglot-ensure)
+		  (c-mode . eglot-ensure)
+		  (rust-mode . eglot-ensure)
+		  (ruby-mode . eglot-ensure))
   :ensure t
-  :init
-  (add-hook 'typescript-mode-hook 'eglot-ensure)
-  (add-hook 'rjsx-mode-hook 'eglot-ensure)
-  (add-hook 'tide-mode-hook 'eglot-ensure)
-  (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'rust-mode-hook 'eglot-ensure)
-  (add-hook 'ruby-mode-hook 'eglot-ensure)
   :config
   (define-key eglot-mode-map (kbd "C-c e a") 'eglot-code-actions)
   (define-key eglot-mode-map (kbd "C-c e r") 'eglot-rename)
@@ -410,39 +416,9 @@
   (add-to-list 'eglot-server-programs
 			   '(web-mode "typescript-language-server" "--stdio")))
 
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :init
-;;   (setq lsp-keymap-prefix "C-c l")
-;;   :hook ((ruby-mode . lsp)
-;; 		 (rspec-mode . lsp)
-;; 		 (go-mode . lsp-deferred)
-;; 		 (java-mode . lsp)
-;; 		 (js-mode . lsp)
-;; 		 (php-mode . lsp)
-;; 		 (elm-mode . lsp)
-;; 		 (typescript-mode . lsp)
-;; 		 (rjsx-mode . lsp)
-;; 		 (web-mode . lsp)
-;; 		 (c-mode . lsp)
-;; 		 (c++-mode . lsp)
-;; 		 (lsp-mode . lsp-enable-which-key-integration))
-;;   :commands lsp)
-
-;; ;; optionally
-;; (use-package lsp-ui
-;;   :ensure t
-;;   :commands lsp-ui-mode)
-;; ;; if you are ivy user
-;; (use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
-;; (use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
-;; ;;(use-package company-lsp :ensure t)
-;; optionally if you want to use debugger
-;; (use-package dap-mode :ensure t)
-;;; End LSP
-
 ;; Enable paredit for Clojure
 (use-package paredit
+  :hook ((emacs-lisp-mode . paredit-mode))
   :ensure t
   :config
   ;; Use Paredit to allow slurping
@@ -451,11 +427,13 @@
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
 
 (use-package cider
+  :defer t
   :ensure t)
 
 ;; Expand Region
 (use-package expand-region
-             :ensure t)
+  :commands (er/expand-region)
+  :ensure t)
 (global-set-key (kbd "C-]") 'er/expand-region)
 
 
@@ -502,23 +480,20 @@
 
 ;; Multiple Cursors
 (use-package multiple-cursors
-             :ensure t)
+  :commands (mc/mark-next-like-this)
+  :ensure t)
 (multiple-cursors-mode)
-(global-set-key (kbd "C-c C-l") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C->") 'mc/mark-next-like-this-word)
-(global-set-key (kbd "C-c C-<") 'mc/mark-previous-like-this-word)
 
 ;; Rainbow Mode hooks
 (use-package rainbow-delimiters
+  :hook ((clojure-mode . rainbow-delimiters-mode)
+		 (racket-mode . rainbow-delimiters-mode))
   :ensure t)
-(add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 
 (use-package racket-mode
+  :defer t
   :ensure t)
-
-(add-hook 'racket-mode-hook #'rainbow-delimiters-mode)
 
 ;; Interactive search key bindings. By default, C-s runs
 ;; isearch-forward, so this swaps the bindings.
@@ -605,12 +580,11 @@
   (setq indent-tabs-mode nil))
 
 (use-package prettier
+  :hook ((js-mode . prettier-mode)
+		 (web-mode . prettier-mode)
+		 (typescript-mode . prettier-mode))
   :ensure t
-  :diminish prettier-mode
-  :init
-  (add-hook 'js-mode-hook #'prettier-mode)
-  (add-hook 'web-mode-hook #'prettier-mode)
-  (add-hook 'typescript-mode-hook #'prettier-mode))
+  :diminish prettier-mode)
 
 (use-package rjsx-mode
   :ensure t
@@ -730,6 +704,7 @@
 
 ;; Vue Support
 (use-package vue-mode
+  :defer t
   :ensure t
   :init
   (add-hook 'vue-mode-hook #'prettier-mode)
@@ -739,6 +714,7 @@
 )
 
 (use-package svelte-mode
+  :defer t
   :ensure t)
 
 (use-package scss-mode
@@ -752,15 +728,18 @@
 (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
 (use-package js2-refactor
+  :defer t
   :ensure t
   :init
   (js2r-add-keybindings-with-prefix "C-c C-m"))
 
 (use-package xref-js2
+  :defer t
   :ensure t)
 
 ;; Add keybindings to run jest tests
 (use-package mocha
+  :defer t
   :ensure t)
 
 ;;; Jest (JS)
@@ -768,6 +747,7 @@
 ;;; Setup for using Mocha el to run Jest tests
 
 (use-package mocha
+  :defer t
   :ensure t
   :commands (mocha-test-project
              mocha-debug-project
@@ -826,9 +806,9 @@
 
 ;;; Typescript
 (use-package tide
+  :hook ((tide-mode . add-node-modules-path))
   :ensure t
-  :init
-  (add-hook 'tide-mode-hook 'add-node-modules-path)
+
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
@@ -870,6 +850,7 @@
 
 ;;; Java
 (use-package meghanada
+  :defer t
   :ensure t
   :init
   (add-hook 'java-mode-hook
@@ -890,33 +871,37 @@
 ;;; End Java
 
 (use-package graphql-mode
+  :defer t
   :ensure t)
 
 (use-package yaml-mode
+  :defer t
   :ensure t)
 
 (use-package haml-mode
+  :defer t
   :ensure t)
 
 (use-package dumb-jump
   :ensure t
-  :init
-  (dumb-jump-mode t)
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  :hook ((xref-backend-functions dumb-jump-xref-activate))
   :config
   (setq dumb-jump-selector 'ivy))
 
 
 ;;; Ruby
 (use-package ruby-end
+  :after ruby-mode
   :diminish ruby-end-mode
   :ensure t)
 
 (use-package ruby-test-mode
+  :after ruby-mode
   :diminish ruby-test-mode
   :ensure t)
 
 (use-package inf-ruby
+  :after ruby-mode
   :ensure t)
 
 (use-package rspec-mode
@@ -935,27 +920,26 @@
   )
 
 (use-package minitest
+  :after ruby-mode
   :ensure t)
 
 (use-package enh-ruby-mode
+  :after ruby-mode
   :ensure t)
 
 (use-package ruby-refactor
+  :hook ((ruby-mode . ruby-refactor-mode-launch))
   :ensure t
-  :diminish 'ruby-refactor-mode
-  :init
-  (add-hook 'ruby-mode-hook #'ruby-refactor-mode-launch))
+  :diminish 'ruby-refactor-mode)
 
 (use-package inf-ruby
-  :ensure t
-  :init
-  (add-hook 'after-init-hook 'inf-ruby-switch-setup))
+  :hook ((after-init . inf-ruby-switch-setup))
+  :ensure t)
 
 (use-package rubocopfmt
+  :hook ((ruby-mode . rubocopfmt-mode))
   :ensure t
-  :diminish 'rubocopfmt-mode
-  :init
-  (add-hook 'ruby-mode-hook #'rubocopfmt-mode))
+  :diminish 'rubocopfmt-mode)
 
 (use-package rbenv
   :ensure t
@@ -963,9 +947,11 @@
   (global-rbenv-mode))
 
 (use-package erblint
+  :defer t
   :ensure t)
 
 (use-package projectile-rails
+  :after projectile
   :ensure t
   :init
   (projectile-rails-global-mode)
@@ -1033,18 +1019,21 @@
 
 ;;; Lua
 (use-package flymake-lua
+  :after lua-mode
   :ensure t)
 
 (use-package luarocks
+  :after lua-mode
   :ensure t)
 
 (use-package company-lua
+  :after lua-mode
   :ensure t)
 
 (use-package lua-mode
   :ensure t
-  :init
-  (add-hook 'lua-mode-hook #'flymake-mode-on))
+  :hook ((lua-mode . flymake-mode-on)))
+
 ;;; End Lua
 
 
@@ -1062,9 +1051,11 @@
 
 ;;; Rust
 (use-package company-racer
+  :after company
   :ensure t)
 
 (use-package flycheck-rust
+  :after rust-mode
   :ensure t
   :init
   (with-eval-after-load 'rust-mode
@@ -1135,6 +1126,7 @@
 
 ;;; Utils
 (use-package olivetti
+  :commands (ollivetti-mode)
   :ensure t
   :init
   (global-set-key (kbd "C-c u z") 'olivetti-mode))
@@ -1439,7 +1431,7 @@ Version 2016-01-12"
 
 ;;; Golang
 (use-package go-autocomplete
-             :ensure t)
+  :ensure t)
 
 (use-package company-go
   :ensure t)
