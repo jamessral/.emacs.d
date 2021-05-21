@@ -26,7 +26,9 @@
 
 
 (add-to-list 'package-archives
-             '("marmalade" . "https://marmalade-repo.org/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t)
+;; (add-to-list 'package-archives
+             ;; '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("tromey" . "https://tromey.com/elpa/") t)
 (add-to-list 'package-archives
@@ -890,6 +892,10 @@
 
 
 ;;; Ruby
+(use-package robe
+  :commands (robe-jump robe-jump-to-module)
+  :ensure t)
+
 (use-package ruby-end
   :after ruby-mode
   :diminish ruby-end-mode
