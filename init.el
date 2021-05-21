@@ -893,6 +893,7 @@
 
 ;;; Ruby
 (use-package robe
+  :hook ((ruby-mode . robe))
   :commands (robe-jump robe-jump-to-module)
   :ensure t)
 
