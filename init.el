@@ -1040,8 +1040,8 @@
 
 
 ;;; Lisp
-(when (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  (setq inferior-lisp-program "sbcl"))
+;; (when (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  ;; (setq inferior-lisp-program "sbcl"))
 ;;; End Lisp
 
 
@@ -1306,7 +1306,7 @@ Version 2016-01-12"
 (defun load-very-dark ()
   "Load Very Dark Color Scheme."
   (interactive)
-  (load-theme 'sanityinc-tomorrow-bright t))
+  (load-theme 'cyberpunk t))
 
 (defun load-light ()
   "Load Light Color Scheme."
@@ -1338,8 +1338,8 @@ Version 2016-01-12"
   (interactive)
   (load-theme 'wheatgrass t))
 
-(if (window-system)
-	(load-dark))
+(when (window-system)
+	(load-very-dark))
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u L") 'load-very-light)
@@ -1362,8 +1362,8 @@ Version 2016-01-12"
 (defun jas/initialize-fonts ()
   "Fonts setup"
   (interactive)
-  (jas/load-font "Inconsolata")
-  (set-face-attribute 'default nil :height 150))
+  (jas/load-font "Roboto Mono")
+  (set-face-attribute 'default nil :height 120))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
