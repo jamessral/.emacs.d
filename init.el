@@ -1180,9 +1180,14 @@ Version 2016-01-12"
      nil 'alpha
      (if (eql (cond ((numberp alpha) alpha)
                     ((numberp (cdr alpha)) (cdr alpha))
-              ((numberp (cadr alpha)) (cadr alpha)))
-         100)
-     '(95 . 50) '(100 . 100)))))
+					((numberp (cadr alpha)) (cadr alpha)))
+			  100)
+		 '(95 . 50) '(100 . 100)))))
+
+;; Start with transparency on
+(toggle-transparency)
+
+
 ;; Customize mode-line
 (setq mode-line-format
       (list
@@ -1364,7 +1369,7 @@ Version 2016-01-12"
   "Fonts setup"
   (interactive)
   (jas/load-font "Roboto Mono")
-  (set-face-attribute 'default nil :height 120))
+  (set-face-attribute 'default nil :height 110))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
