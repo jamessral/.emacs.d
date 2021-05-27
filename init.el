@@ -14,6 +14,7 @@
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 ;; Define package repositories
 (require 'package)
+(package-initialize)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
@@ -810,17 +811,11 @@
 (use-package tide
   :hook ((tide-mode . add-node-modules-path))
   :ensure t
-
-  :config
+  :init
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
   (setq typescript-indent-level 2)
-  (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
-  (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
-  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.routes.ts\\'" . typescript-mode))
   (add-to-list 'auto-mode-alist '("\\.module.ts\\'" . typescript-mode))
   (add-hook 'web-mode-hook
@@ -831,6 +826,12 @@
   (add-to-list 'magic-mode-alist '("\\.ts\\'" . tide-mode))
   (add-to-list 'magic-mode-alist '("\\.routes.ts\\'" . tide-mode))
   (add-to-list 'magic-mode-alist '("\\.module.ts\\'" . tide-mode))
+  (add-hook 'typescript-mode-hook #'setup-tide-mode)
+  :config
+  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
+  (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
+  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
 
   ;; enable typescript-tslint checker
   ;; (flycheck-add-mode 'typescript-tslint 'rjsx-mode))
@@ -1181,7 +1182,7 @@ Version 2016-01-12"
                     ((numberp (cdr alpha)) (cdr alpha))
               ((numberp (cadr alpha)) (cadr alpha)))
          100)
-     '(98 . 50) '(100 . 100)))))
+     '(95 . 50) '(100 . 100)))))
 ;; Customize mode-line
 (setq mode-line-format
       (list
