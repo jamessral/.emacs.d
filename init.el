@@ -12,9 +12,9 @@
 
 (setf gc-cons-threshold 100000000)
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-;; Define package repositories
-(require 'package)
-(package-initialize)
+
+;; Package initialize called in early-init
+
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
@@ -492,10 +492,6 @@
 (use-package rainbow-delimiters
   :hook ((clojure-mode . rainbow-delimiters-mode)
 		 (racket-mode . rainbow-delimiters-mode))
-  :ensure t)
-
-(use-package racket-mode
-  :defer t
   :ensure t)
 
 ;; Interactive search key bindings. By default, C-s runs
@@ -1229,7 +1225,8 @@ Version 2016-01-12"
 (setq linum-format " %d ")
 
 (use-package linum-relative
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (setq linum-relative-current-symbol "")
 
@@ -1238,26 +1235,8 @@ Version 2016-01-12"
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
-(use-package sublime-themes
-  :defer t
+(use-package modus-themes
   :ensure t)
-
-(use-package base16-theme
-  :defer t
-  :ensure t)
-
-(use-package gruvbox-theme
-  :defer t
-  :ensure t)
-
-(use-package color-theme-sanityinc-solarized
-  :defer t
-  :ensure t)
-
-(use-package color-theme-sanityinc-tomorrow
-  :defer t
-  :ensure t)
-
 
 (defun jas/reset-ansi-colors (&optional theme)
   "Undo damage caused by some themes"
@@ -1275,86 +1254,22 @@ Version 2016-01-12"
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 
-(use-package naysayer-theme
-  :ensure t
-  :defer t)
-
-(use-package dracula-theme
-  :ensure t
-  :defer t)
-
-(use-package acme-theme
-  :ensure t
-  :defer t)
-
-(use-package srcery-theme
-  :ensure t
-  :defer t)
-
-(use-package cyberpunk-theme
-  :ensure t
-  :defer t)
-
-(use-package material-theme
-  :ensure t
-  :defer t)
-
-(use-package spacemacs-theme
-  :ensure t
-  :defer t)
-
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
   (if (window-system)
-	  (load-theme 'spolsky t)))
-
-(defun load-very-dark ()
-  "Load Very Dark Color Scheme."
-  (interactive)
-  (load-theme 'cyberpunk t))
+	  (load-theme 'modus-vivendi t)))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'gruvbox-light-hard t))
-
-(defun load-very-light ()
-  "Load Very Light Color Scheme."
-  (interactive)
-  (load-theme 'spacemacs-light t))
-
-(defun load-blue ()
-  "Load Blue Color Scheme."
-  (interactive)
-  (load-theme 'sanityinc-tomorrow-blue t))
-
-(defun load-acme ()
-  "Load Acme Color Scheme."
-  (interactive)
-  (load-theme 'acme t))
-
-(defun load-neutral ()
-  "Load Neutral Color Scheme."
-  (interactive)
-  (load-theme 'naysayer t))
-
-(defun load-minimal ()
-  "Load Minimal Color Scheme."
-  (interactive)
-  (load-theme 'wheatgrass t))
+ (load-theme 'modus-operandi t))
 
 (when (window-system)
-	(load-very-dark))
+	(load-dark))
 
 (global-set-key (kbd "C-c u l") 'load-light)
-(global-set-key (kbd "C-c u L") 'load-very-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
-(global-set-key (kbd "C-c u D") 'load-very-dark)
-(global-set-key (kbd "C-c u b") 'load-blue)
-(global-set-key (kbd "C-c u a") 'load-acme)
-(global-set-key (kbd "C-c u n") 'load-neutral)
-(global-set-key (kbd "C-c u m") 'load-minimal)
 
 ;; (global-prettify-symbols-mode t)
 
@@ -1472,15 +1387,15 @@ Version 2016-01-12"
 ;;; End Golang
 
 ;;; C#
-(use-package omnisharp
-  :ensure t
-  :init
-  (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-hook 'csharp-mode-hook #'company-mode)
-  (add-hook 'csharp-mode-hook #'flycheck-mode)
-  :config
-  (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
-  (local-set-key (kbd "C-c C-c") 'recompile))
+;; (use-package omnisharp
+;;   :ensure t
+;;   :init
+;;   (add-hook 'csharp-mode-hook 'omnisharp-mode)
+;;   (add-hook 'csharp-mode-hook #'company-mode)
+;;   (add-hook 'csharp-mode-hook #'flycheck-mode)
+;;   :config
+;;   (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+;;   (local-set-key (kbd "C-c C-c") 'recompile))
 
 ;;; End C#
 
