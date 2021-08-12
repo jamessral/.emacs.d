@@ -407,9 +407,10 @@
   :hook ((typescript-mode . eglot-ensure)
 		  (rjsx-mode . eglot-ensure)
 		  (tide-mode . eglot-ensure)
-		  (c-mode . eglot-ensure)
+		  ;; (c-mode . eglot-ensure)
 		  (rust-mode . eglot-ensure)
-		  (ruby-mode . eglot-ensure))
+		  ;; (ruby-mode . eglot-ensure)
+		  )
   :ensure t
   :config
   (define-key eglot-mode-map (kbd "C-c e a") 'eglot-code-actions)
@@ -574,6 +575,7 @@
   (setq-default indent-tabs-mode nil)
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint)
   :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
   (setq indent-tabs-mode nil))
