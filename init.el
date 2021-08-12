@@ -207,8 +207,8 @@
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package ripgrep
-  :ensure t)
-
+  :ensure t
+)
 (use-package general
   :ensure t
   :config
@@ -575,7 +575,6 @@
   (setq-default indent-tabs-mode nil)
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint)
   :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
   (setq indent-tabs-mode nil))
