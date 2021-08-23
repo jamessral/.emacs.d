@@ -841,6 +841,7 @@
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
+  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
@@ -1038,8 +1039,8 @@
 
 
 ;;; Lisp
-;; (when (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  ;; (setq inferior-lisp-program "sbcl"))
+(when (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  (setq inferior-lisp-program "sbcl"))
 ;;; End Lisp
 
 
@@ -1116,13 +1117,6 @@
   :ensure t)
 
 ;;; End OrgMode
-
-;;; Bible (ESV)
-(load-file "~/.emacs.d/vendor/esv-mode/esv.el")
-(require 'esv)
-(add-hook 'text-mode-hook 'turn-on-esv-mode)
-;;; End Bible
-
 
 ;;; Utils
 (use-package olivetti
