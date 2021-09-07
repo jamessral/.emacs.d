@@ -581,6 +581,8 @@
   (setq-default indent-tabs-mode nil)
   (add-hook 'web-mode-hook #'add-node-modules-path)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
+  ; don't auto-insert quotes for attributes
+  (setq web-mode-enable-auto-quoting nil)
   :config
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
   (setq indent-tabs-mode nil))
