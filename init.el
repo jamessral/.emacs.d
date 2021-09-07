@@ -1259,12 +1259,14 @@ Version 2016-01-12"
   "Load Dark Color Scheme."
   (interactive)
   (if (window-system)
-	  (load-theme 'modus-vivendi t)))
+	  ;; (load-theme 'modus-vivendi t)))
+	  (load-theme 'sanityinc-solarized-dark t)))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'modus-operandi t))
+ ;; (load-theme 'modus-operandi t))
+ (load-theme 'sanityinc-solarized-light t))
 
 (when (window-system)
 	(load-dark))
