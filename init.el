@@ -1239,6 +1239,9 @@ Version 2016-01-12"
 (use-package modus-themes
   :ensure t)
 
+(use-package ample-theme
+  :ensure t)
+
 (defun jas/reset-ansi-colors (&optional theme)
   "Undo damage caused by some themes"
   (interactive)
@@ -1260,13 +1263,13 @@ Version 2016-01-12"
   (interactive)
   (if (window-system)
 	  ;; (load-theme 'modus-vivendi t)))
-	  (load-theme 'base16-darcula t)))
+	  (load-theme 'ample t)))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
  ;; (load-theme 'modus-operandi t))
- (load-theme 'base16-github t))
+ (load-theme 'ample-light t))
 
 (when (window-system)
 	(load-dark))
