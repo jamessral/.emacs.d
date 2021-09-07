@@ -1260,13 +1260,13 @@ Version 2016-01-12"
   (interactive)
   (if (window-system)
 	  ;; (load-theme 'modus-vivendi t)))
-	  (load-theme 'sanityinc-solarized-dark t)))
+	  (load-theme 'base16-darcula t)))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
  ;; (load-theme 'modus-operandi t))
- (load-theme 'sanityinc-solarized-light t))
+ (load-theme 'base16-github t))
 
 (when (window-system)
 	(load-dark))
