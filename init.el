@@ -43,6 +43,12 @@
 
 (require 'use-package)
 
+(use-package auto-compile
+  :ensure t
+  :init
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
+
 (use-package better-defaults
   :ensure t)
 
@@ -1039,8 +1045,8 @@
 
 
 ;;; Lisp
-(when (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  (setq inferior-lisp-program "sbcl"))
+;; (when (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  ;; (setq inferior-lisp-program "sbcl"))
 ;;; End Lisp
 
 
