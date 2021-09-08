@@ -327,7 +327,10 @@
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
 
-(electric-pair-mode 1)
+(electric-pair-mode -1)
+
+(use-package smartparens
+  :ensure t)
 
 ;; Lisp-friendly hippie expand
 (setq hippie-expand-try-functions-list
@@ -584,6 +587,7 @@
   ; don't auto-insert quotes for attributes
   (setq web-mode-enable-auto-quoting nil)
   :config
+  (smartparens-mode t)
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
   (setq indent-tabs-mode nil))
 
