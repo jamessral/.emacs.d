@@ -1133,7 +1133,7 @@
   :ensure t
   :init
   ;; Make centered layout 120 chars wide
-  (setq olivetti-body-width 120)
+  (setq-default olivetti-body-width 120)
   (global-set-key (kbd "C-c u z") 'olivetti-mode))
 
 (defun xah-insert-random-number (*n)
