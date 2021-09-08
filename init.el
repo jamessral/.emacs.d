@@ -330,7 +330,9 @@
 (electric-pair-mode -1)
 
 (use-package smartparens
-  :ensure t)
+  :ensure t
+  :init
+  (smartparens-global-mode t))
 
 ;; Lisp-friendly hippie expand
 (setq hippie-expand-try-functions-list
@@ -435,6 +437,7 @@
   :ensure t
   :config
   ;; Use Paredit to allow slurping
+  (smartparens-mode -1)
   (global-set-key (kbd "C-)") 'paredit-forward-slurp-sexp)
   (define-key paredit-mode-map (kbd "C-j") 'concat-lines)
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
@@ -587,7 +590,6 @@
   ; don't auto-insert quotes for attributes
   (setq web-mode-enable-auto-quoting nil)
   :config
-  (smartparens-mode t)
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
   (setq indent-tabs-mode nil))
 
