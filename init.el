@@ -1131,6 +1131,8 @@
   :commands (ollivetti-mode)
   :ensure t
   :init
+  ;; Make centered layout 120 chars wide
+  (setq olivetti-body-width 120)
   (global-set-key (kbd "C-c u z") 'olivetti-mode))
 
 (defun xah-insert-random-number (*n)
@@ -1432,7 +1434,8 @@ Version 2016-01-12"
   (async-shell-command "bin/rails s -p 3001" "*Rails Server*" "*Rails Server Error")
   (async-shell-command "bin/webpack-dev-server" "*Webpacker*" "*Webpacker Error*")
   (async-shell-command "./scripts/sidekiq_dev" "*Sidekiq*" "*Sidekiq Error*")
-  (async-shell-command "bundle exec clockwork scripts/clock_dev" "*Clockwork*" "*Clockwork Error*"))
+  (async-shell-command "bundle exec clockwork scripts/clock_dev" "*Clockwork*" "*Clockwork Error*")
+  (cd "-"))
 ;;; End Work Functions
 
 (put 'narrow-to-region 'disabled nil)
