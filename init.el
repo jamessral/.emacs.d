@@ -327,12 +327,7 @@
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
 
-(electric-pair-mode -1)
-
-(use-package smartparens
-  :ensure t
-  :init
-  (smartparens-global-mode t))
+(electric-pair-mode 1)
 
 ;; Lisp-friendly hippie expand
 (setq hippie-expand-try-functions-list
