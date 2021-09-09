@@ -1430,12 +1430,13 @@ Version 2016-01-12"
 (defun jas/loadup-dev ()
   "Run all processes needed for Loadup Dev"
   (interactive)
-  (cd "~/code/loadup-web")
-  (async-shell-command "bin/rails s -p 3001" "*Rails Server*" "*Rails Server Error*")
-  (async-shell-command "bin/webpack-dev-server" "*Webpacker*" "*Webpacker Error*")
-  (async-shell-command "./scripts/sidekiq_dev" "*Sidekiq*" "*Sidekiq Error*")
-  (async-shell-command "bundle exec clockwork scripts/clock_dev" "*Clockwork*" "*Clockwork Error*")
-  (cd "-"))
+  (let ((current-dir default-directory))
+    (cd "~/code/loadup-web")
+    (async-shell-command "bin/rails s -p 3001" "*Rails Server*" "*Rails Server Error*")
+    (async-shell-command "bin/webpack-dev-server" "*Webpacker*" "*Webpacker Error*")
+    (async-shell-command "./scripts/sidekiq_dev" "*Sidekiq*" "*Sidekiq Error*")
+    (async-shell-command "bundle exec clockwork scripts/clock_dev" "*Clockwork*" "*Clockwork Error*")
+    (cd current-dir)))
 ;;; End Work Functions
 
 (put 'narrow-to-region 'disabled nil)
