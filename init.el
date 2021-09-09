@@ -1267,13 +1267,13 @@ Version 2016-01-12"
   (interactive)
   (if (window-system)
 	  ;; (load-theme 'modus-vivendi t)))
-	  (load-theme 'ample t)))
+	  (load-theme 'gruvbox-dark-hard t)))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
  ;; (load-theme 'modus-operandi t))
- (load-theme 'ample-light t))
+ (load-theme 'gruvbox-light-hard t))
 
 (when (window-system)
 	(load-dark))
