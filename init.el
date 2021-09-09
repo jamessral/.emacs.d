@@ -1058,6 +1058,14 @@
   :init
   (setq-default geiser-active-implementations '(racket)))
 
+;; For racket pollen mode
+(use-package pollen-mode
+  :ensure t)
+
+(use-package company-pollen
+  :ensure t)
+;;; End Scheme
+
 ;;; Rust
 (use-package company-racer
   :after company
