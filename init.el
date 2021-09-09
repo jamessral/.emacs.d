@@ -1053,10 +1053,10 @@
 
 
 ;; Scheme
-;; (use-package geiser
-;;   :ensure t
-;;   :init
-  ;; (set-variable 'geiser-chicken-binary "/home/linuxbrew/.linuxbrew/bin/csi"))
+(use-package geiser
+  :ensure t
+  :init
+  (setq-default geiser-active-implementations '(racket)))
 
 ;;; Rust
 (use-package company-racer
