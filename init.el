@@ -432,7 +432,6 @@
   :ensure t
   :config
   ;; Use Paredit to allow slurping
-  (smartparens-mode -1)
   (global-set-key (kbd "C-)") 'paredit-forward-slurp-sexp)
   (define-key paredit-mode-map (kbd "C-j") 'concat-lines)
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
@@ -1432,7 +1431,7 @@ Version 2016-01-12"
   "Run all processes needed for Loadup Dev"
   (interactive)
   (cd "~/code/loadup-web")
-  (async-shell-command "bin/rails s -p 3001" "*Rails Server*" "*Rails Server Error")
+  (async-shell-command "bin/rails s -p 3001" "*Rails Server*" "*Rails Server Error*")
   (async-shell-command "bin/webpack-dev-server" "*Webpacker*" "*Webpacker Error*")
   (async-shell-command "./scripts/sidekiq_dev" "*Sidekiq*" "*Sidekiq Error*")
   (async-shell-command "bundle exec clockwork scripts/clock_dev" "*Clockwork*" "*Clockwork Error*")
