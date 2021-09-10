@@ -1284,7 +1284,7 @@ Version 2016-01-12"
  (load-theme 'gruvbox-light-hard t))
 
 (when (window-system)
-	(load-dark))
+	(load-light))
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
