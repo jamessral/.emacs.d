@@ -1280,8 +1280,8 @@ Version 2016-01-12"
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- ;; (load-theme 'modus-operandi t))
- (load-theme 'gruvbox-light-hard t))
+ (load-theme 'modus-operandi t))
+ ;; (load-theme 'gruvbox-light-hard t))
 
 (when (window-system)
 	(load-light))
