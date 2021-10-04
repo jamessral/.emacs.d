@@ -893,7 +893,8 @@
 
 (use-package dumb-jump
   :ensure t
-  :hook ((xref-backend-functions dumb-jump-xref-activate))
+  :init
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   :config
   (setq dumb-jump-selector 'ivy))
 
