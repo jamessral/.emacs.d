@@ -1308,6 +1308,9 @@ Version 2016-01-12"
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
 
+(use-package lorem-ipsum
+  :ensure t)
+
 ;; These settings relate to how emacs interacts with your operating system
 (setq ;; makes killing/yanking interact with the clipboard
   x-select-enable-clipboard t
