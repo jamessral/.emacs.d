@@ -1182,7 +1182,9 @@ Version 2016-01-12"
 (custom-set-faces
  '(header-line ((t (:background nil)))))
 ;; (set-frame-parameter (selected-frame) 'alpha '(98 . 50))
-;; (add-to-list 'default-frame-alist '(alpha . (98 . 50)))
+
+;; start with transparency on
+(add-to-list 'default-frame-alist '(alpha . (93 . 50)))
 (defun toggle-transparency ()
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha)))
@@ -1192,11 +1194,7 @@ Version 2016-01-12"
                     ((numberp (cdr alpha)) (cdr alpha))
 					((numberp (cadr alpha)) (cadr alpha)))
 			  100)
-		 '(95 . 50) '(100 . 100)))))
-
-;; Start with transparency on
-(toggle-transparency)
-
+		 '(93 . 50) '(100 . 100)))))
 
 ;; Customize mode-line
 (setq mode-line-format
