@@ -1273,8 +1273,7 @@ Version 2016-01-12"
   "Load Dark Color Scheme."
   (interactive)
   (if (window-system)
-	  ;; (load-theme 'modus-vivendi t)))
-	  (load-theme 'gruvbox-dark-hard t)))
+	  (load-theme 'modus-vivendi t)))
 
 (defun load-light ()
   "Load Light Color Scheme."
