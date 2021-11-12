@@ -1299,7 +1299,7 @@ Version 2016-01-12"
 (defun jas/initialize-fonts ()
   "Fonts setup"
   (interactive)
-  (jas/load-font "Roboto Mono")
+  (jas/load-font "JetBrains Mono")
   (set-face-attribute 'default nil :height 110))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
