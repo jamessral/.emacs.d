@@ -1250,7 +1250,7 @@ Version 2016-01-12"
 (use-package modus-themes
   :ensure t)
 
-(use-package ample-theme
+(use-package sublime-themes
   :ensure t)
 
 (defun jas/reset-ansi-colors (&optional theme)
@@ -1273,7 +1273,7 @@ Version 2016-01-12"
   "Load Dark Color Scheme."
   (interactive)
   (if (window-system)
-	  (load-theme 'modus-vivendi t)))
+	  (load-theme 'spolsky t)))
 
 (defun load-light ()
   "Load Light Color Scheme."
