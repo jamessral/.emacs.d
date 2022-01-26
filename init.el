@@ -1,5 +1,9 @@
 ;;; Gotta go fast
 
+(when (boundp 'w32-pipe-read-delay)
+
+(setq w32-pipe-read-delay 0))
+
 (let ((file-name-handler-alist nil))
 ;;; Turn off mouse interface early in startup to avoid momentary display
 (menu-bar-mode -1)
@@ -415,6 +419,7 @@
 		  (tide-mode . eglot-ensure)
 		  ;; (c-mode . eglot-ensure)
 		  (rust-mode . eglot-ensure)
+		  (dart-mode . eglot-ensure)
 		  ;; (ruby-mode . eglot-ensure)
 		  )
   :ensure t
@@ -981,6 +986,10 @@
   (prettier-mode -1))
 ;;; End Ruby
 
+;;; Dart
+(use-package dart-mode
+  :ensure t)
+
 ;;; Php
 (use-package company-php
   :ensure t)
@@ -1224,9 +1233,19 @@ Version 2016-01-12"
   :init
   (set-default 'multi-term-dedicated-window-height 30)
   (if (memq window-system '(win32))
-	  (setq multi-term-program "ps.exe")
+	  (setq multi-term-program "powershell.exe -NoLogo -NonInteractive")
 	(setq multi-term-program "zsh")
 	))
+
+(use-package powershell
+  :ensure t
+  :config
+  ;; Change default compile command for powershell
+  (add-hook 'powershell-mode-hook
+			(lambda ()
+			  (set (make-local-variable 'compile-command)
+				   (format "powershell.exe -NoLogo -NonInteractive -Command \"& '%s'\""
+						   (buffer-file-name))))))
 
 (display-time-mode 1)
 
@@ -1300,7 +1319,7 @@ Version 2016-01-12"
   "Fonts setup"
   (interactive)
   (jas/load-font "JetBrains Mono")
-  (set-face-attribute 'default nil :height 110))
+  (set-face-attribute 'default nil :height 105))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
