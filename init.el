@@ -1,8 +1,7 @@
 ;;; Gotta go fast
 
 (when (boundp 'w32-pipe-read-delay)
-
-(setq w32-pipe-read-delay 0))
+  (setq w32-pipe-read-delay 0))
 
 (let ((file-name-handler-alist nil))
 ;;; Turn off mouse interface early in startup to avoid momentary display
@@ -46,6 +45,10 @@
   (package-install 'use-package))
 
 (require 'use-package)
+
+(use-package esup
+  :ensure t
+  :pin melpa)
 
 (use-package auto-compile
   :ensure t
@@ -324,6 +327,7 @@
 
 ;; Magit
 (use-package magit
+  :ensure t
   :commands (magit-status)
   :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -715,17 +719,6 @@
 (add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . rjsx-mode))
 (add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . rjsx-mode))
 
-;; Vue Support
-(use-package vue-mode
-  :defer t
-  :ensure t
-  :init
-  (add-hook 'vue-mode-hook #'prettier-mode)
-  :config
-  (setq mmm-submode-decoration-level 0)
-  (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
-)
-
 (use-package svelte-mode
   :defer t
   :ensure t)
@@ -862,28 +855,6 @@
 
 ;;; End Typescript
 
-;;; Java
-(use-package meghanada
-  :defer t
-  :ensure t
-  :init
-  (add-hook 'java-mode-hook
-			(lambda ()
-			  ;; meghanada-mode on
-			  (meghanada-mode t)
-			  (flycheck-mode +1)
-			  (setq c-basic-offset 2)
-			  ;; use code format
-			  (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
-  (cond
-   ((eq system-type 'windows-nt)
-    (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-    (setq meghanada-maven-path "mvn.cmd"))
-   (t
-    (setq meghanada-java-path "java")
-    (setq meghanada-maven-path "mvn"))))
-;;; End Java
-
 (use-package graphql-mode
   :defer t
   :ensure t)
@@ -986,19 +957,6 @@
   (prettier-mode -1))
 ;;; End Ruby
 
-;;; Dart
-(use-package dart-mode
-  :ensure t)
-
-;;; Php
-(use-package company-php
-  :ensure t)
-
-(use-package phpunit
-  :ensure t)
-;;; Php
-
-
 ;;; Python
 (use-package elpy
   :ensure t
@@ -1060,21 +1018,6 @@
 ;; (when (load (expand-file-name "~/quicklisp/slime-helper.el"))
   ;; (setq inferior-lisp-program "sbcl"))
 ;;; End Lisp
-
-
-;; Scheme
-(use-package geiser
-  :ensure t
-  :init
-  (setq-default geiser-active-implementations '(racket)))
-
-;; For racket pollen mode
-(use-package pollen-mode
-  :ensure t)
-
-(use-package company-pollen
-  :ensure t)
-;;; End Scheme
 
 ;;; Rust
 (use-package company-racer
@@ -1255,10 +1198,6 @@ Version 2016-01-12"
 
 (setq linum-format " %d ")
 
-(use-package linum-relative
-  :ensure t
-  :defer t)
-
 (setq linum-relative-current-symbol "")
 
 ;; (global-linum-mode)
@@ -1318,8 +1257,8 @@ Version 2016-01-12"
 (defun jas/initialize-fonts ()
   "Fonts setup"
   (interactive)
-  (jas/load-font "JetBrains Mono")
-  (set-face-attribute 'default nil :height 105))
+  (jas/load-font "mononoki")
+  (set-face-attribute 'default nil :height 110))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
@@ -1370,25 +1309,6 @@ Version 2016-01-12"
   :config
   (global-git-gutter+-mode t))
 ;;; End UI
-
-;;; Erlang/Elixir
-(use-package erlang
-  :ensure t
-  :init
-  (add-to-list 'auto-mode-alist '("\\.P\\'" . erlang-mode))
-  (add-to-list 'auto-mode-alist '("\\.E\\'" . erlang-mode))
-  (add-to-list 'auto-mode-alist '("\\.S\\'" . erlang-mode))
-  :config
-  (add-hook 'erlang-mode-hook
-            (lambda ()
-              (setq mode-name "erl"
-                    erlang-compile-extra-opts '((i . "../include"))
-                    erlang-root-dir "/usr/local/lib/erlang"))))
-
-(use-package flycheck-elixir
-  :ensure t)
-
-;;; End Erlang/Elixir
 
 ;;; Golang
 (use-package go-autocomplete
