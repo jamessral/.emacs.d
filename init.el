@@ -185,12 +185,6 @@
   :init
   (global-set-key (kbd "C-c l c") 'goto-last-change))
 
-;;; Avy mode (vim easymotion-esque)
-(use-package avy
-  :commands (avy-goto-char-2)
-  :ensure t)
-(global-set-key (kbd "C-\\") 'avy-goto-char-2)
-
 (use-package uuidgen
   :commands (uuidgen)
   :ensure t)
@@ -259,13 +253,8 @@
    "s n" 'multi-term
    "u" '(:ignore t :which-key "UI")
    "u c" 'counsel-load-theme
-   "u b" 'load-blue
-   "u L" 'load-very-light
    "u l" 'load-light
    "u d" 'load-dark
-   "u D" 'load-very-dark
-   "u a" 'load-acme
-   "u m" 'load-basic
    "u t" 'toggle-transparency
    "u n" 'global-display-line-numbers-mode
    ">" 'mc/mark-next-like-this
@@ -345,26 +334,12 @@
          try-complete-lisp-symbol-partially
          try-complete-lisp-symbol))
 
-(defun jas/expand-lines ()
-  "Hippie expand line like vim."
-  (interactive)
-  (let ((hippie-expand-try-functions-list
-		 '(try-expand-line-all-buffers)))
-	(call-interactively 'hippie-expand)))
-
-(define-key global-map (kbd "M-s-/") 'jas/expand-lines)
-
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
 (setq create-lockfiles nil)
 
 ;; Show tabs as 4 spaces
 (setq tab-width 4)
-
-(add-hook 'after-init-hook
-          (lambda ()
-            (define-key global-map (kbd "<C-s-up>") 'move-line-up)
-            (define-key global-map  (kbd "<C-s-down>") 'move-line-down)))
 
 ;; Use subword mode
 (global-subword-mode)
@@ -434,20 +409,6 @@
   (define-key eglot-mode-map (kbd "C-c e h") 'eldoc)
   (add-to-list 'eglot-server-programs
 			   '(web-mode "typescript-language-server" "--stdio")))
-
-;; Enable paredit for Clojure
-(use-package paredit
-  :hook ((emacs-lisp-mode . paredit-mode))
-  :ensure t
-  :config
-  ;; Use Paredit to allow slurping
-  (global-set-key (kbd "C-)") 'paredit-forward-slurp-sexp)
-  (define-key paredit-mode-map (kbd "C-j") 'concat-lines)
-  (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
-
-(use-package cider
-  :defer t
-  :ensure t)
 
 ;; Expand Region
 (use-package expand-region
@@ -719,10 +680,6 @@
 (add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . rjsx-mode))
 (add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . rjsx-mode))
 
-(use-package svelte-mode
-  :defer t
-  :ensure t)
-
 (use-package scss-mode
   :ensure t
   :config
@@ -965,24 +922,6 @@
       python-shell-interpreter-args "-i"))
 ;;; End Python
 
-;;; Coffeescript
-(use-package coffee-mode
-  :ensure t)
-;;; End Coffeescript
-
-
-;;; Crystal
-(use-package crystal-mode
-  :ensure t
-  :init
-  (add-hook 'crystal-mode-hook 'ruby-end-mode))
-;;; End Crystal
-
-;;; Nim
-(use-package nim-mode
-  :ensure t)
-;;; End Nim
-
 ;;; Odin
 (load "~/.emacs.d/vendor/odin-mode.el")
 (require 'odin-mode)
@@ -993,26 +932,6 @@
 (add-hook 'after-init-hook (lambda ()
                              (flycheck-odin-setup)))
 ;;; End Odin
-
-;;; Lua
-(use-package flymake-lua
-  :after lua-mode
-  :ensure t)
-
-(use-package luarocks
-  :after lua-mode
-  :ensure t)
-
-(use-package company-lua
-  :after lua-mode
-  :ensure t)
-
-(use-package lua-mode
-  :ensure t
-  :hook ((lua-mode . flymake-mode-on)))
-
-;;; End Lua
-
 
 ;;; Lisp
 ;; (when (load (expand-file-name "~/quicklisp/slime-helper.el"))
@@ -1230,8 +1149,7 @@ Version 2016-01-12"
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-  (if (window-system)
-	  (load-theme 'spolsky t)))
+	(load-theme 'modus-vivendi t))
 
 (defun load-light ()
   "Load Light Color Scheme."
@@ -1264,6 +1182,7 @@ Version 2016-01-12"
 ;; Set default font
 
 (use-package lorem-ipsum
+  :defer t
   :ensure t)
 
 ;; These settings relate to how emacs interacts with your operating system
