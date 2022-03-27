@@ -1124,12 +1124,6 @@ Version 2016-01-12"
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
-(use-package modus-themes
-  :ensure t)
-
-(use-package sublime-themes
-  :ensure t)
-
 (defun jas/reset-ansi-colors (&optional theme)
   "Undo damage caused by some themes"
   (interactive)
@@ -1149,16 +1143,16 @@ Version 2016-01-12"
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'modus-vivendi t))
+	(load-theme 'manoj-dark t))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'modus-operandi t))
+ (load-theme 'leuven t))
  ;; (load-theme 'gruvbox-light-hard t))
 
 (when (window-system)
-	(load-dark))
+	(load-light))
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
