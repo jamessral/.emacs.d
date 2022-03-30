@@ -1143,7 +1143,7 @@ Version 2016-01-12"
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'manoj-dark t))
+	(load-theme 'wombat t))
 
 (defun load-light ()
   "Load Light Color Scheme."
@@ -1151,8 +1151,7 @@ Version 2016-01-12"
  (load-theme 'leuven t))
  ;; (load-theme 'gruvbox-light-hard t))
 
-(when (window-system)
-	(load-light))
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1170,7 +1169,7 @@ Version 2016-01-12"
   "Fonts setup"
   (interactive)
   (jas/load-font "mononoki")
-  (set-face-attribute 'default nil :height 110))
+  (set-face-attribute 'default nil :height 160))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
