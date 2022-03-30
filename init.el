@@ -1179,7 +1179,7 @@ Version 2016-01-12"
   "Fonts setup"
   (interactive)
   (jas/load-font "mononoki")
-  (set-face-attribute 'default nil :height 110))
+  (set-face-attribute 'default nil :height 160))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
