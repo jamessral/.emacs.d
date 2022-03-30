@@ -458,6 +458,13 @@
 
 (key-chord-mode 1)
 
+;; Spelling
+(when (eq system-type 'windows-nt)
+  (setq-default ispell-local-dictionary "en_US")
+  (setq ispell-dictionary-alist
+        '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_US") nil utf-8)))
+  (setq ispell-local-dictionary-alist ispell-dictionary-alist))
+
 ;; Multiple Cursors
 (use-package multiple-cursors
   :commands (mc/mark-next-like-this)
@@ -1055,7 +1062,7 @@ Version 2016-01-12"
 ;; (set-frame-parameter (selected-frame) 'alpha '(98 . 50))
 
 ;; start with transparency on
-(add-to-list 'default-frame-alist '(alpha . (93 . 50)))
+;; (add-to-list 'default-frame-alist '(alpha . (93 . 50)))
 (defun toggle-transparency ()
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha)))
@@ -1140,10 +1147,13 @@ Version 2016-01-12"
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 
+(use-package zenburn-theme
+  :ensure t)
+
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'manoj-dark t))
+	(load-theme 'wombat t))
 
 (defun load-light ()
   "Load Light Color Scheme."
@@ -1151,8 +1161,7 @@ Version 2016-01-12"
  (load-theme 'leuven t))
  ;; (load-theme 'gruvbox-light-hard t))
 
-(when (window-system)
-	(load-light))
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
