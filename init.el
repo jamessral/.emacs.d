@@ -1147,13 +1147,13 @@ Version 2016-01-12"
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 
-(use-package zenburn-theme
+(use-package dracula-theme
   :ensure t)
 
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'wombat t))
+	(load-theme 'dracula t))
 
 (defun load-light ()
   "Load Light Color Scheme."
