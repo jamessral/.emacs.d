@@ -941,9 +941,13 @@
 ;;; End Odin
 
 ;;; Lisp
-;; (when (load (expand-file-name "~/quicklisp/slime-helper.el"))
-  ;; (setq inferior-lisp-program "sbcl"))
-;;; End Lisp
+(if (memq system-type '(windows-nt ms-dos win32))
+	(progn
+	  (load (expand-file-name "C:\\Users\\james\\quicklisp\\slime-helper.el"))
+	 (setq inferior-lisp-program "sbcl"))
+  (progn
+	(load (expand-file-name "~/quicklisp/slime-helper.el"))
+	 (setq inferior-lisp-program "sbcl")))
 
 ;;; Rust
 (use-package company-racer
@@ -1319,6 +1323,6 @@ Version 2016-01-12"
 (setq ansi-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (setq ansi-term-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
 (put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil))
+(put 'downcase-region 'disabled nil)
 
 (jas/initialize-fonts)
