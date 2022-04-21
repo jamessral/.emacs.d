@@ -17,8 +17,6 @@
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; Package initialize called in early-init
-(require 'package)
-(package-initialize)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
@@ -1154,6 +1152,8 @@ Version 2016-01-12"
 
 (use-package dracula-theme
   :ensure t)
+(use-package color-theme-sanityinc-solarized
+  :ensure t)
 
 (defun load-dark ()
   "Load Dark Color Scheme."
@@ -1163,10 +1163,9 @@ Version 2016-01-12"
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'leuven t))
- ;; (load-theme 'gruvbox-light-hard t))
+ (load-theme 'sanityinc-solarized-light t))
 
-(load-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
