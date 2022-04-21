@@ -1,5 +1,4 @@
 ;;; Gotta go fast
-
 (when (boundp 'w32-pipe-read-delay)
   (setq w32-pipe-read-delay 0))
 
@@ -940,13 +939,13 @@
 ;;; End Odin
 
 ;;; Lisp
-; (if (memq system-type '(windows-nt ms-dos win32))
-; 	(progn
-; 	  (load (expand-file-name "C:\\Users\\james\\quicklisp\\slime-helper.el"))
-; 	 (setq inferior-lisp-program "sbcl"))
-;   (progn
-; 	(load (expand-file-name "~/quicklisp/slime-helper.el"))
-; 	 (setq inferior-lisp-program "sbcl")))
+;; (if (memq system-type '(windows-nt ms-dos win32))
+;; 	(progn
+;; 	  (load (expand-file-name "C:\\Users\\james\\quicklisp\\slime-helper.el"))
+;; 	 (setq inferior-lisp-program "sbcl"))
+;;   (progn
+;; 	(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; 	 (setq inferior-lisp-program "sbcl")))
 
 ;;; Rust
 (use-package company-racer
@@ -1306,8 +1305,9 @@ Version 2016-01-12"
   (interactive)
   (let ((current-dir default-directory))
     (cd "~/code/loadup-web")
-    (async-shell-command "bin/rails s -p 3001" "*Rails Server*" "*Rails Server Error*")
-    (async-shell-command "bin/webpack-dev-server" "*Webpacker*" "*Webpacker Error*")
+    (async-shell-command "bin/rails s" "*Rails Server*" "*Rails Server Error*")
+    (async-shell-command "yarn build --watch" "*ESBuild*" "*ESBuild Error*")
+    (async-shell-command "yarn build:css --watch" "*TailwindCSS*" "*TailwindCSS Error*")
     (async-shell-command "./scripts/sidekiq_dev" "*Sidekiq*" "*Sidekiq Error*")
     (async-shell-command "bundle exec clockwork scripts/clock_dev" "*Clockwork*" "*Clockwork Error*")
     (cd current-dir)))
