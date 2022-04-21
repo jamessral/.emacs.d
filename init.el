@@ -941,13 +941,13 @@
 ;;; End Odin
 
 ;;; Lisp
-(if (memq system-type '(windows-nt ms-dos win32))
-	(progn
-	  (load (expand-file-name "C:\\Users\\james\\quicklisp\\slime-helper.el"))
-	 (setq inferior-lisp-program "sbcl"))
-  (progn
-	(load (expand-file-name "~/quicklisp/slime-helper.el"))
-	 (setq inferior-lisp-program "sbcl")))
+; (if (memq system-type '(windows-nt ms-dos win32))
+; 	(progn
+; 	  (load (expand-file-name "C:\\Users\\james\\quicklisp\\slime-helper.el"))
+; 	 (setq inferior-lisp-program "sbcl"))
+;   (progn
+; 	(load (expand-file-name "~/quicklisp/slime-helper.el"))
+; 	 (setq inferior-lisp-program "sbcl")))
 
 ;;; Rust
 (use-package company-racer
