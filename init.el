@@ -17,7 +17,8 @@
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; Package initialize called in early-init
-
+(require 'package)
+(package-initialize)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
@@ -1325,4 +1326,4 @@ Version 2016-01-12"
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-(jas/initialize-fonts)
+(jas/initialize-fonts))
