@@ -225,6 +225,8 @@
    "b b" 'ibuffer
    "c" '(:ignore t :which-key "company")
    "c c" 'company-complete
+   "d" '(:ingore t :which-key "debugger")
+   "d d" 'dap-breakpoint-toggle
    "g" '(:ignore t :which-key "git")
    "g" '(:ignore t :which-key "git")
    "g s" 'magit-status
@@ -401,6 +403,11 @@
 
 (use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
+(use-package dap-mode :ensure t
+  :init
+  (progn
+	(require 'dap-node)
+	(dap-node-setup)))
 
 ;; Expand Region
 (use-package expand-region
