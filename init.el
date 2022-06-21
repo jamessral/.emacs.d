@@ -236,7 +236,7 @@
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
-   "e" '(:ignore t :which-key "eglot")
+   ;; "e" '(:ignore t :which-key "eglot")
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
@@ -390,23 +390,17 @@
 (global-set-key (kbd "C-t") 'transpose-chars)
 
 ;;; LSP
-(use-package eglot
-  :hook ((typescript-mode . eglot-ensure)
-		  (rjsx-mode . eglot-ensure)
-		  (tide-mode . eglot-ensure)
-		  ;; (c-mode . eglot-ensure)
-		  (rust-mode . eglot-ensure)
-		  (dart-mode . eglot-ensure)
-		  ;; (ruby-mode . eglot-ensure)
-		  )
+(use-package lsp-mode
   :ensure t
-  :config
-  (define-key eglot-mode-map (kbd "C-c e a") 'eglot-code-actions)
-  (define-key eglot-mode-map (kbd "C-c e r") 'eglot-rename)
-  (define-key eglot-mode-map (kbd "C-c e o") 'eglot-code-action-organize-imports)
-  (define-key eglot-mode-map (kbd "C-c e h") 'eldoc)
-  (add-to-list 'eglot-server-programs
-			   '(web-mode "typescript-language-server" "--stdio")))
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((typescript-mode . lsp)
+		 (web-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+(use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
 
 ;; Expand Region
 (use-package expand-region
