@@ -1300,16 +1300,12 @@ Version 2016-01-12"
 ;; End C/C++
 
 ;;; Work functions
-(defun jas/loadup-dev ()
+(defun jas/client-dev ()
   "Run all processes needed for Loadup Dev"
   (interactive)
   (let ((current-dir default-directory))
-    (cd "~/code/loadup-web")
-    (async-shell-command "bin/rails s" "*Rails Server*" "*Rails Server Error*")
-    (async-shell-command "yarn build --watch" "*ESBuild*" "*ESBuild Error*")
-    (async-shell-command "yarn build:css --watch" "*TailwindCSS*" "*TailwindCSS Error*")
-    (async-shell-command "./scripts/sidekiq_dev" "*Sidekiq*" "*Sidekiq Error*")
-    (async-shell-command "bundle exec clockwork scripts/clock_dev" "*Clockwork*" "*Clockwork Error*")
+    (cd "~/code/client")
+    (async-shell-command "yarn start:merchants")
     (cd current-dir)))
 ;;; End Work Functions
 
