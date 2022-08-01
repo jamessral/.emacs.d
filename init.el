@@ -238,7 +238,6 @@
    "j j" 'dumb-jump-go
    "j l" 'avy-goto-line
    "j w" 'avy-goto-char-2
-   ;; "e" '(:ignore t :which-key "eglot")
    "o" '(:ignore t :which-key "org")
    "o c" 'counsel-org-capture
    "o p" 'jas/go-to-personal-org-file
@@ -643,6 +642,13 @@
 (setq js2-basic-offset 2)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 (add-hook 'js2-mode-hook (lambda ()
+                           (local-set-key (kbd "C-c , s") 'mocha-test-at-point)
+                           ;; (evil-leader/set-key "t" 'mocha-test-at-point)
+                           (local-set-key (kbd "C-c , v") 'mocha-test-file)
+                           ;; (evil-leader/set-key "T" 'mocha-test-file)
+                           ))
+
+(add-hook 'typescript-mode-hook (lambda ()
                            (local-set-key (kbd "C-c , s") 'mocha-test-at-point)
                            ;; (evil-leader/set-key "t" 'mocha-test-at-point)
                            (local-set-key (kbd "C-c , v") 'mocha-test-file)
