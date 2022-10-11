@@ -641,20 +641,6 @@
 (setq js2-mode-show-strict-warnings nil)
 (setq js2-basic-offset 2)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
-(add-hook 'js2-mode-hook (lambda ()
-                           (local-set-key (kbd "C-c , s") 'mocha-test-at-point)
-                           ;; (evil-leader/set-key "t" 'mocha-test-at-point)
-                           (local-set-key (kbd "C-c , v") 'mocha-test-file)
-                           ;; (evil-leader/set-key "T" 'mocha-test-file)
-                           ))
-
-(add-hook 'typescript-mode-hook (lambda ()
-                           (local-set-key (kbd "C-c , s") 'mocha-test-at-point)
-                           ;; (evil-leader/set-key "t" 'mocha-test-at-point)
-                           (local-set-key (kbd "C-c , v") 'mocha-test-file)
-                           ;; (evil-leader/set-key "T" 'mocha-test-file)
-                           ))
-
 (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
 
 ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
@@ -664,33 +650,6 @@
 (add-hook 'js2-mode-hook (lambda ()
                            (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
-;; Turn off aggressive-indent-mode for jsx until I figure out how to fix it
-(add-hook 'rjsx-mode-hook (lambda ()
-                            ;;(flow-minor-mode t)
-                            ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-                            (eldoc-mode -1)
-                            ;; See https://github.com/CestDiego/emmet-mode/commit/3f2904196e856d31b9c95794d2682c4c7365db23
-                            (setq-local emmet-expand-jsx-className? t)
-                            ;; Enable js-mode
-                            ;;(yas-activate-extra-mode 'js-mode)
-                            ;; Force jsx content type
-                            ;;(web-mode-set-content-type "jsx")
-                            ;;(aggressive-indent-mode -1)
-                            ;;(global-aggressive-indent-mode -1)
-                            ;; Don't auto-quote attribute values
-                            (local-set-key (kbd "C-c t t") 'mocha-test-at-point)
-                            (local-set-key (kbd "C-c t f") 'mocha-test-file)
-                            (setq-local web-mode-enable-auto-quoting nil)))
-
-(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.rjsx.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.test.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jest.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\index.android.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . rjsx-mode))
-(add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . rjsx-mode))
-(add-to-list 'magic-mode-alist '("^\\/\\/ @flow" . rjsx-mode))
 
 (use-package scss-mode
   :ensure t
@@ -712,82 +671,36 @@
   :defer t
   :ensure t)
 
-;; Add keybindings to run jest tests
-(use-package mocha
-  :defer t
-  :ensure t)
-
 ;;; Jest (JS)
-
-;;; Setup for using Mocha el to run Jest tests
-
-(use-package mocha
-  :defer t
+(use-package jest-test-mode
   :ensure t
-  :commands (mocha-test-project
-             mocha-debug-project
-             mocha-test-file
-             mocha-debug-file
-             mocha-test-at-point
-             mocha-debug-at-point)
-  :config
-  ;; Clear up stray ansi escape sequences.
-  (defvar jj*--mocha-ansi-escape-sequences
-    ;; https://emacs.stackexchange.com/questions/18457/stripping-stray-ansi-escape-sequences-from-eshell
-    (rx (or
-         "\^\[\[[0-9]+[a-z]"
-         "\^\[\[1A"
-         "[999D")))
-
-  (defun jj*--mocha-compilation-filter ()
-    "Filter function for compilation output."
-    (ansi-color-apply-on-region compilation-filter-start (point-max))
-    (save-excursion
-      (goto-char compilation-filter-start)
-      (while (re-search-forward jj*--mocha-ansi-escape-sequences nil t)
-        (replace-match ""))))
-
-  (advice-add 'mocha-compilation-filter :override 'jj*--mocha-compilation-filter)
-
-  ;; https://github.com/scottaj/mocha.el/issues/3
-  (defcustom mocha-jest-command "node_modules/jest/bin/jest.js --colors --config=./jest.config.json"
-    "The path to the jest command to run."
-    :type 'string
-    :group 'mocha)
-
-  (defun mocha-generate-command--jest-command (debug &optional filename testname)
-    "Generate a command to run the test suite with jest.
-                If DEBUG is true, then make this a debug command.
-                If FILENAME is specified run just that file otherwise run
-                MOCHA-PROJECT-TEST-DIRECTORY.
-                IF TESTNAME is specified run jest with a pattern for just that test."
-    (let ((target (if testname (concat " --testNamePattern \"" testname "\"") ""))
-          (path (if (or filename mocha-project-test-directory)
-                    (concat " --testPathPattern \""
-                            (if filename filename mocha-project-test-directory)
-                            "\"")
-                  ""))
-          (node-command
-           (concat mocha-which-node
-                   (if debug (concat " --debug=" mocha-debug-port) ""))))
-      (concat node-command " "
-              mocha-jest-command
-              target
-              path)))
-
-  (advice-add 'mocha-generate-command
-              :override 'mocha-generate-command--jest-command))
+  :commands jest-test-mode
+  :hook (typescript-mode js-mode typescriptreact-mode))
 ;;; End Javascript
 
 ;;; Typescript
+(use-package typescript-mode
+  :ensure t
+  :after tree-sitter
+  :config
+  ;; we choose this instead of tsx-mode so that eglot can automatically figure out language for server
+  ;; see https://github.com/joaotavora/eglot/issues/624 and https://github.com/joaotavora/eglot#handling-quirky-servers
+  (define-derived-mode typescriptreact-mode typescript-mode
+    "TypeScript TSX")
+
+  ;; use our derived mode for tsx files
+  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
+  ;; by default, typescript-mode is mapped to the treesitter typescript parser
+  ;; use our derived mode to map both .tsx AND .ts -> typescriptreact-mode -> treesitter tsx
+  (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
+
+
 (use-package tide
   :hook ((tide-mode . add-node-modules-path))
   :ensure t
   :init
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
-  (setq typescript-indent-level 2)
-    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.routes.ts\\'" . typescript-mode))
   (add-to-list 'auto-mode-alist '("\\.module.ts\\'" . typescript-mode))
   (add-hook 'web-mode-hook
@@ -803,11 +716,7 @@
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
   (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
   (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
-  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
-
-  ;; enable typescript-tslint checker
-  ;; (flycheck-add-mode 'typescript-tslint 'rjsx-mode))
-  )
+  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append))
 
 (defun setup-tide-mode ()
   (interactive)
@@ -829,10 +738,6 @@
   :ensure t)
 
 (use-package yaml-mode
-  :defer t
-  :ensure t)
-
-(use-package haml-mode
   :defer t
   :ensure t)
 
@@ -1097,6 +1002,22 @@ Version 2016-01-12"
         " "
         mode-line-modes))
 
+
+;; Treesitter
+(use-package tree-sitter
+  :ensure t
+  :config
+  ;; activate tree-sitter on any buffer containing code for which it has a parser available
+  (global-tree-sitter-mode)
+  ;; you can easily see the difference tree-sitter-hl-mode makes for python, ts or tsx
+  ;; by switching on and off
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
+
+
 ;; Set frame background to dark for terminal mode
 ;; (setq frame-background-mode 'dark)
 
@@ -1188,8 +1109,8 @@ Version 2016-01-12"
 (defun jas/initialize-fonts ()
   "Fonts setup"
   (interactive)
-  (jas/load-font "Liberation Mono")
-  (set-face-attribute 'default nil :height 130))
+  (jas/load-font "Ubuntu Mono")
+  (set-face-attribute 'default nil :height 150))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
@@ -1225,7 +1146,7 @@ Version 2016-01-12"
 (diminish 'auto-revert-mode)
 (diminish 'eldoc-mode)
 
-;; full path in title bar
+;; full path in title bar ()
 (setq-default frame-title-format "%b (%f)")
 
 ;; don't pop up font menu
