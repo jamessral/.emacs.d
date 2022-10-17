@@ -547,6 +547,10 @@
 (use-package add-node-modules-path
   :ensure t)
 
+(use-package js2-mode
+  :defer t
+  :ensure t)
+
 (use-package web-mode
   :ensure t
   :init
@@ -1074,6 +1078,9 @@ Version 2016-01-12"
 (use-package color-theme-sanityinc-solarized
   :ensure t)
 
+(use-package modus-themes
+  :ensure t)
+
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
@@ -1101,8 +1108,8 @@ Version 2016-01-12"
 (defun jas/initialize-fonts ()
   "Fonts setup"
   (interactive)
-  (jas/load-font "Ubuntu Mono")
-  (set-face-attribute 'default nil :height 150))
+  (jas/load-font "Liberation Mono")
+  (set-face-attribute 'default nil :height 110))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
