@@ -44,6 +44,11 @@
 
 (require 'use-package)
 
+(use-package god-mode
+  :ensure t
+  :init
+  (god-mode))
+
 (use-package esup
   :ensure t
   :pin melpa)
@@ -569,14 +574,6 @@
   :ensure t
   :diminish prettier-mode)
 
-(use-package rjsx-mode
-  :ensure t
-  :init
-  (add-hook 'rjsx-mode-hook #'add-node-modules-path)
-  (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-  (flycheck-add-mode 'javascript-eslint 'tide-mode)
-  (add-hook 'rjsx-mode-hook #'setup-tide-mode))
-
 (eval-after-load 'js2-mode
   '(add-hook 'js2-mode-hook #'add-node-modules-path))
 
@@ -1056,7 +1053,7 @@ Version 2016-01-12"
 
 (setq linum-relative-current-symbol "")
 
-;; (global-linum-mode)
+(global-linum-mode)
 ;; Don't show native OS scroll bars for buffers because they're redundant
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
@@ -1234,6 +1231,12 @@ Version 2016-01-12"
   (let ((current-dir default-directory))
     (cd "~/code/client")
     (async-shell-command "yarn start:merchants")
+    (cd current-dir)))
+(defun jas/node-core-dev ()
+  "Run all processes needed for Loadup Dev"
+  (interactive)
+  (let ((current-dir default-directory))
+    (cd "~/code/node-core")
     (cd current-dir)))
 ;;; End Work Functions
 
