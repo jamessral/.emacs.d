@@ -44,11 +44,6 @@
 
 (require 'use-package)
 
-(use-package god-mode
-  :ensure t
-  :init
-  (god-mode))
-
 (use-package esup
   :ensure t
   :pin melpa)
