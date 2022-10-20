@@ -16,3 +16,4 @@ eshell/**
 .lsp-session-*
 history
 places
+.dap-breakpoints

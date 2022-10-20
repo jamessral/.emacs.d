@@ -1082,7 +1082,7 @@ Version 2016-01-12"
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'modus-operandi t))
+ (load-theme 'leuven t))
 
 (load-light)
 
