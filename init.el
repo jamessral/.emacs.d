@@ -1074,17 +1074,23 @@ Version 2016-01-12"
 (use-package modus-themes
   :ensure t)
 
+(use-package naysayer-theme
+  :ensure t)
+
+(use-package acme-theme
+  :ensure t)
+
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'modus-vivendi t))
+	(load-theme 'naysayer t))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'leuven t))
+ (load-theme 'acme t))
 
-(load-light)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
