@@ -1045,7 +1045,7 @@ Version 2016-01-12"
 
 (setq linum-relative-current-symbol "")
 
-(global-linum-mode)
+;; (global-linum-mode)
 ;; Don't show native OS scroll bars for buffers because they're redundant
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
