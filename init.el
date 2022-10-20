@@ -1237,9 +1237,7 @@ Version 2016-01-12"
 
 
 ;;; Fun Stuffs
-(use-package bongo
-  :defer t
-  :ensure t)
+
 ;;; End Fun Stuffs
 
 (put 'narrow-to-region 'disabled nil)
