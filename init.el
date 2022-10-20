@@ -548,8 +548,21 @@
   :ensure t)
 
 (use-package js2-mode
-  :defer t
-  :ensure t)
+  :ensure t
+  :init
+  ;;; JS-mode and derivatives
+  ;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
+  ;; this also affects rjsx mode (yay!)
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil)
+  (setq js2-basic-offset 2)
+  (add-hook 'js2-mode-hook #'js2-refactor-mode)
+  ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
+  ;; unbind it.
+  (define-key js-mode-map (kbd "M-.") nil)
+
+  (add-hook 'js2-mode-hook (lambda ()
+                             (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
 
 (use-package web-mode
   :ensure t
@@ -628,24 +641,6 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
-
-
-;;; JS-mode and derivatives
-;; Turn off js2 mode errors & warnings (we lean on eslint/standard)
-;; this also affects rjsx mode (yay!)
-(setq js2-mode-show-parse-errors nil)
-(setq js2-mode-show-strict-warnings nil)
-(setq js2-basic-offset 2)
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
-
-;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
-;; unbind it.
-(define-key js-mode-map (kbd "M-.") nil)
-
-(add-hook 'js2-mode-hook (lambda ()
-                           (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
-
 
 (use-package scss-mode
   :ensure t
@@ -1091,7 +1086,7 @@ Version 2016-01-12"
   (interactive)
  (load-theme 'sanityinc-solarized-light t))
 
-(load-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1109,7 +1104,7 @@ Version 2016-01-12"
   "Fonts setup"
   (interactive)
   (jas/load-font "Liberation Mono")
-  (set-face-attribute 'default nil :height 110))
+  (set-face-attribute 'default nil :height 130))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
