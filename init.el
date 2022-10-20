@@ -555,7 +555,7 @@
   ;; this also affects rjsx mode (yay!)
   (setq js2-mode-show-parse-errors nil)
   (setq js2-mode-show-strict-warnings nil)
-  (setq js2-basic-offset 2)
+  ;; (setq js2-basic-offset 2)
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
   ;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
   ;; unbind it.
@@ -1234,6 +1234,13 @@ Version 2016-01-12"
     (cd "~/code/node-core")
     (cd current-dir)))
 ;;; End Work Functions
+
+
+;;; Fun Stuffs
+(use-package bongo
+  :defer t
+  :ensure t)
+;;; End Fun Stuffs
 
 (put 'narrow-to-region 'disabled nil)
 
