@@ -703,6 +703,7 @@
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   :config
   (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+  (flycheck-add-mode 'javascript-eslint 'typescriptreact-mode)
   (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
   (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
   (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append))
@@ -1083,7 +1084,7 @@ Version 2016-01-12"
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'naysayer t))
+	(load-theme 'modus-vivendi t))
 
 (defun load-light ()
   "Load Light Color Scheme."
