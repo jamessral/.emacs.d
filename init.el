@@ -683,44 +683,6 @@
   ;; use our derived mode to map both .tsx AND .ts -> typescriptreact-mode -> treesitter tsx
   (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
 
-
-(use-package tide
-  :hook ((tide-mode . add-node-modules-path))
-  :ensure t
-  :init
-  ;; aligns annotation to the right hand side
-  (setq company-tooltip-align-annotations t)
-  (add-to-list 'auto-mode-alist '("\\.routes.ts\\'" . typescript-mode))
-  (add-to-list 'auto-mode-alist '("\\.module.ts\\'" . typescript-mode))
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (setup-tide-mode))))
-  (add-to-list 'magic-mode-alist '("\\.tsx\\'" . tide-mode))
-  (add-to-list 'magic-mode-alist '("\\.ts\\'" . tide-mode))
-  (add-to-list 'magic-mode-alist '("\\.routes.ts\\'" . tide-mode))
-  (add-to-list 'magic-mode-alist '("\\.module.ts\\'" . tide-mode))
-  (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  :config
-  (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-  (flycheck-add-mode 'javascript-eslint 'typescriptreact-mode)
-  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
-  (flycheck-add-next-checker 'jsx-tide 'javascript-eslint 'append)
-  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append))
-
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1))
-
 ;;; End Typescript
 
 (use-package graphql-mode
@@ -1081,15 +1043,18 @@ Version 2016-01-12"
 (use-package acme-theme
   :ensure t)
 
+(use-package ef-themes
+  :ensure t)
+
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'modus-vivendi t))
+	(load-theme 'ef-bio t))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'acme t))
+ (load-theme 'ef-day t))
 
 (load-dark)
 
