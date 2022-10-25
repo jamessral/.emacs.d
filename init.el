@@ -395,6 +395,7 @@
   :ensure t
   :init
   (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-clients-typescript-max-ts-server-memory 16384)
   :hook ((typescript-mode . lsp)
 		 (web-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
@@ -664,6 +665,7 @@
 (use-package jest-test-mode
   :ensure t
   :commands jest-test-mode
+  :bind (("C-c C-c" . 'jest-test-rerun-test))
   :hook (typescript-mode js-mode typescriptreact-mode))
 ;;; End Javascript
 
