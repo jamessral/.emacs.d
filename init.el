@@ -1031,8 +1031,6 @@ Version 2016-01-12"
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 
-(use-package dracula-theme
-  :ensure t)
 (use-package color-theme-sanityinc-solarized
   :ensure t)
 
@@ -1042,21 +1040,18 @@ Version 2016-01-12"
 (use-package naysayer-theme
   :ensure t)
 
-(use-package acme-theme
-  :ensure t)
-
 (use-package ef-themes
   :ensure t)
 
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'ef-bio t))
+	(load-theme 'ef-duo-dark t))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'ef-day t))
+ (load-theme 'ef-duo-light t))
 
 (load-dark)
 
@@ -1076,7 +1071,7 @@ Version 2016-01-12"
   "Fonts setup"
   (interactive)
   (jas/load-font "Liberation Mono")
-  (set-face-attribute 'default nil :height 130))
+  (set-face-attribute 'default nil :height 140))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
