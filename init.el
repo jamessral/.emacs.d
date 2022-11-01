@@ -1043,10 +1043,13 @@ Version 2016-01-12"
 (use-package ef-themes
   :ensure t)
 
+(use-package zenburn-theme
+  :ensure t)
+
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'ef-duo-dark t))
+	(load-theme 'zenburn t))
 
 (defun load-light ()
   "Load Light Color Scheme."
