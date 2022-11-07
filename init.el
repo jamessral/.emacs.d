@@ -1056,7 +1056,7 @@ Version 2016-01-12"
   (interactive)
  (load-theme 'ef-duo-light t))
 
-(load-dark)
+(load-light)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
