@@ -1073,8 +1073,8 @@ Version 2016-01-12"
 (defun jas/initialize-fonts ()
   "Fonts setup"
   (interactive)
-  (jas/load-font "Liberation Mono")
-  (set-face-attribute 'default nil :height 140))
+  (jas/load-font "Ubuntu Mono")
+  (set-face-attribute 'default nil :height 150))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
