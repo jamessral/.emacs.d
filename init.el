@@ -1054,9 +1054,9 @@ Version 2016-01-12"
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'ef-duo-light t))
+ (load-theme 'sanityinc-solarized-light t))
 
-(load-light)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
