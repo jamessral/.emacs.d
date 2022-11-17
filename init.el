@@ -1049,7 +1049,7 @@ Version 2016-01-12"
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'sanityinc-solarized-dark t))
+	(load-theme 'naysayer t))
 
 (defun load-light ()
   "Load Light Color Scheme."
