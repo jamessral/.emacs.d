@@ -1049,7 +1049,7 @@ Version 2016-01-12"
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'naysayer t))
+	(load-theme 'dracula t))
 
 (defun load-light ()
   "Load Light Color Scheme."
