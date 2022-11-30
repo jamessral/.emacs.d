@@ -687,6 +687,15 @@
 
 ;;; End Typescript
 
+
+;;; Clojure
+(use-package clojure-mode
+  :ensure t)
+
+(use-package cider
+  :ensure t)
+;;; End Clojure
+
 (use-package graphql-mode
   :defer t
   :ensure t)
