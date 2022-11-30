@@ -1056,7 +1056,7 @@ Version 2016-01-12"
   (interactive)
  (load-theme 'ef-day t))
 
-(load-light)
+(load-dark)
 
 (global-set-key (kbd "C-c u l") 'load-light)
 (global-set-key (kbd "C-c u d") 'load-dark)
@@ -1074,7 +1074,7 @@ Version 2016-01-12"
   "Fonts setup"
   (interactive)
   (jas/load-font "Ubuntu Mono")
-  (set-face-attribute 'default nil :height 150))
+  (set-face-attribute 'default nil :height 160))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
