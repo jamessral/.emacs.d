@@ -679,6 +679,10 @@
   (define-derived-mode typescriptreact-mode typescript-mode
     "TypeScript TSX")
 
+  (add-hook 'typescript-mode-hook #'add-node-modules-path)
+  (add-hook 'typescriptreact-mode-hook #'add-node-modules-path)
+  (flycheck-add-next-checker 'lsp 'javascript-eslint 'typescript-mode)
+  (flycheck-add-next-checker 'lsp 'javascript-eslint 'typescriptreact-mode)
   ;; use our derived mode for tsx files
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
   ;; by default, typescript-mode is mapped to the treesitter typescript parser
@@ -1063,7 +1067,7 @@ Version 2016-01-12"
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'ef-day t))
+ (load-theme 'leuven t))
 
 (load-dark)
 
