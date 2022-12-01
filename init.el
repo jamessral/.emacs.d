@@ -681,8 +681,6 @@
 
   (add-hook 'typescript-mode-hook #'add-node-modules-path)
   (add-hook 'typescriptreact-mode-hook #'add-node-modules-path)
-  (flycheck-add-next-checker 'lsp 'javascript-eslint 'typescript-mode)
-  (flycheck-add-next-checker 'lsp 'javascript-eslint 'typescriptreact-mode)
   ;; use our derived mode for tsx files
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
   ;; by default, typescript-mode is mapped to the treesitter typescript parser
