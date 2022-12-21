@@ -543,7 +543,7 @@
   ; don't auto-insert quotes for attributes
   (setq web-mode-enable-auto-quoting nil)
   :config
-  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
+  ;; (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "Grey")
   (setq indent-tabs-mode nil))
 
 (use-package prettier
@@ -653,7 +653,7 @@
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
   ;; by default, typescript-mode is mapped to the treesitter typescript parser
   ;; use our derived mode to map both .tsx AND .ts -> typescriptreact-mode -> treesitter tsx
-  (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
+  )
 
 ;;; End Typescript
 
@@ -927,21 +927,6 @@ Version 2016-01-12"
         mode-line-modes))
 
 
-;; Treesitter
-(use-package tree-sitter
-  :ensure t
-  :config
-  ;; activate tree-sitter on any buffer containing code for which it has a parser available
-  (global-tree-sitter-mode)
-  ;; you can easily see the difference tree-sitter-hl-mode makes for python, ts or tsx
-  ;; by switching on and off
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
-
-
 ;; Set frame background to dark for terminal mode
 ;; (setq frame-background-mode 'dark)
 
@@ -1007,16 +992,13 @@ Version 2016-01-12"
 (use-package naysayer-theme
   :ensure t)
 
-(use-package minimal-theme
-  :ensure t)
-
 (use-package zenburn-theme
   :ensure t)
 
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'modus-vivendi t))
+	(load-theme 'naysayer t))
 
 (defun load-light ()
   "Load Light Color Scheme."
