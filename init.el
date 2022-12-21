@@ -640,7 +640,6 @@
 ;;; Typescript
 (use-package typescript-mode
   :ensure t
-  :after tree-sitter
   :config
   ;; we choose this instead of tsx-mode so that eglot can automatically figure out language for server
   ;; see https://github.com/joaotavora/eglot/issues/624 and https://github.com/joaotavora/eglot#handling-quirky-servers
