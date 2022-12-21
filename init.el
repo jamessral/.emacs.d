@@ -48,11 +48,11 @@
   :ensure t
   :pin melpa)
 
-(use-package auto-compile
-  :ensure t
-  :init
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
+;; (use-package auto-compile
+  ;; :ensure t
+  ;; :init
+  ;; (auto-compile-on-load-mode)
+  ;; (auto-compile-on-save-mode))
 
 (use-package better-defaults
   :ensure t)
@@ -84,8 +84,8 @@
 
 (run-server)
 
-(use-package restart-emacs
-  :ensure t)
+;; (use-package restart-emacs
+  ;; :ensure t)
 
 
 ;; Ask before quiting
@@ -141,12 +141,12 @@
 
 ;; (global-unset-key (kbd "C-o"))
 
-(use-package undo-tree
-  :ensure t
-  :defer t
-  :diminish undo-tree-mode
-  :config
-  (add-hook 'after-init-hook 'global-undo-tree-mode))
+;; (use-package undo-tree
+  ;; :ensure t
+  ;; :defer t
+  ;; :diminish undo-tree-mode
+  ;; :config
+  ;; (add-hook 'after-init-hook 'global-undo-tree-mode))
 
 (defun set-relative-lines ()
   (interactive)
@@ -347,28 +347,28 @@
 ;; Fix Org Mode syntax stuff
 (setq org-src-fontify-natively t)
 
-(defun my/setup-shells ()
-  (font-lock-mode -1)
-  (make-local-variable 'font-lock-function)
-  (setq font-lock-function (lambda (_) nil))
-  (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t))
+;; (defun my/setup-shells ()
+;;   (font-lock-mode -1)
+;;   (make-local-variable 'font-lock-function)
+;;   (setq font-lock-function (lambda (_) nil))
+;;   (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t))
 
-(setq compilation-environment '("TERM=xterm-256color"))
+;; (setq compilation-environment '("TERM=xterm-256color"))
 
-(defun my/advice-compilation-filter (f proc string)
-  (funcall f proc (xterm-color-filter string)))
+;; (defun my/advice-compilation-filter (f proc string)
+;;   (funcall f proc (xterm-color-filter string)))
 
-(advice-add 'compilation-filter :around #'my/advice-compilation-filter)
+;; (advice-add 'compilation-filter :around #'my/advice-compilation-filter)
 
-(use-package xterm-color
-  :after term
-  :ensure t
-  :init
-  (add-hook 'shell-mode-hook #'my/setup-shells)
-  (add-hook 'eshell-before-prompt-hook
-            (lambda ()
-              (setq xterm-color-preserve-properties t)))
-  (setenv "TERM" "xterm-256color"))
+;; (use-package xterm-color
+;;   :after term
+;;   :ensure t
+;;   :init
+;;   (add-hook 'shell-mode-hook #'my/setup-shells)
+;;   (add-hook 'eshell-before-prompt-hook
+;;             (lambda ()
+;;               (setq xterm-color-preserve-properties t)))
+;;   (setenv "TERM" "xterm-256color"))
 
 (defun colorize-compilation-buffer ()
   (toggle-read-only)
@@ -425,20 +425,6 @@
 ;; Case sensitive company mode
 (setq company-dabbrev-downcase nil)
 
-;; Snippets
-(use-package yasnippet
-  :ensure t
-  :diminish yas-minor-mode
-  :init
-  (yas-global-mode 1)
-  ;; global key to get suggestions for snippets
-  (global-set-key (kbd "C-x y") 'company-yasnippet)
-
-  :config
-  ;(define-key yas-minor-mode-map [(tab)] nil)
-  ;(define-key yas-minor-mode-map (kbd "TAB") nil)
-  )
-
 (with-eval-after-load 'company
                       '(add-to-list 'company-backends 'company-yasnippet)
                       '(add-to-list 'company-backends 'company-web)
@@ -470,12 +456,6 @@
   :ensure t)
 (multiple-cursors-mode)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-
-;; Rainbow Mode hooks
-(use-package rainbow-delimiters
-  :hook ((clojure-mode . rainbow-delimiters-mode)
-		 (racket-mode . rainbow-delimiters-mode))
-  :ensure t)
 
 ;; Interactive search key bindings. By default, C-s runs
 ;; isearch-forward, so this swaps the bindings.
@@ -512,18 +492,6 @@
 (global-set-key (kbd "C-x |") 'toggle-window-split)
 ;; Don't use hard tabs
 (setq-default indent-tabs-mode nil)
-
-;; When you visit a file, point goes to the last place where it
-;; was when you previously visited the same file.
-;; http://www.emacswiki.org/emacs/SavePlace
-(use-package saveplace
-  :ensure t)
-
-(setq-default save-place t)
-
-;; keep track of saved places in ~/.emacs.d/places
-(setq save-place-file (concat user-emacs-directory "places"))
-
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; comments
@@ -688,15 +656,6 @@
   (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
 
 ;;; End Typescript
-
-
-;;; Clojure
-(use-package clojure-mode
-  :ensure t)
-
-(use-package cider
-  :ensure t)
-;;; End Clojure
 
 (use-package graphql-mode
   :defer t
@@ -1042,16 +1001,13 @@ Version 2016-01-12"
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/themes")
 
-(use-package color-theme-sanityinc-solarized
-  :ensure t)
-
 (use-package modus-themes
   :ensure t)
 
 (use-package naysayer-theme
   :ensure t)
 
-(use-package ef-themes
+(use-package minimal-theme
   :ensure t)
 
 (use-package zenburn-theme
@@ -1060,12 +1016,12 @@ Version 2016-01-12"
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'dracula t))
+	(load-theme 'naysayer t))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'leuven t))
+ (load-theme 'minimal-light t))
 
 (load-dark)
 
@@ -1084,8 +1040,8 @@ Version 2016-01-12"
 (defun jas/initialize-fonts ()
   "Fonts setup"
   (interactive)
-  (jas/load-font "Ubuntu Mono")
-  (set-face-attribute 'default nil :height 160))
+  (jas/load-font "Liberation Mono")
+  (set-face-attribute 'default nil :height 140))
 
 (add-hook 'find-file-hook #'jas/initialize-fonts)
 ;; Set default font
@@ -1185,12 +1141,6 @@ Version 2016-01-12"
 
 ;;; End C#
 
-;;; Godot
-(use-package gdscript-mode
-  :ensure t)
-;;; End Godot
-
-
 ;;; C/C++
 (setq-default c-default-style "linux"
       tab-width 4
@@ -1217,11 +1167,6 @@ Version 2016-01-12"
     (cd "~/code/node-core")
     (cd current-dir)))
 ;;; End Work Functions
-
-
-;;; Fun Stuffs
-
-;;; End Fun Stuffs
 
 (put 'narrow-to-region 'disabled nil)
 
