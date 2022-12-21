@@ -48,11 +48,11 @@
   :ensure t
   :pin melpa)
 
-;; (use-package auto-compile
-  ;; :ensure t
-  ;; :init
-  ;; (auto-compile-on-load-mode)
-  ;; (auto-compile-on-save-mode))
+(use-package auto-compile
+  :ensure t
+  :init
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
 
 (use-package better-defaults
   :ensure t)
