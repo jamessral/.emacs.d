@@ -1052,8 +1052,7 @@ Version 2016-01-12"
   mouse-yank-at-point t)
 
 ;; No cursor blinking, it's distracting
-;; (blink-cursor-mode 0)
-(blink-cursor-mode 1)
+(blink-cursor-mode 0)
 
 (diminish 'auto-revert-mode)
 (diminish 'eldoc-mode)
