@@ -411,12 +411,6 @@
   :commands lsp)
 
 (use-package lsp-ivy :ensure t :commands lsp-ivy-workspace-symbol)
-(use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
-(use-package dap-mode :ensure t
-  :init
-  (progn
-	(require 'dap-node)
-	(dap-node-setup)))
 
 ;; Expand Region
 (use-package expand-region
