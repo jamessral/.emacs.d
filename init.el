@@ -404,6 +404,7 @@
   :init
   (setq lsp-keymap-prefix "C-c l")
   (setq lsp-clients-typescript-max-ts-server-memory 16384)
+  (setq lsp-headerline-breadcrumb-segments nil)
   :hook ((typescript-mode . lsp)
 		 (web-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
