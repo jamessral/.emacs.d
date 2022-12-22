@@ -87,6 +87,14 @@
 ;; (use-package restart-emacs
   ;; :ensure t)
 
+;; Snippets
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
+  :init
+  (yas-global-mode 1)
+  ;; global key to get suggestions for snippets
+  (global-set-key (kbd "C-x y") 'company-yasnippet))
 
 ;; Ask before quiting
 (setq-default confirm-kill-emacs 'yes-or-no-p)
@@ -997,12 +1005,14 @@ Version 2016-01-12"
 (defun load-dark ()
   "Load Dark Color Scheme."
   (interactive)
-	(load-theme 'naysayer t))
+  (load-theme 'naysayer t)
+  (set-cursor-color 'green2))
 
 (defun load-light ()
   "Load Light Color Scheme."
   (interactive)
- (load-theme 'minimal-light t))
+  (load-theme 'minimal-light t)
+  (set-cursor-color 'blue))
 
 (load-dark)
 
